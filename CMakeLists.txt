@@ -7,4 +7,11 @@ project(strufa)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Add include folder here so it is seen by everything below
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+# Add src folder in which the executable is defined
 add_subdirectory(src)
+
+# Then finally add the directory to the target
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
