@@ -8,3 +8,4 @@ target_link_libraries(strufa PRIVATE iohandler)
 
 # Make the io folder's headers available
 target_include_directories(strufa PRIVATE io)
+target_include_directories(strufa PRIVATE io/parameters)

@@ -1,0 +1,14 @@
+{
+  "model": "Advection",
+  "space_dimensions": 1,
+  "velocity_dimensions": 1,
+  "domain_length": 1.0,
+  "initial_distribution": {
+    "mu": 0.0,
+    "sigma": 0.0,
+    "alpha": 0.0
+  },
+  "PIC": {
+    "N_markers": 32
+  }
+}

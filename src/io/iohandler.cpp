@@ -1,13 +1,16 @@
+#include <optional>
 #include <iostream>
 #include <fstream>
 #include <filesystem>
 
 #include <nlohmann/json.hpp>
 
+#include "parameters/parameters.hpp"
+
 namespace fs = std::filesystem;
 using json = nlohmann::json;
 
-void readParameterFile(std::string& filename, const int filename_length)
+std::optional<Parameters> readParameterFile(std::string& filename, const int filename_length)
 {
   // Check if passed filename has json format
   bool file_has_json_format {
@@ -32,37 +35,19 @@ void readParameterFile(std::string& filename, const int filename_length)
     // Check is file is used being edited right now
     if (!fileStream.is_open()) {
       std::cerr << "Error: Could not open file " << filename << '\n';
-      return;
+      return std::nullopt;
     }
 
     try {
       json data = json::parse(fileStream);
-      std::string model = data["model"];
-      std::cout << "The model name is " << model << '\n';
+      Parameters p { data["model"] };
+      return p;
+
     } catch (const json::parse_error& e) {
-        std::cerr << "JSON Parse Error: " << e.what() << " at byte " << e.byte << '\n';
+      std::cerr << "JSON Parse Error: " << e.what() << " at byte " << e.byte << '\n';
+      return std::nullopt;
     }
-  }
-}
-
-void readFile_1()
-{
-  // Path must be relative to main.cpp
-  std::ifstream inputFile("../example.txt");
-
-  if (inputFile.is_open()) {
-    std::string line;
-
-    std::cout << "Opened file, now reading its content ...\n\n";
-
-    while (std::getline(inputFile, line)) {
-      std::cout << line << '\n';
-    }
-    std::cout << '\n';
-
-    inputFile.close();
-    std::cout << "Finished reading the file and closed it.\n";
   } else {
-    std::cerr << "Unable to open the file!";
+    return std::nullopt;
   }
 }
