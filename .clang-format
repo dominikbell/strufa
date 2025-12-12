@@ -1,0 +1,5 @@
+# .clang-format file
+BasedOnStyle: Google
+SpaceBeforeCpp11BracedList: true
+BreakBeforeBraces: Attach
+ColumnLimit: 0

@@ -1,7 +1,13 @@
-# Create a library from the io handler sources
-add_library(iohandler
-    iohandler.cpp
+# Create a library from the parser sources
+add_library(
+    parser
+    STATIC
+    input_parser.cpp
 )
 
 # Include directory for this library
-target_include_directories(iohandler PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(
+    parser
+    PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)

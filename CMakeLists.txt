@@ -12,6 +12,3 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Add src folder in which the executable is defined
 add_subdirectory(src)
-
-# Then finally add the directory to the target
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
