@@ -1,14 +1,13 @@
-# Create a library from the parser sources
+# Create a library from the advection sources
 add_library(
-    parser
+    setup
     STATIC
-    input_parser.cpp
+    setup.cpp
 )
 
 # Include directory for this library
 target_include_directories(
-    parser
+    setup
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_SOURCE_DIR}/src/models/base_models
 )

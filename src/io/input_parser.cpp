@@ -1,9 +1,11 @@
 #include "input_parser.hpp"
+#include "base_models.hpp"
 
 #include <cassert>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace fs = std::filesystem;
@@ -53,8 +55,14 @@ Input parse_input(char* argv[]) {
 
   try {
     json data = json::parse(fileStream);
-    Input input {data["model"], filename, filename_length};
-    return input;
+    std::string model_name {data["model"]};
+    const std::optional<Model> model {string_to_model(model_name)};
+    if (model) {
+      Input input {*model, filename, filename_length};
+      return input;
+    } else {
+      std::cerr << "Invalid model name entered, exiting.\n";
+    }
 
   } catch (const json::parse_error& e) {
     std::cerr << "JSON Parse Error: " << e.what() << " at byte " << e.byte << '\n';

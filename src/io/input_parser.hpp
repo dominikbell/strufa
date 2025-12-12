@@ -2,8 +2,10 @@
 
 #include <string>
 
+#include "base_models.hpp"
+
 struct Input {
-  const std::string model_name = "";
+  const Model model;
   const std::string file_name = "";
   const int file_name_length = 0;
 };

@@ -2,28 +2,24 @@
 #include <optional>
 
 #include "io/input_parser.hpp"
+#include "models/base_models/base_models.hpp"
 
 int main(int argc, char* argv[]) {
   if (argc > 1) {
     std::cout << "Program was called with parameter " << argv[1] << '\n';
 
     const Input input = parse_input(argv);
-    std::cout << "The model name is " << input.model_name << '\n';
+    std::cout << "The model name is " << model_to_string(input.model) << ".\n";
 
-    /** PSEUDO CODE
-     * const Input input = parser(argv[1])
-     *
-     * switch (input.model_name) {
-     * case "Advection": {
-     *  run_advection(input);
-     * }
-     * case "Poisson": {
-     *  run_poisson(input);
-     * }
-     * }
-     */
+    switch (input.model) {
+      case Model::advection: {
+        // run_advection(input);
+      }
+      case Model::poisson: {}
+    }
+
   } else {
-    std::cout << "Program was called without additional parameters.\n";
+    std::cout << "Program was called without additional parameters. Exiting. \n";
   }
 
   return 0;
