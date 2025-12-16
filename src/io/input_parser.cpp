@@ -39,8 +39,7 @@ void assert_valid_file(std::string& filename, const int filename_length) {
   assert(file_exists);
 }
 
-json open_file(
-    const std::string& filename) {
+json open_file(const std::string& filename) {
   // Get the file path and open the stream
   std::string filepath {get_file_path(filename)};
   std::ifstream fileStream(filepath);

@@ -2,27 +2,21 @@
 
 #include <vector>
 
+#include "initial/maxwellian.hpp"
+#include "io/input_parser.hpp"
 #include "parameters.hpp"
 
-struct Parameters_Advection_1D1V : Parameters_1D, TimeParameters, ParticleParameters
-{
-  const double mu {0.0};
-  const double sigma {0.0};
-  const double alpha {0.0};
-  const double L {0.0};
+struct Parameters_Advection : Parameters, TimeParameters, ParticleParameters {};
 
-  long N_markers {0};
+struct Parameters_Advection_1D1V : Parameters_Advection, Parameters_1D {
+  Maxwellian maxwellian {};
 };
 
-struct Parameters_Advection_1D2V : Parameters_1D, TimeParameters, ParticleParameters
-{
-  const double mu {0.0};
-  const double sigma {0.0};
-  const double alpha {0.0};
-  const double L {0.0};
-
-  long N_markers {0};
+struct Parameters_Advection_1D2V : Parameters_Advection, Parameters_1D {
+  Maxwellian maxwellian_x {};
+  Maxwellian maxwellian_y {};
+  const double amplitude {0.0};
 };
 
-Parameters_Advection_1D1V get_parameters_advection_1d1v();
-Parameters_Advection_1D2V get_parameters_advection_1d2v();
+Parameters_Advection_1D1V get_parameters_advection_1d1v(const Input& input);
+Parameters_Advection_1D2V get_parameters_advection_1d2v(const Input& input);

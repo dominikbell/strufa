@@ -2,7 +2,13 @@
   "model": "Advection",
   "space_dimensions": 1,
   "velocity_dimensions": 1,
-  "domain_length": 1.0,
+  "domain": {
+    "length": 1.0
+  },
+  "time": {
+    "dt": 0.1,
+    "T_end": 1.0
+  },
   "initial_distribution": {
     "mu": 0.0,
     "sigma": 0.0,
