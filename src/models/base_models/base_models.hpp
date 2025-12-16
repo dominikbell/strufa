@@ -1,6 +1,7 @@
 #pragma once
 
 #include <optional>
+#include <string>
 
 enum class Model {
   advection,
