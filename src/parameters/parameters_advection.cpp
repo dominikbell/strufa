@@ -19,7 +19,7 @@ Parameters_Advection_1D1V get_parameters_advection_1d1v(const Input& input) {
       // initialize Parameters_Advection
       {{model_to_string(input.model)},
        {data["time"]["dt"], data["time"]["T_end"]},
-       {data["PIC"]["N_markers"]}},
+       {data["PIC"]["N_markers"], data["PIC"]["seed"]}},
       // initialize Parameters_1D
       {data["domain"]["length"]},
       // initialize Parameters_Advection_1D1V
@@ -28,6 +28,6 @@ Parameters_Advection_1D1V get_parameters_advection_1d1v(const Input& input) {
   return parameters;
 }
 
-Parameters_Advection_1D2V get_parameters_advection_1d2v(const Input& input) {
-  return Parameters_Advection_1D2V();
-}
+// Parameters_Advection_1D2V get_parameters_advection_1d2v(const Input& input) {
+//   return Parameters_Advection_1D2V();
+// }

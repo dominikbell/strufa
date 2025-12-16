@@ -19,4 +19,5 @@ struct TimeParameters {
 
 struct ParticleParameters {
   const long N_markers {0};
+  const int seed {0};
 };

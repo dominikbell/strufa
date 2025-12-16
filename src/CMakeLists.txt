@@ -1,8 +1,9 @@
 add_subdirectory(io)
+# add_subdirectory(functions)
 add_subdirectory(models)
 add_subdirectory(parameters)
-add_subdirectory(run)
 add_subdirectory(particles)
+add_subdirectory(run)
 add_subdirectory(setup)
 add_subdirectory(vvariables)
 
@@ -10,10 +11,12 @@ add_subdirectory(vvariables)
 add_executable(strufa main.cpp)
 
 # Link the private libraries
+target_link_libraries(strufa PRIVATE advection_1d)
+# target_link_libraries(strufa PRIVATE functions)
+target_link_libraries(strufa PRIVATE parameters)
 target_link_libraries(strufa PRIVATE parser)
 target_link_libraries(strufa PRIVATE runner)
-target_link_libraries(strufa PRIVATE parameters)
-target_link_libraries(strufa PRIVATE advection_1d)
+target_link_libraries(strufa PRIVATE sample)
 target_link_libraries(strufa PRIVATE setup)
 target_link_libraries(strufa PRIVATE vvariables)
 

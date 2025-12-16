@@ -20,11 +20,15 @@ void run_advection(const Input& input) {
       std::cout << "The model name is: " << parameters.model_name << '\n';
       
       Variables_Advection_1D1V variables {setup_advection(parameters)};
-      std::cout << "The models first position is: " << variables.particles.positions_x.at(0) << '\n';
+      std::cout << "The models first weight is: " << variables.particles.weights[0] << '\n';
+      
+      for (int i {0}; i<10; ++i) {
+        std::cout << "The models weight at index " << i << " is: " << variables.particles.weights[i] << '\n';
+      }
 
-    } else if (velocity_dims == 2) {
-      Parameters_Advection_1D2V parameters {get_parameters_advection_1d2v(input)};
-      advection(parameters);
+    // } else if (velocity_dims == 2) {
+    //   Parameters_Advection_1D2V parameters {get_parameters_advection_1d2v(input)};
+    //   advection(parameters);
     }
   }
 }
