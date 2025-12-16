@@ -5,6 +5,8 @@
 #include "io/input_parser.hpp"
 #include "parameters/parameters_advection.hpp"
 #include "models/1D/advection/advection.hpp"
+#include "setup/setup_advection.hpp"
+#include "vvariables/variables_advection.hpp"
 
 void run_advection(const Input& input) {
   std::pair<int, int> pair = get_space_and_velocity_dimensions(input);
@@ -15,10 +17,11 @@ void run_advection(const Input& input) {
   if (space_dims == 1) {
     if (velocity_dims == 1) {
       Parameters_Advection_1D1V parameters {get_parameters_advection_1d1v(input)};
-
       std::cout << "The model name is: " << parameters.model_name << '\n';
+      
+      Variables_Advection_1D1V variables {setup_advection(parameters)};
+      std::cout << "The models first position is: " << variables.particles.positions_x.at(0) << '\n';
 
-      advection(parameters);
     } else if (velocity_dims == 2) {
       Parameters_Advection_1D2V parameters {get_parameters_advection_1d2v(input)};
       advection(parameters);
