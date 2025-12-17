@@ -39,6 +39,23 @@ void assert_valid_file(std::string& filename, const int filename_length) {
   assert(file_exists);
 }
 
+void assert_top_level_keyword(const json& data, const std::string& keyword) {
+  bool contains_keyword {data.count(keyword) == 1};
+  if (!contains_keyword) {
+    std::cout << "Parameters file must contain top-level keyword '" << keyword << "'!\n";
+    assert(data.count(keyword) == 1 && "Top-level keyword missing in parameter file; check the line above.");
+  }
+}
+
+void assert_second_level_keyword(const json& data, const std::string& parent_keyword, const std::string& keyword) {
+  bool contains_keyword {data[parent_keyword].count(keyword) == 1};
+  if (!contains_keyword) {
+    std::cout << "Parameters file must contain keyword '" << keyword << "' under top-level keyword '" << parent_keyword << "'!\n";
+    assert(data[parent_keyword].count(keyword) == 1 && "Second-level keyword missing in parameter file; check the line above.");
+  }
+}
+
+// TODO: also make this std::optional<json> and somehow handle failure
 json open_file(const std::string& filename) {
   // Get the file path and open the stream
   std::string filepath {get_file_path(filename)};
@@ -58,7 +75,7 @@ json open_file(const std::string& filename) {
   }
 }
 
-Input parse_input(char* argv[]) {
+std::optional<Input> parse_input(char* argv[]) {
   // First argument should be filename
   std::string filename {static_cast<std::string>(argv[1])};
   const int filename_length {static_cast<int>(filename.length())};
@@ -74,20 +91,38 @@ Input parse_input(char* argv[]) {
     return input;
   } else {
     std::cerr << "Invalid model name entered, exiting.\n";
+    return std::nullopt;
   }
 }
 
 int get_space_dimensions(const Input& input) {
   json data {open_file(input.file_name)};
-  return data["space_dimensions"];
+  std::string key_space = "space_dimensions";
+  assert(
+    data.count(key_space) == 1 &&
+    "Parameters file must indicate the space dimensions!"
+  );
+  return data[key_space];
 }
 
 int get_velocity_dimensions(const Input& input) {
   json data {open_file(input.file_name)};
-  return data["velocity_dimensions"];
+  std::string key_velocity = "velocity_dimensions";
+  assert(
+    data.count(key_velocity) == 1 &&
+    "Parameters file must indicate the velocity dimensions!"
+  );
+  return data[key_velocity];
 }
 
 std::pair<int, int> get_space_and_velocity_dimensions(const Input& input) {
   json data {open_file(input.file_name)};
-  return std::make_pair(data["space_dimensions"], data["velocity_dimensions"]);
+  std::string key_space = "space_dimensions";
+  std::string key_velocity = "velocity_dimensions";
+  assert(
+    data.count(key_space) == 1 &&
+    data.count(key_velocity) == 1 &&
+    "Parameters file must indicate the space and velocity dimensions!"
+  );
+  return std::make_pair(data[key_space], data[key_velocity]);
 }

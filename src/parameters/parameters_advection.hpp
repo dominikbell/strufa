@@ -20,3 +20,5 @@ struct Parameters_Advection_1D1V : Parameters_Advection, Parameters_1D {
 
 Parameters_Advection_1D1V get_parameters_advection_1d1v(const Input& input);
 // Parameters_Advection_1D2V get_parameters_advection_1d2v(const Input& input);
+
+void check_file_advection(const json& data);
