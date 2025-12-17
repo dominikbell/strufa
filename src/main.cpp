@@ -12,12 +12,13 @@ int main(int argc, char* argv[]) {
     const std::optional<Input> input = parse_input(argv);
     if (input) {
       std::cout << "The model name is " << model_to_string(input->model) << ".\n";
-      
+
       switch (input->model) {
         case Model::advection: {
           run_advection(*input);
         }
-        case Model::poisson: {}
+        case Model::poisson: {
+        }
       }
     }
 

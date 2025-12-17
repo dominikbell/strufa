@@ -1,9 +1,13 @@
 #pragma once
 
+#include <nlohmann/json.hpp>
 #include <string>
+
+using json = nlohmann::json;
 
 struct Parameters {
   const std::string model_name = "";
+  const json initial;
 };
 
 struct Parameters_1D {

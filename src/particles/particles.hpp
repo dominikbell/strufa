@@ -12,10 +12,10 @@ struct Particles_1D1V {
   Particles_1D1V(
       long N_markers_i,
       int seed_i) : N_markers {N_markers_i},
-                  seed {seed_i},
-                  weights(N_markers),
-                  positions_x(N_markers),
-                  velocities_x(N_markers) {}
+                    seed {seed_i},
+                    weights(N_markers),
+                    positions_x(N_markers),
+                    velocities_x(N_markers) {}
 };
 
 // struct Particles_1D2V {

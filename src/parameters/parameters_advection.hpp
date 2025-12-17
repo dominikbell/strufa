@@ -9,7 +9,7 @@
 struct Parameters_Advection : Parameters, TimeParameters, ParticleParameters {};
 
 struct Parameters_Advection_1D1V : Parameters_Advection, Parameters_1D {
-  Maxwellian maxwellian {};
+  Maxwellian_1D maxwellian {};
 };
 
 // struct Parameters_Advection_1D2V : Parameters_Advection, Parameters_1D {

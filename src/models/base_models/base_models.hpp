@@ -8,7 +8,7 @@ enum class Model {
   poisson,
 };
 
-inline std::optional<Model> string_to_model(std::string& str) {
+inline std::optional<Model> string_to_model(const std::string& str) {
   if (str == "Advection") {
     return Model::advection;
   } else if (str == "Poisson") {
@@ -20,7 +20,11 @@ inline std::optional<Model> string_to_model(std::string& str) {
 
 inline std::string model_to_string(const Model& model) {
   switch (model) {
-    case Model::advection: {return "Advection";}
-    case Model::poisson: {return "Poisson";}
+    case Model::advection: {
+      return "Advection";
+    }
+    case Model::poisson: {
+      return "Poisson";
+    }
   }
 }
