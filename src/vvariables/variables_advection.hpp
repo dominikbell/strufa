@@ -6,7 +6,7 @@ struct Variables_Advection_1D1V {
   Particles_1D1V particles;
 
   // Constructor
-  Variables_Advection_1D1V(long N_markers, int seed) : particles(N_markers, seed) {};
+  Variables_Advection_1D1V(ParticleParameters particle_parameters) : particles(particle_parameters) {};
 
   // Default the Copy Constructor
   Variables_Advection_1D1V(const Variables_Advection_1D1V& other) = default;

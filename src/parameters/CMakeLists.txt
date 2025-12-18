@@ -2,6 +2,7 @@
 add_library(
     parameters
     STATIC
+    parameters.cpp
     parameters_advection.cpp
 )
 

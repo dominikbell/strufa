@@ -21,10 +21,6 @@ void run_advection(const Input& input) {
 
       Variables_Advection_1D1V variables {setup_advection(parameters)};
       std::cout << "The models first weight is: " << variables.particles.weights[0] << '\n';
-
-      // } else if (velocity_dims == 2) {
-      //   Parameters_Advection_1D2V parameters {get_parameters_advection_1d2v(input)};
-      //   advection(parameters);
     }
   }
 }

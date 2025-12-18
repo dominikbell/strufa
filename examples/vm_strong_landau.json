@@ -1,0 +1,18 @@
+{
+  "model": "VlasovMaxwell",
+  "space_dimensions": 1,
+  "velocity_dimensions": 1,
+  "domain": {
+    "length": 1.0
+  },
+  "time": {
+    "dt": 0.1,
+    "T_end": 1.0
+  },
+  "scenario": "strong_landau",
+  "PIC": {
+    "type": "full_f",
+    "N_markers": 32,
+    "seed": 1234
+  }
+}

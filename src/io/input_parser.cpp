@@ -99,9 +99,8 @@ int get_space_dimensions(const Input& input) {
   json data {open_file(input.file_name)};
   std::string key_space = "space_dimensions";
   assert(
-    data.count(key_space) == 1 &&
-    "Parameters file must indicate the space dimensions!"
-  );
+      data.count(key_space) == 1 &&
+      "Parameters file must indicate the space dimensions!");
   return data[key_space];
 }
 
@@ -109,9 +108,8 @@ int get_velocity_dimensions(const Input& input) {
   json data {open_file(input.file_name)};
   std::string key_velocity = "velocity_dimensions";
   assert(
-    data.count(key_velocity) == 1 &&
-    "Parameters file must indicate the velocity dimensions!"
-  );
+      data.count(key_velocity) == 1 &&
+      "Parameters file must indicate the velocity dimensions!");
   return data[key_velocity];
 }
 
@@ -120,9 +118,8 @@ std::pair<int, int> get_space_and_velocity_dimensions(const Input& input) {
   std::string key_space = "space_dimensions";
   std::string key_velocity = "velocity_dimensions";
   assert(
-    data.count(key_space) == 1 &&
-    data.count(key_velocity) == 1 &&
-    "Parameters file must indicate the space and velocity dimensions!"
-  );
+      data.count(key_space) == 1 &&
+      data.count(key_velocity) == 1 &&
+      "Parameters file must indicate the space and velocity dimensions!");
   return std::make_pair(data[key_space], data[key_velocity]);
 }

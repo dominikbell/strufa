@@ -1,0 +1,24 @@
+{
+  "model": "VlasovMaxwell",
+  "space_dimensions": 1,
+  "velocity_dimensions": 1,
+  "domain": {
+    "length": 1.0
+  },
+  "time": {
+    "dt": 0.1,
+    "T_end": 1.0
+  },
+  "scenario": "two_stream",
+  "background": {
+    "type": "maxwellian",
+    "mu": 0.0,
+    "sigma": 0.0,
+    "alpha": 0.0
+  },
+  "PIC": {
+    "type": "control_variate",
+    "N_markers": 32,
+    "seed": 1234
+  }
+}

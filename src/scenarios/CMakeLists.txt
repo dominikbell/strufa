@@ -1,13 +1,13 @@
 # Create a library from the advection sources
 add_library(
-    particles
+    scenarios
     STATIC
-    particles.cpp
+    scenarios.cpp
 )
 
 # Include directory for this library
 target_include_directories(
-    particles
+    scenarios
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/src

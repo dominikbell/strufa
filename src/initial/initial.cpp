@@ -11,11 +11,11 @@ using json = nlohmann::json;
 
 void initialize_weights(Particles_1D1V& particles, const json& initial) {
   const std::string initial_type {initial["type"]};
-  std::optional<Initial_Condition> initial_condition {string_to_initial(initial_type)};
+  std::optional<Space_Initial_Condition> initial_condition {string_to_space_initial(initial_type)};
 
   if (initial_condition) {
     switch (*initial_condition) {
-      case Initial_Condition::sine: {
+      case Space_Initial_Condition::sine: {
         int wavenumber {initial["k"]};
         double amplitude {initial["amplitude"]};
         Sine_1D sine_1d {wavenumber, amplitude};
@@ -23,7 +23,7 @@ void initialize_weights(Particles_1D1V& particles, const json& initial) {
           particles.weights[k] = sine(particles.positions_x[k], sine_1d);
         }
       };
-      case Initial_Condition::cosine: {
+      case Space_Initial_Condition::cosine: {
         int wavenumber {initial["k"]};
         double amplitude {initial["amplitude"]};
         Cosine_1D cosine_1d {wavenumber, amplitude};
