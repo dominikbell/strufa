@@ -6,41 +6,40 @@
 #include <optional>
 
 #include "io/input_parser.hpp"
-#include "scenarios/scenarios.hpp"
+#include "initial/space_initial.hpp"
+#include "initial/velocity_initial.hpp"
+#include "initial/scenarios/scenarios.hpp"
 
 using json = nlohmann::json;
 
 Parameters get_parameters(const json& data) {
   assert_top_level_keyword(data, "model");
   std::string model_name {data["model"]};
+  Model model {string_to_model(model_name)};
+
   assert_top_level_keyword(data, "space_dimensions");
   int space_dimensions {data["space_dimensions"]};
 
-  bool contains_velocity_dimension {data.count("velocity_dimensions") == 1};
+  // If key is not in json then the model is assumed to have no velocity dimensions
+  int velocity_dimensions {data.value("velocity_dimensions", 0)};
 
   Scenario scenario {get_scenario(data)};
 
-  if (contains_velocity_dimension) {
-    int velocity_dimensions {data["velocity_dimensions"]};
-    Parameters parameters {
-        model_name,
-        space_dimensions,
-        velocity_dimensions,
-        scenario,
-    };
+  Space_Initial_Parameters space_initial_parameters {Space_Initial_Parameters()};
 
-    return parameters;
+  // TODO: make correct initialization
+  // if (scenario == Scenario::none) {
+  //   space_initial_parameters {get_space_initial_parameters(data)};
+  // } else {
+  // }
 
-  } else {
-    Parameters parameters {
-        model_name,
-        space_dimensions,
-        0,
-        scenario,
-    };
+  Parameters parameters {
+      model,
+      space_dimensions,
+      velocity_dimensions
+  };
 
-    return parameters;
-  }
+  return parameters;
 }
 
 Parameters_1D get_parameters_1d(const json& data) {

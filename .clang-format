@@ -3,3 +3,5 @@ BasedOnStyle: Google
 SpaceBeforeCpp11BracedList: true
 BreakBeforeBraces: Attach
 ColumnLimit: 0
+BreakConstructorInitializers: BeforeColon
+# ConstructorInitializerAllOnOneLineOrOnePerLine: true

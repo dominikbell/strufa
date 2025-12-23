@@ -1,13 +1,13 @@
-# Create a library from the advection sources
+# Create a library from the parser sources
 add_library(
-    advection_1d
+    models_1d
     STATIC
-    advection.cpp
+    advection_1D.cpp
 )
 
 # Include directory for this library
 target_include_directories(
-    advection_1d
+    models_1d
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/src

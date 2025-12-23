@@ -5,10 +5,10 @@
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
-#include <optional>
 #include <utility>
 
-#include "models/base_models/base_models.hpp"
+#include "models/base/models.hpp"
+#include "utilities/utilities.hpp"
 
 namespace fs = std::filesystem;
 using json = nlohmann::json;
@@ -55,7 +55,6 @@ void assert_second_level_keyword(const json& data, const std::string& parent_key
   }
 }
 
-// TODO: also make this std::optional<json> and somehow handle failure
 json open_file(const std::string& filename) {
   // Get the file path and open the stream
   std::string filepath {get_file_path(filename)};
@@ -72,10 +71,11 @@ json open_file(const std::string& filename) {
 
   } catch (const json::parse_error& e) {
     std::cerr << "JSON Parse Error: " << e.what() << " at byte " << e.byte << '\n';
+    exit_with_failure("Problem with reading the json file, see error log for details.");
   }
 }
 
-std::optional<Input> parse_input(char* argv[]) {
+Input parse_input(char* argv[]) {
   // First argument should be filename
   std::string filename {static_cast<std::string>(argv[1])};
   const int filename_length {static_cast<int>(filename.length())};
@@ -85,14 +85,9 @@ std::optional<Input> parse_input(char* argv[]) {
 
   json data {open_file(filename)};
   std::string model_name {data["model"]};
-  const std::optional<Model> model {string_to_model(model_name)};
-  if (model) {
-    Input input {*model, filename, filename_length};
-    return input;
-  } else {
-    std::cerr << "Invalid model name entered, exiting.\n";
-    return std::nullopt;
-  }
+  const Model model {string_to_model(model_name)};
+  Input input {model, filename, filename_length};
+  return input;
 }
 
 int get_space_dimensions(const Input& input) {

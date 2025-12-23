@@ -3,18 +3,20 @@
 #include <optional>
 #include <string>
 
+#include "utilities/utilities.hpp"
+
 enum class Model {
   advection,
   poisson,
 };
 
-inline std::optional<Model> string_to_model(const std::string& str) {
+inline Model string_to_model(const std::string& str) {
   if (str == "Advection") {
     return Model::advection;
   } else if (str == "Poisson") {
     return Model::poisson;
   } else {
-    return std::nullopt;
+    exit_with_failure("model name", str);
   }
 }
 

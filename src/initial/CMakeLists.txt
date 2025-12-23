@@ -1,8 +1,13 @@
+add_subdirectory(scenarios)
+
 # Create a library from the initial sources
 add_library(
     initial
     STATIC
-    initial.cpp
+    particle_initialization.cpp
+    field_initialization.cpp
+    space_initial.cpp
+    velocity_initial.cpp
 )
 
 # Include directory for this library

@@ -1,13 +1,13 @@
 # Create a library from the advection sources
 add_library(
-    runner
+    models
     STATIC
-    run_advection.cpp
+    advection.cpp
 )
 
 # Include directory for this library
 target_include_directories(
-    runner
+    models
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/src

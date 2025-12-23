@@ -8,12 +8,12 @@ enum class Background {
   maxwellian,
 };
 
-inline std::optional<Background> string_to_background(const std::string& str) {
+inline Background string_to_background(const std::string& str) {
   if (str == "maxwellian") {
     return Background::maxwellian;
   } else if (str == "") {
     return Background::none;
   } else {
-    return std::nullopt;
+    return Background::none;
   }
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-struct Space_Initial {};
-
 struct Sine_1D {
   int wavenumber {0};
   double amplitude {0.0};

@@ -17,13 +17,11 @@ ParticleParameters get_particle_parameters(const json& data) {
   std::string type_name = data["PIC"].value("type", "full_f");
   int seed = data["PIC"].value("seed", 1234);
 
-  std::optional<Particle_Type> type {string_to_particle_type(type_name)};
+  std::optional<Particle_Method> type {string_to_particle_method(type_name)};
 
   if (type) {
     ParticleParameters particle_parameters {
         *type,
-        // TODO: have to change this
-        Background::none,
         N_markers,
         seed};
 
