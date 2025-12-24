@@ -3,10 +3,15 @@
 #include <nlohmann/json.hpp>
 #include <optional>
 #include <string>
+#include <variant>
 
+#include "functions/trigonometric.hpp"
 #include "utilities/utilities.hpp"
 
 using json = nlohmann::json;
+
+using Space_Initial_Type_1D = std::variant<Sine_1D, Cosine_1D>;
+using Space_Initial_Type = std::variant<Space_Initial_Type_1D>;
 
 enum class Space_Initial {
   constant,
@@ -31,14 +36,13 @@ inline std::optional<Space_Initial> string_to_optional_space_initial(const std::
 
 inline Space_Initial string_to_space_initial(const std::string& str) {
   std::optional<Space_Initial> optional_space_initial {string_to_space_initial(str)};
-  
+
   if (optional_space_initial) {
     return *optional_space_initial;
   } else {
     exit_with_failure("space initial condition", str);
   }
 }
-
 
 struct Space_Initial_Parameters {
   const Space_Initial type {Space_Initial::constant};

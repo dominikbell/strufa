@@ -10,6 +10,12 @@
 
 using json = nlohmann::json;
 
+void initialize_weights(
+
+) {
+  
+}
+
 void initialize_particles(
     Particles_1D1V& particles,
     const Space_Initial& space_initial_condition,

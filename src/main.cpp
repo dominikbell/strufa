@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
   if (argc > 1) {
     std::cout << "Program was called with parameter " << argv[1] << '\n';
 
-    const Input input = parse_input(argv);
+    const Input input {parse_input(argv)};
     std::cout << "The model name is " << model_to_string(input.model) << ".\n";
 
     switch (input.model) {

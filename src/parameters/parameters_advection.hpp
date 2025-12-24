@@ -26,7 +26,16 @@ struct Parameters_Advection_1D1V : Parameters_Advection, Parameters_1D {
         Parameters_1D(parameters_1d_i) {}
 };
 
-using Advection_Parameters_Type = std::variant<Parameters_Advection_1D1V>;
+struct Parameters_Advection_1D2V : Parameters_Advection, Parameters_1D {
+  Parameters_Advection_1D2V(
+      Parameters_Advection& parameters_advection_i,
+      Parameters_1D& parameters_1d_i)
+      : Parameters_Advection(parameters_advection_i),
+        Parameters_1D(parameters_1d_i) {}
+};
 
-Advection_Parameters_Type get_parameters_advection(const Space_Velocity_Dimension& dimensions, const Input& input);
+using Advection_Parameters_Type = std::variant<Parameters_Advection_1D1V, Parameters_Advection_1D2V>;
+
 Parameters_Advection_1D1V get_parameters_advection_dimensionful(const Dimensions_1D1V& dimension, const Input& input);
+Parameters_Advection_1D2V get_parameters_advection_dimensionful(const Dimensions_1D2V& dimension, const Input& input);
+Advection_Parameters_Type get_parameters_advection(const Space_Velocity_Dimension& dimensions, const Input& input);

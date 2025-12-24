@@ -11,6 +11,7 @@ struct Input {
   const Model model;
   const std::string file_name = "";
   const int file_name_length = 0;
+  const json file;
 };
 
 void assert_only_one_input(char* argv[]);

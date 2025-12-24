@@ -86,7 +86,7 @@ Input parse_input(char* argv[]) {
   json data {open_file(filename)};
   std::string model_name {data["model"]};
   const Model model {string_to_model(model_name)};
-  Input input {model, filename, filename_length};
+  Input input {model, filename, filename_length, data};
   return input;
 }
 
