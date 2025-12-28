@@ -1,4 +1,4 @@
-#include "parameters/parameters_advection.hpp"
+#include "parameters/advection/parameters_advection.hpp"
 
-void advection(const Parameters_Advection_1D1V& parameters) {
+void advection(const ParametersAdvection1D1V& parameters) {
 }

@@ -6,6 +6,7 @@
 #include <optional>
 
 #include "io/input_parser.hpp"
+#include "utilities/utilities.hpp"
 
 using json = nlohmann::json;
 
@@ -27,7 +28,6 @@ ParticleParameters get_particle_parameters(const json& data) {
 
     return particle_parameters;
   } else {
-    std::cerr << "Particle type '" << type_name << "' is not a valid choice!\n";
-    assert(type && "Invalid particle type entered, see line above.\n");
+    exit_with_failure("particle type", type_name);
   }
 }

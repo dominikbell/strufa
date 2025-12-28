@@ -17,7 +17,7 @@ void initialize_weights(
 }
 
 void initialize_particles(
-    Particles_1D1V& particles,
+    Particles1D1V& particles,
     const Space_Initial& space_initial_condition,
     const Velocity_Initial& velocity_initial_condition) {
   std::mt19937 gen(particles.seed);

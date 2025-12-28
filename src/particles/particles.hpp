@@ -65,7 +65,7 @@ struct ParticleParameters {
   const int seed {0};
 };
 
-struct Particles_1D1V {
+struct Particles1D1V {
   const Particle_Method type {Particle_Method::full_f};
   const long N_markers {0};
   const int seed {0};
@@ -73,7 +73,7 @@ struct Particles_1D1V {
   std::vector<double> positions_x;
   std::vector<double> velocities_x;
 
-  Particles_1D1V(ParticleParameters particle_parameters)
+  Particles1D1V(ParticleParameters particle_parameters)
       : type {particle_parameters.type},
         N_markers {particle_parameters.N_markers},
         seed {particle_parameters.seed},
@@ -101,6 +101,6 @@ struct Particles_1D2V {
         velocities_y(particle_parameters.N_markers) {}
 };
 
-using Particle_Type = std::variant<Particles_1D1V, Particles_1D2V>;
+using Particle_Type = std::variant<Particles1D1V, Particles_1D2V>;
 
 ParticleParameters get_particle_parameters(const json& data);

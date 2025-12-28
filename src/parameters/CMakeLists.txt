@@ -1,9 +1,11 @@
+add_subdirectory(advection)
+
 # Create a library from the advection sources
 add_library(
     parameters
     STATIC
     parameters.cpp
-    parameters_advection.cpp
+    advection/parameters_advection.cpp
 )
 
 # Include directory for this library

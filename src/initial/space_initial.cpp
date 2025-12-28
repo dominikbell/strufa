@@ -17,12 +17,12 @@ Space_Initial get_space_initial_type(const json& data) {
   }
 }
 
-Space_Initial_Parameters get_space_initial_parameters(const json& data) {
+SpaceInitialParameters get_space_initial_parameters(const json& data) {
   std::optional<Space_Initial> space_initial_condition {
   };
 }
 
-void initialize_weights(Particles_1D1V& particles, const Space_Initial& initial_condition) {
+void initialize_weights(Particles1D1V& particles, const Space_Initial& initial_condition) {
   switch (initial_condition) {
     case Space_Initial::sine: {
     };
@@ -37,14 +37,14 @@ void initialize_weights(Particles_1D1V& particles, const Space_Initial& initial_
   }
 }
 
-void initialize(Particles_1D1V& particles, const Sine_1D& initial_condition) {
+void initialize(Particles1D1V& particles, const Sine_1D& initial_condition) {
   Sine_1D sine_1d {initial_condition.wavenumber, initial_condition.amplitude};
   for (size_t k {0}; k < particles.N_markers; ++k) {
     particles.weights[k] = sine(particles.positions_x[k], sine_1d);
   }
 }
 
-void initialize(Particles_1D1V& particles, const Cosine_1D& initial_condition) {
+void initialize(Particles1D1V& particles, const Cosine_1D& initial_condition) {
   Cosine_1D cosine_1d {initial_condition.wavenumber, initial_condition.amplitude};
   for (size_t k {0}; k < particles.N_markers; ++k) {
     particles.weights[k] = cosine(particles.positions_x[k], cosine_1d);

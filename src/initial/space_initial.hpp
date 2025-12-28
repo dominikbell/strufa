@@ -44,10 +44,10 @@ inline Space_Initial string_to_space_initial(const std::string& str) {
   }
 }
 
-struct Space_Initial_Parameters {
+struct SpaceInitialParameters {
   const Space_Initial type {Space_Initial::constant};
   json initial;
 };
 
 Space_Initial get_space_initial_type(const json& data);
-Space_Initial_Parameters get_space_initial_parameters(const json& data);
+SpaceInitialParameters get_space_initial_parameters(const json& data);

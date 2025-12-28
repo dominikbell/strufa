@@ -6,5 +6,5 @@
 
 using json = nlohmann::json;
 
-void initialize_weights(Particles_1D1V& particles, const json& initial);
-void initialize_particles(Particles_1D1V& particles, const json& initial);
+void initialize_weights(Particles1D1V& particles, const json& initial);
+void initialize_particles(Particles1D1V& particles, const json& initial);
