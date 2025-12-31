@@ -8,7 +8,7 @@
 using json = nlohmann::json;
 
 struct Input {
-  const Model model;
+  const ModelEnum model;
   const std::string file_name = "";
   const int file_name_length = 0;
   const json file;

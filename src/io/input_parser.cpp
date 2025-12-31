@@ -4,14 +4,11 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <nlohmann/json.hpp>
 #include <utility>
 
-#include "models/base/models.hpp"
 #include "utilities/utilities.hpp"
 
 namespace fs = std::filesystem;
-using json = nlohmann::json;
 
 std::string get_file_path(const std::string& filename) {
   std::string filepath {"../" + filename};
@@ -42,7 +39,7 @@ void assert_valid_file(std::string& filename, const int filename_length) {
 void assert_top_level_keyword(const json& data, const std::string& keyword) {
   bool contains_keyword {data.count(keyword) == 1};
   if (!contains_keyword) {
-    std::cout << "Parameters file must contain top-level keyword '" << keyword << "'!\n";
+    std::cout << "DomainParameters file must contain top-level keyword '" << keyword << "'!\n";
     assert(data.count(keyword) == 1 && "Top-level keyword missing in parameter file; check the line above.");
   }
 }
@@ -50,7 +47,7 @@ void assert_top_level_keyword(const json& data, const std::string& keyword) {
 void assert_second_level_keyword(const json& data, const std::string& parent_keyword, const std::string& keyword) {
   bool contains_keyword {data[parent_keyword].count(keyword) == 1};
   if (!contains_keyword) {
-    std::cout << "Parameters file must contain keyword '" << keyword << "' under top-level keyword '" << parent_keyword << "'!\n";
+    std::cout << "DomainParameters file must contain keyword '" << keyword << "' under top-level keyword '" << parent_keyword << "'!\n";
     assert(data[parent_keyword].count(keyword) == 1 && "Second-level keyword missing in parameter file; check the line above.");
   }
 }
@@ -85,7 +82,7 @@ Input parse_input(char* argv[]) {
 
   json data {open_file(filename)};
   std::string model_name {data["model"]};
-  const Model model {string_to_model(model_name)};
+  const ModelEnum model {string_to_model_enum(model_name)};
   Input input {model, filename, filename_length, data};
   return input;
 }
@@ -95,7 +92,7 @@ int get_space_dimensions(const Input& input) {
   std::string key_space = "space_dimensions";
   assert(
       data.count(key_space) == 1 &&
-      "Parameters file must indicate the space dimensions!");
+      "DomainParameters file must indicate the space dimensions!");
   return data[key_space];
 }
 
@@ -104,7 +101,7 @@ int get_velocity_dimensions(const Input& input) {
   std::string key_velocity = "velocity_dimensions";
   assert(
       data.count(key_velocity) == 1 &&
-      "Parameters file must indicate the velocity dimensions!");
+      "DomainParameters file must indicate the velocity dimensions!");
   return data[key_velocity];
 }
 
@@ -115,6 +112,6 @@ std::pair<int, int> get_space_and_velocity_dimensions(const Input& input) {
   assert(
       data.count(key_space) == 1 &&
       data.count(key_velocity) == 1 &&
-      "Parameters file must indicate the space and velocity dimensions!");
+      "DomainParameters file must indicate the space and velocity dimensions!");
   return std::make_pair(data[key_space], data[key_velocity]);
 }

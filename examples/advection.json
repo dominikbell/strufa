@@ -9,20 +9,22 @@
     "dt": 0.1,
     "T_end": 1.0
   },
-  "space_initialization": {
-    "type": "sine",
-    "k": 1,
-    "amplitude": 1.0
-  },
-  "velocity_initialization": {
-    "type": "maxwellian",
-    "mu": 0.0,
-    "sigma": 0.0,
-    "alpha": 0.0
-  },
   "PIC": {
     "type": "full_f",
     "N_markers": 32,
     "seed": 1234
+  },
+  "particle_initialization": {
+    "space" : {
+      "type": "sine",
+      "k": 1,
+      "amplitude": 1.0
+    },
+    "velocity" : {
+      "type": "maxwellian",
+      "mu": 0.0,
+      "sigma": 0.0,
+      "alpha": 0.0
+    }
   }
 }
