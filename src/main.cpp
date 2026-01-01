@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     ParametersVariant parameters {get_parameters(input.model, pair_dimensions, input.file)};
 
     VariablesVariant variables {get_variables(pair_dimensions, parameters)};
-    // InitialConditions initial_conditions {get_initial_conditions(input)}
+    // InitialConditions initial_conditions {get_initial_conditions(input)};
     // initialize_variables(model, initial_conditions);
     // run(model, variables); (might be time loop or just solving, e.g., Poisson)
 

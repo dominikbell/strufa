@@ -1,0 +1,2 @@
+struct StructOfArrays {};
+struct ArrayOfStructs {};
