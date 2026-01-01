@@ -1,109 +1,87 @@
 #pragma once
 
+#include <string>
+#include <utility>
 #include <variant>
 
-#include "utilities/utilities.hpp"
+#include "utilities.hpp"
 
-// TODO: dimensions or dimension? Decide for one naming convention
+template <int SpaceDimensions, int VelocityDimensions = 0>
+struct Dimensions {
+  static constexpr int space_dimensions = SpaceDimensions;
+  static constexpr int velocity_dimensions = VelocityDimensions;
+};
 
-struct Dimensions1D {};
-struct Dimensions2D {};
-struct Dimensions3D {};
-struct Dimensions1V {};
-struct Dimensions2V {};
-struct Dimensions3V {};
-struct Dimensions1D1V {};
-struct Dimensions1D2V {};
-struct Dimensions1D3V {};
-struct Dimensions2D2V {};
-struct Dimensions2D3V {};
-struct Dimensions3D3V {};
+using D1 = Dimensions<1>;
+using D2 = Dimensions<2>;
+using D3 = Dimensions<3>;
+using D1V1 = Dimensions<1, 1>;
+using D1V2 = Dimensions<1, 2>;
+using D1V3 = Dimensions<1, 3>;
+using D2V2 = Dimensions<2, 2>;
+using D2V3 = Dimensions<2, 3>;
+using D3V3 = Dimensions<3, 3>;
 
-using SpaceDimensions = std::variant<Dimensions1D>;
-// using SpaceDimensions = std::variant<Dimensions1D, Dimensions2D, Dimensions3D>;
-using VelocityDimensions = std::variant<Dimensions1V, Dimensions2V, Dimensions3V>;
-using SpaceVelocityDimensions = std::variant<Dimensions1D1V, Dimensions1D2V>;
-// using SpaceVelocityDimensions = std::variant<Dimensions1D1V, Dimensions1D2V, Dimensions1D3V, Dimensions2D2V, Dimensions2D3V, Dimensions3D3V>;
+using SpaceDimensionsVariant = std::variant<D1, D2, D3>;
+using PhaseSpaceDimensionsVariant = std::variant<
+    D1V1,
+    D1V2,
+    D1V3,
+    D2V2,
+    D2V3,
+    D3V3>;
 
-inline SpaceDimensions get_space_dimensions(int space_dimensions) {
-  if (space_dimensions == 1) {
-    return Dimensions1D();
-  // } else if (space_dimensions == 2) {
-  //   return Dimensions2D();
-  // } else if (space_dimensions == 3) {
-  //   return Dimensions3D();
-  } else {
-    exit_with_failure("space dimensions", space_dimensions);
+inline SpaceDimensionsVariant get_space_dimensions(int space_dimensions) {
+  switch (space_dimensions) {
+    case (1):
+      return D1 {};
+    case (2):
+      return D2 {};
+    case (3):
+      return D3 {};
+    default:
+      exit_with_failure("space dimensions", space_dimensions);
   }
 }
 
-inline SpaceDimensions get_space_dimensions(SpaceVelocityDimensions space_velocity_dimension) {
-  return std::visit([](auto&& arg) -> SpaceDimensions {
-    using T = std::decay_t<decltype(arg)>;
+inline PhaseSpaceDimensionsVariant get_phase_space_dimensions(std::pair<int, int> pair_dimensions) {
+  const int space_dimensions = pair_dimensions.first;
+  const int velocity_dimensions = pair_dimensions.second;
 
-    if constexpr (
-      std::is_same_v<T, Dimensions1D1V> ||
-      std::is_same_v<T, Dimensions1D2V>
-    ) {
-      return Dimensions1D{};
-    } else {
-      exit_with_failure("space velocity dimension");
-    } }, space_velocity_dimension);
-}
+  std::string failure_message {"Incompatible velocity dimensions " + std::to_string(velocity_dimensions) + " with space dimensions " + std::to_string(space_dimensions)};
 
-inline SpaceVelocityDimensions get_space_velocity_dimensions(int space_dimensions, int velocity_dimensions) {
-  if (velocity_dimensions == 1) {
-    if (space_dimensions == 1) {
-      return Dimensions1D1V();
-    } else {
-      exit_with_failure("space dimensions", space_dimensions);
+  switch (space_dimensions) {
+    case (1): {
+      switch (velocity_dimensions) {
+        case (1):
+          return D1V1 {};
+        case (2):
+          return D1V2 {};
+        case (3):
+          return D1V3 {};
+        default:
+          exit_with_failure(failure_message);
+      }
     }
-  } else if (velocity_dimensions == 2) {
-    if (space_dimensions == 1) {
-      return Dimensions1D2V();
-    } else {
-      exit_with_failure("space dimensions", space_dimensions);
+    case (2): {
+      switch (velocity_dimensions) {
+        case (2):
+          return D2V2 {};
+        case (3):
+          return D2V3 {};
+        default:
+          exit_with_failure(failure_message);
+      }
+      case (3): {
+        switch (velocity_dimensions) {
+          case (3):
+            return D3V3 {};
+          default:
+            exit_with_failure(failure_message);
+        }
+      }
+      default:
+        exit_with_failure("space dimensions", space_dimensions);
     }
-  } else {
-    exit_with_failure("velocity dimensions", velocity_dimensions);
   }
 }
-
-// inline SpaceVelocityDimensions get_space_velocity_dimensions(int space_dimensions, int velocity_dimensions) {
-//   if (velocity_dimensions == 1) {
-//     if (space_dimensions == 1) {
-//       return Dimensions1D1V();
-//     } else if (space_dimensions == 2) {
-//       std::string message {"Invalid combination of space dimensions and velocity dimensions detected!"};
-//       exit_with_failure(message);
-//     } else if (space_dimensions == 3) {
-//       std::string message {"Invalid combination of space dimensions and velocity dimensions detected!"};
-//       exit_with_failure(message);
-//     } else {
-//       exit_with_failure("space dimensions", space_dimensions);
-//     }
-//   } else if (velocity_dimensions == 2) {
-//     if (space_dimensions == 1) {
-//       return Dimensions1D2V();
-//     } else if (space_dimensions == 2) {
-//       return Dimensions2D2V();
-//     } else if (space_dimensions == 3) {
-//       std::string message {"Invalid combination of space dimensions and velocity dimensions detected!"};
-//       exit_with_failure(message);
-//     } else {
-//       exit_with_failure("space dimensions", space_dimensions);
-//     }
-//   } else if (velocity_dimensions == 3) {
-//     if (space_dimensions == 1) {
-//       return Dimensions1D3V();
-//     } else if (space_dimensions == 2) {
-//       return Dimensions2D3V();
-//     } else if (space_dimensions == 3) {
-//       return Dimensions3D3V();
-//     } else {
-//       exit_with_failure("space dimensions", space_dimensions);
-//     }
-//   } else {
-//     exit_with_failure("velocity dimensions", velocity_dimensions);
-//   }
-// }

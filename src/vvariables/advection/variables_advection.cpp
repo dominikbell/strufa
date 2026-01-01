@@ -1,26 +1,14 @@
 #include "variables_advection.hpp"
 
-#include <variant>
+AdvectionVariablesVariant get_variables_advection(
+    std::pair<int, int> pair_dimensions,
+    const AdvectionParametersVariant& parameters) {
+  PhaseSpaceDimensionsVariant phase_space_dims {get_phase_space_dimensions(pair_dimensions)};
 
-#include "advection/from_parameters_advection.hpp"
-#include "parameters/advection/parameters_advection.hpp"
-#include "particles/particles.hpp"
-
-AdvectionVariablesType get_variables(const AdvectionParametersType& parameters) {
   return std::visit(
-      [](auto const& arg) -> AdvectionVariablesType {
-        return get_variables_dimensionful(arg);
+      [&](auto const& arg) -> AdvectionVariablesVariant {
+        using Dim = std::decay_t<decltype(arg)>;
+        return get_variables_advection<Dim>(parameters);
       },
-      parameters);
-}
-
-void initialize_variables(const VariablesAdvection1D1V& variables) {
-  // std::pair<Space_Initial_Type, Velocity_Initial_Type> pair_initial {get_space_velocity_initial(input)};
-  // Space_Initial_Type space_initial = pair.first;
-  // Velocity_Initial_Type velocity_initial = pair.second;
-
-  // What we want to do
-  // initialize_positions(variables,)
-  // initialize_velocities(variables,)
-  // initialize_weights(variables,)
+      phase_space_dims);
 }

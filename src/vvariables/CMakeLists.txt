@@ -1,10 +1,13 @@
 add_subdirectory(advection)
+add_subdirectory(poisson)
 
 # Create a library from the advection sources
 add_library(
     vvariables
     STATIC
+    vvariables.cpp
     advection/variables_advection.cpp
+    poisson/variables_poisson.cpp
 )
 
 # Include directory for this library

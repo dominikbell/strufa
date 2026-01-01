@@ -6,6 +6,7 @@
 #include "parameters/domain_parameters.hpp"
 #include "parameters/parameters.hpp"
 #include "utilities/dimensions.hpp"
+#include "vvariables/vvariables.hpp"
 
 int main(int argc, char* argv[]) {
   if (argc > 1) {
@@ -16,15 +17,13 @@ int main(int argc, char* argv[]) {
     std::cout << "The model name is " << model_name << ".\n";
 
     std::pair<int, int> pair_dimensions = get_space_and_velocity_dimensions(input);
-    int space_dimensions = pair_dimensions.first;
-    int velocity_dimensions = pair_dimensions.second;
 
-    DomainParametersVariant domain_parameters {get_domain_parameters(space_dimensions, input.file)};
+    DomainParametersVariant domain_parameters {get_domain_parameters(pair_dimensions.first, input.file)};
 
     // ModelVariant parameters are essentially the discretization parameters for the variables of this model
     ParametersVariant parameters {get_parameters(input.model, pair_dimensions, input.file)};
 
-    // Variables variables {get_variables(model, model_parameters)};
+    VariablesVariant variables {get_variables(pair_dimensions, parameters)};
     // InitialConditions initial_conditions {get_initial_conditions(input)}
     // initialize_variables(model, initial_conditions);
     // run(model, variables); (might be time loop or just solving, e.g., Poisson)

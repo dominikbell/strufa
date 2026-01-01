@@ -35,7 +35,7 @@ inline std::optional<Space_Initial> string_to_optional_space_initial(const std::
 }
 
 inline Space_Initial string_to_space_initial(const std::string& str) {
-  std::optional<Space_Initial> optional_space_initial {string_to_space_initial(str)};
+  std::optional<Space_Initial> optional_space_initial {string_to_optional_space_initial(str)};
 
   if (optional_space_initial) {
     return *optional_space_initial;

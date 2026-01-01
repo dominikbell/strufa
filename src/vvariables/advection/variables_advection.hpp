@@ -1,47 +1,32 @@
 #pragma once
 
+#include <utility>
 #include <variant>
 
 #include "parameters/advection/parameters_advection.hpp"
-#include "from_parameters_advection.hpp"
 #include "particles/particles.hpp"
+#include "utilities/dimensions.hpp"
+#include "vvariables/model_variables.hpp"
 
-struct VariablesAdvection1D1V {
-  Particles1D1V particles;
-
-  // Constructor
-  VariablesAdvection1D1V(
-      ParametersAdvection1D1V parameters_i)
-      : particles(static_cast<ParticleParameters>(parameters_i)) {};
-
-  // Default the Copy Constructor
-  VariablesAdvection1D1V(const VariablesAdvection1D1V& other) = default;
-
-  // Default the Move Constructor (most critical for return values)
-  VariablesAdvection1D1V(VariablesAdvection1D1V&& other) noexcept = default;
+template <typename Dimensions>
+struct Variables<Advection, Dimensions> {
+  Particles<Dimensions, FullF> particles;
 };
 
-struct VariablesAdvection1D2V {
-  Particles_1D2V particles;
+using AdvectionVariablesVariant = std::variant<
+    Variables<Advection, D1V1>,
+    Variables<Advection, D1V2>,
+    Variables<Advection, D1V3>,
+    Variables<Advection, D2V2>,
+    Variables<Advection, D2V3>,
+    Variables<Advection, D3V3> >;
 
-  // Constructor
-  VariablesAdvection1D2V(
-      ParametersAdvection1D2V parameters_i)
-      : particles(static_cast<ParticleParameters>(parameters_i)) {};
+template <typename Dimensions>
+inline Variables<Advection, Dimensions>
+get_variables_advection(const AdvectionParametersVariant& parameters) {
+  Particles<Dimensions, FullF> particles {parameters.particle_parameters};
 
-  // Default the Copy Constructor
-  VariablesAdvection1D2V(const VariablesAdvection1D2V& other) = default;
-
-  // Default the Move Constructor (most critical for return values)
-  VariablesAdvection1D2V(VariablesAdvection1D2V&& other) noexcept = default;
-};
-
-using AdvectionVariablesType = std::variant<VariablesAdvection1D1V, VariablesAdvection1D2V>;
-
-AdvectionVariablesType get_variables(const AdvectionParametersType& parameters);
-
-template <typename T_in>
-auto get_variables_dimensionful(const T_in& parameters) {
-  using T_out = typename ParameterToVariable<T_in>::type;
-  return T_out {parameters};
+  return {particles};
 }
+
+AdvectionVariablesVariant get_variables_advection(std::pair<int, int> pair_dimensions, const AdvectionParametersVariant& parameters);

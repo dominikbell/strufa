@@ -1,6 +1,6 @@
 #pragma once
 
-#include "models/base/models.hpp"
+#include "parameters/parameters.hpp"
 
 template <typename Model, typename Dimensions>
-struct Parameters;
+struct Variables;

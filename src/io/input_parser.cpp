@@ -111,7 +111,10 @@ std::pair<int, int> get_space_and_velocity_dimensions(const Input& input) {
   std::string key_velocity = "velocity_dimensions";
   assert(
       data.count(key_space) == 1 &&
-      data.count(key_velocity) == 1 &&
-      "DomainParameters file must indicate the space and velocity dimensions!");
-  return std::make_pair(data[key_space], data[key_velocity]);
+      "Parameters file must indicate the space dimensions!");
+  int space_dimensions {data[key_space]};
+
+  // If key_velocity is not found, assume model has zero velocity dimensions
+  int velocity_dimensions {data.value(key_velocity, 0)};
+  return std::make_pair(space_dimensions, velocity_dimensions);
 }

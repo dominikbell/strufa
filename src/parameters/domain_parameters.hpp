@@ -19,9 +19,17 @@ struct DomainParameters<D2> {
   const double domain_size_y {0.0};
 };
 
+template <>
+struct DomainParameters<D3> {
+  const double domain_size_x {0.0};
+  const double domain_size_y {0.0};
+  const double domain_size_z {0.0};
+};
+
 using DomainParametersVariant = std::variant<
     DomainParameters<D1>,
-    DomainParameters<D2> >;
+    DomainParameters<D2>,
+    DomainParameters<D3> >;
 
 
 template <typename Dimensions>
@@ -42,6 +50,16 @@ inline DomainParameters<Dimensions> get_domain_parameters(const json& data) {
     double domain_size_y {data["domain"]["size_y"]};
 
     return {domain_size_x, domain_size_y};
+  } else if constexpr (std::is_same_v<Dimensions, D3>) {
+    assert_second_level_keyword(data, "domain", "size_x");
+    assert_second_level_keyword(data, "domain", "size_y");
+    assert_second_level_keyword(data, "domain", "size_z");
+
+    double domain_size_x {data["domain"]["size_x"]};
+    double domain_size_y {data["domain"]["size_y"]};
+    double domain_size_z {data["domain"]["size_z"]};
+
+    return {domain_size_x, domain_size_y, domain_size_z};
   }
 }
 

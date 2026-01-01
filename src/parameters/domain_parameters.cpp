@@ -8,6 +8,9 @@ DomainParametersVariant get_domain_parameters(int space_dimensions, const json& 
     case (2): {
       return get_domain_parameters<D2>(data);
     }
+    case (3): {
+      return get_domain_parameters<D3>(data);
+    }
     default: {
       exit_with_failure("space dimensions", space_dimensions);
     }

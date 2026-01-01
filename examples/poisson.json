@@ -1,0 +1,11 @@
+{
+  "model": "Poisson",
+  "space_dimensions": 1,
+  "domain": {
+    "length": 1.0
+  },
+  "FE": {
+    "N_elements": 32,
+    "degree": 3
+  }
+}
