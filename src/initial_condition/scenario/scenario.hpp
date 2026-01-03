@@ -1,10 +1,10 @@
 #pragma once
 
-#include <nlohmann/json.hpp>
 #include <optional>
 #include <string>
 
-using json = nlohmann::json;
+#include "initial_condition/initial_condition.hpp"
+#include "io/input_parser.hpp"
 
 enum class Scenario {
   none,
@@ -32,3 +32,5 @@ inline Scenario string_to_scenario(const std::string& str) {
 }
 
 Scenario get_scenario(const json& data);
+
+// InitialConditionVariant get_initial_condition_from_scenario(std::pair<int, int> pair_dimensions, const json& data);

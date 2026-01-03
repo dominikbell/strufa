@@ -28,7 +28,7 @@ make
 - [ ] Geometric Vlasov-Ampère (delta-f)
 - [ ] Geometric Vlasov-Maxwell (delta-f)
 
-All models should be implemented in all possible dimensions, i.e. in 1D, 2D, and 3D for models without velocity space, and 1D1V, 1D2V, 1D3V, 2D2V, 2D3V, 3D3V for kinetic models.
+All models are (will be) implemented in all possible dimensions, i.e. in 1D, 2D, and 3D for models without velocity space, and 1D1V, 1D2V, 1D3V, 2D2V, 2D3V, 3D3V for kinetic models. All kinetice models are single-species only. FE discretization is on a single grid.
 
 ## Input Files
 

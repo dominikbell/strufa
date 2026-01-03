@@ -11,6 +11,10 @@
 template <typename Dimensions>
 struct Variables<Advection, Dimensions> {
   Particles<Dimensions, FullF> particles;
+
+  auto as_tuple() {
+    return std::tie(particles);
+  }
 };
 
 using AdvectionVariablesVariant = std::variant<
@@ -24,7 +28,7 @@ using AdvectionVariablesVariant = std::variant<
 template <typename Dimensions>
 inline Variables<Advection, Dimensions>
 get_variables_advection(const AdvectionParametersVariant& parameters) {
-  Particles<Dimensions, FullF> particles {parameters.particle_parameters};
+  Particles<Dimensions, FullF> particles {parameters.particle_parameters, "particles"};
 
   return {particles};
 }

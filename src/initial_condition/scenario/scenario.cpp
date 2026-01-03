@@ -1,4 +1,4 @@
-#include "scenarios.hpp"
+#include "scenario.hpp"
 
 #include <iostream>
 #include <nlohmann/json.hpp>

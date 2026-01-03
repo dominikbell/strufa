@@ -55,3 +55,10 @@ inline ModelEnum string_to_model_enum(const std::string& str) {
     exit_with_failure("model name", str);
   }
 }
+
+inline std::string model_enum_to_string(const ModelEnum& model) {
+  switch (model) {
+    case (ModelEnum::advection): return "Advection";
+    case (ModelEnum::poisson): return "Poisson";
+  }
+}

@@ -2,6 +2,7 @@
 #include <utility>
 
 #include "io/input_parser.hpp"
+#include "initialization/initialize_variables.hpp"
 #include "models/base/models.hpp"
 #include "parameters/domain_parameters.hpp"
 #include "parameters/parameters.hpp"
@@ -13,7 +14,7 @@ int main(int argc, char* argv[]) {
     std::cout << "Program was called with parameter " << argv[1] << '\n';
 
     const Input input {parse_input(argv)};
-    std::string model_name {input.file["model"]};
+    std::string model_name {model_enum_to_string(input.model)};
     std::cout << "The model name is " << model_name << ".\n";
 
     std::pair<int, int> pair_dimensions = get_space_and_velocity_dimensions(input);
@@ -27,12 +28,11 @@ int main(int argc, char* argv[]) {
     // Allocate the variables
     VariablesVariant variables {get_variables(pair_dimensions, parameters)};
 
-    // Initial conditions
-    // InitialConditions initial_conditions {get_initial_conditions(input)};
-    // initialize_variables(model, initial_conditions);
+    // Set initial conditions
+    initialize_variables(variables, input.file);
 
     // Run the model
-    // run(model, variables); (might be time loop or just solving, e.g., Poisson)
+    // run(variables, domain_parameters); (might be time loop or just solving, e.g., Poisson)
   }
 
   return 0;

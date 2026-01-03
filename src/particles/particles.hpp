@@ -14,122 +14,33 @@
 template <typename Dimensions, typename ParticleType>
 struct Particles;
 
-template <>
-struct Particles<D1V1, FullF> {
+template <typename T>
+struct is_particles : std::false_type {};
+
+template <typename Dimensions, typename ParticleType>
+struct is_particles<Particles<Dimensions, ParticleType>> : std::true_type {};
+
+template <typename T>
+inline constexpr bool is_particles_v = is_particles<T>::value;
+
+template <typename Dimensions>
+struct Particles<Dimensions, FullF> {
   const long N_markers {0};
   const int seed {0};
+  const std::string name {""};
   std::vector<double> weights;
-  std::vector<double> positions_x;
-  std::vector<double> velocities_x;
+  std::vector<double> positions[Dimensions::space_dimensions];
+  std::vector<double> velocities[Dimensions::velocity_dimensions];
 
-  Particles(ParticleParameters particle_parameters)
+  Particles(
+      const ParticleParameters& particle_parameters,
+      const std::string& name_i)
       : N_markers {particle_parameters.N_markers},
         seed {particle_parameters.seed},
-        weights(particle_parameters.N_markers),
-        positions_x(particle_parameters.N_markers),
-        velocities_x(particle_parameters.N_markers) {}
-};
-
-template <>
-struct Particles<D1V2, FullF> {
-  const long N_markers {0};
-  const int seed {0};
-  std::vector<double> weights;
-  std::vector<double> positions_x;
-  std::vector<double> velocities_x;
-  std::vector<double> velocities_y;
-
-  Particles(ParticleParameters particle_parameters)
-      : N_markers {particle_parameters.N_markers},
-        seed {particle_parameters.seed},
-        weights(particle_parameters.N_markers),
-        positions_x(particle_parameters.N_markers),
-        velocities_x(particle_parameters.N_markers),
-        velocities_y(particle_parameters.N_markers) {}
-};
-
-template <>
-struct Particles<D1V3, FullF> {
-  const long N_markers {0};
-  const int seed {0};
-  std::vector<double> weights;
-  std::vector<double> positions_x;
-  std::vector<double> velocities_x;
-  std::vector<double> velocities_y;
-  std::vector<double> velocities_z;
-
-  Particles(ParticleParameters particle_parameters)
-      : N_markers {particle_parameters.N_markers},
-        seed {particle_parameters.seed},
-        weights(particle_parameters.N_markers),
-        positions_x(particle_parameters.N_markers),
-        velocities_x(particle_parameters.N_markers),
-        velocities_y(particle_parameters.N_markers),
-        velocities_z(particle_parameters.N_markers) {}
-};
-
-template <>
-struct Particles<D2V2, FullF> {
-  const long N_markers {0};
-  const int seed {0};
-  std::vector<double> weights;
-  std::vector<double> positions_x;
-  std::vector<double> positions_y;
-  std::vector<double> velocities_x;
-  std::vector<double> velocities_y;
-
-  Particles(ParticleParameters particle_parameters)
-      : N_markers {particle_parameters.N_markers},
-        seed {particle_parameters.seed},
-        weights(particle_parameters.N_markers),
-        positions_x(particle_parameters.N_markers),
-        positions_y(particle_parameters.N_markers),
-        velocities_x(particle_parameters.N_markers),
-        velocities_y(particle_parameters.N_markers) {}
-};
-
-template <>
-struct Particles<D2V3, FullF> {
-  const long N_markers {0};
-  const int seed {0};
-  std::vector<double> weights;
-  std::vector<double> positions_x;
-  std::vector<double> positions_y;
-  std::vector<double> velocities_x;
-  std::vector<double> velocities_y;
-  std::vector<double> velocities_z;
-
-  Particles(ParticleParameters particle_parameters)
-      : N_markers {particle_parameters.N_markers},
-        seed {particle_parameters.seed},
-        weights(particle_parameters.N_markers),
-        positions_x(particle_parameters.N_markers),
-        positions_y(particle_parameters.N_markers),
-        velocities_x(particle_parameters.N_markers),
-        velocities_y(particle_parameters.N_markers),
-        velocities_z(particle_parameters.N_markers) {}
-};
-
-template <>
-struct Particles<D3V3, FullF> {
-  const long N_markers {0};
-  const int seed {0};
-  std::vector<double> weights;
-  std::vector<double> positions_x;
-  std::vector<double> positions_y;
-  std::vector<double> positions_z;
-  std::vector<double> velocities_x;
-  std::vector<double> velocities_y;
-  std::vector<double> velocities_z;
-
-  Particles(ParticleParameters particle_parameters)
-      : N_markers {particle_parameters.N_markers},
-        seed {particle_parameters.seed},
-        weights(particle_parameters.N_markers),
-        positions_x(particle_parameters.N_markers),
-        positions_y(particle_parameters.N_markers),
-        positions_z(particle_parameters.N_markers),
-        velocities_x(particle_parameters.N_markers),
-        velocities_y(particle_parameters.N_markers),
-        velocities_z(particle_parameters.N_markers) {}
+        name {name_i} {
+    for (int i = 0; i < Dimensions::space_dimensions; ++i)
+      positions[i].resize(N_markers);
+    for (int i = 0; i < Dimensions::velocity_dimensions; ++i)
+      velocities[i].resize(N_markers);
+  }
 };

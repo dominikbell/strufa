@@ -6,7 +6,17 @@
 #include "parameters/poisson/parameters_poisson.hpp"
 
 template <typename Dimensions>
-struct Variables<Poisson, Dimensions> {};
+struct Variables<Poisson, Dimensions> {
+
+  auto as_tuple() {
+    return std::tie();
+  }
+
+  // keys (metadata)
+  static constexpr auto keys() {
+    return std::make_tuple();
+  }
+};
 
 using PoissonVariablesVariant = std::variant<
     Variables<Poisson, D1>,
