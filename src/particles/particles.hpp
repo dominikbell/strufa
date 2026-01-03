@@ -14,6 +14,8 @@
 template <typename Dimensions, typename ParticleType>
 struct Particles;
 
+// ==========================================================================
+// Templated trickery to check if somthing is of a particles templated class
 template <typename T>
 struct is_particles : std::false_type {};
 
@@ -22,6 +24,7 @@ struct is_particles<Particles<Dimensions, ParticleType>> : std::true_type {};
 
 template <typename T>
 inline constexpr bool is_particles_v = is_particles<T>::value;
+// ==========================================================================
 
 template <typename Dimensions>
 struct Particles<Dimensions, FullF> {

@@ -14,7 +14,7 @@
     "N_markers": 32,
     "seed": 1234
   },
-  "particle_initialization": {
+  "particles_initialization": {
     "space" : {
       "type": "sine",
       "k": 1,

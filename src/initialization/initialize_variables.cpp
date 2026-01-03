@@ -2,8 +2,11 @@
 
 #include <iostream>
 #include <type_traits>
+#include <string>
 
+#include "initialize_particles.hpp"
 #include "particles/particles.hpp"
+#include "utilities/utilities.hpp"
 
 void initialize_variables(VariablesVariant& variables, const json& data) {
   // Visit all the models
@@ -20,9 +23,10 @@ void initialize_variables(VariablesVariant& variables, const json& data) {
                       using var_type = std::decay_t<decltype(single_variable)>;
 
                       if constexpr (is_particles_v<var_type>) {
-                        std::cout << "The variable has name '" << single_variable.name << "'.\n";
+                        std::string key_name {make_initialization_key(single_variable.name)};
+                        std::cout << "The variable has init key '" << key_name << "'.\n";
+                        // initialize_particles(single_variable, data);
                       }
-                      // (initialize(single_variable), ...);
                     }(variables_tuple),
                      ...);
                   },
