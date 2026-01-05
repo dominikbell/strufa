@@ -15,16 +15,16 @@
     "seed": 1234
   },
   "particles_initialization": {
-    "space" : {
+    "space": {
       "type": "sine",
-      "k": 1,
+      "wavenumber": 1,
       "amplitude": 1.0
     },
-    "velocity" : {
+    "velocity": {
       "type": "maxwellian",
-      "mu": 0.0,
-      "sigma": 0.0,
-      "alpha": 0.0
+      "shift": 0.0,
+      "temperature": 0.0,
+      "amplitude": 0.0
     }
   }
 }

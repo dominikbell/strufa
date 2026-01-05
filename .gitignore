@@ -4,6 +4,9 @@
 # VS Code
 .vscode/
 
+# Zed
+.cache/
+
 # Prerequisites
 *.d
 

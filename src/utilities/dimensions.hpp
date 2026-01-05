@@ -1,10 +1,7 @@
 #pragma once
 
-#include <string>
 #include <utility>
 #include <variant>
-
-#include "utilities.hpp"
 
 template <int SpaceDimensions, int VelocityDimensions = 0>
 struct Dimensions {

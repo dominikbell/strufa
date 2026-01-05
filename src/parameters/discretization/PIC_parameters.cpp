@@ -9,7 +9,7 @@ ParticleParameters get_particle_parameters(const json& data) {
   assert_second_level_keyword(data, "PIC", "seed");
 
   std::string particle_type_name {data["PIC"]["type"]};
-  ParticleType particle_type {string_to_particle_type(particle_type_name)};
+  ParticleTypeEnum particle_type {string_to_particle_type_enum(particle_type_name)};
   long N_markers {data["PIC"]["N_markers"]};
   int seed {data["PIC"]["seed"]};
 

@@ -1,15 +1,10 @@
 #pragma once
 
 #include <string>
-#include <variant>
 #include <vector>
 
-#include "background/background.hpp"
-#include "io/input_parser.hpp"
 #include "parameters/discretization/PIC_parameters.hpp"
 #include "particle_types.hpp"
-#include "utilities/dimensions.hpp"
-#include "utilities/utilities.hpp"
 
 template <typename Dimensions, typename ParticleType>
 struct Particles;

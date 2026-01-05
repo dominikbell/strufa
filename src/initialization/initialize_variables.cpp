@@ -1,14 +1,18 @@
 #include "initialize_variables.hpp"
 
 #include <iostream>
-#include <type_traits>
 #include <string>
+#include <type_traits>
 
-#include "initialize_particles.hpp"
+#include "initial_condition/initial_condition.hpp"
+// #include "initialize_particles.hpp"
 #include "particles/particles.hpp"
 #include "utilities/utilities.hpp"
 
-void initialize_variables(VariablesVariant& variables, const json& data) {
+void initialize_variables(
+    std::pair<int, int> pair_dimensions,
+    VariablesVariant& variables,
+    const json& data) {
   // Visit all the models
   std::visit(
       [&](auto& model_vars_variant) {
@@ -25,7 +29,8 @@ void initialize_variables(VariablesVariant& variables, const json& data) {
                       if constexpr (is_particles_v<var_type>) {
                         std::string key_name {make_initialization_key(single_variable.name)};
                         std::cout << "The variable has init key '" << key_name << "'.\n";
-                        // initialize_particles(single_variable, data);
+                        InitialConditionVariant initial_condition {get_initial_condition(pair_dimensions, data[key_name])};
+                        // initialize_particles(single_variable, initial_condition);
                       }
                     }(variables_tuple),
                      ...);
@@ -36,5 +41,3 @@ void initialize_variables(VariablesVariant& variables, const json& data) {
       },
       variables);
 }
-
-// InitialConditionVariant initial_condition {get_initial_condition(pair_dimensions, data)};

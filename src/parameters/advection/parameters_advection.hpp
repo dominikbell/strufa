@@ -1,13 +1,11 @@
 #pragma once
 
 #include <utility>
-#include <variant>
 
 #include "io/input_parser.hpp"
 #include "models/base/models.hpp"
 #include "parameters/discretization/PIC_parameters.hpp"
 #include "parameters/model_parameters.hpp"
-#include "utilities/dimensions.hpp"
 
 template <>
 struct Parameters<Advection, void> {

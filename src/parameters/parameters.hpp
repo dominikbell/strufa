@@ -5,11 +5,9 @@
 
 #include "advection/parameters_advection.hpp"
 #include "io/input_parser.hpp"
-#include "model_parameters.hpp"
 #include "models/base/models.hpp"
 #include "poisson/parameters_poisson.hpp"
 #include "io/input_parser.hpp"
-#include "utilities/dimensions.hpp"
 
 using ParametersVariant = std::variant<
     AdvectionParametersVariant,

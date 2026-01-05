@@ -6,7 +6,6 @@
 #include "models/base/models.hpp"
 #include "parameters/domain_parameters.hpp"
 #include "parameters/parameters.hpp"
-#include "utilities/dimensions.hpp"
 #include "vvariables/vvariables.hpp"
 
 int main(int argc, char* argv[]) {
@@ -29,7 +28,7 @@ int main(int argc, char* argv[]) {
     VariablesVariant variables {get_variables(pair_dimensions, parameters)};
 
     // Set initial conditions
-    initialize_variables(variables, input.file);
+    initialize_variables(pair_dimensions, variables, input.file);
 
     // Run the model
     // run(variables, domain_parameters); (might be time loop or just solving, e.g., Poisson)

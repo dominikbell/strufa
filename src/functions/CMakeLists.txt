@@ -3,7 +3,8 @@ add_library(
     functions
     STATIC
     maxwellian.cpp
-    trigonometric.cpp
+    sine.cpp
+    cosine.cpp
 )
 
 # Include directory for this library

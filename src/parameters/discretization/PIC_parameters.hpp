@@ -6,7 +6,7 @@
 #include "particles/particle_types.hpp"
 
 struct ParticleParameters {
-  const ParticleType type {ParticleType::full_f};
+  const ParticleTypeEnum type {ParticleTypeEnum::full_f};
   const long N_markers {0};
   const int seed {0};
 };

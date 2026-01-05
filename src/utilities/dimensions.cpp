@@ -1,5 +1,7 @@
 #include "dimensions.hpp"
 
+#include "utilities.hpp"
+
 SpaceDimensionsVariant get_space_dimensions(int space_dimensions) {
   switch (space_dimensions) {
     case (1):

@@ -39,7 +39,7 @@ void assert_valid_file(std::string& filename, const int filename_length) {
 void assert_top_level_keyword(const json& data, const std::string& keyword) {
   bool contains_keyword {data.count(keyword) == 1};
   if (!contains_keyword) {
-    std::cout << "DomainParameters file must contain top-level keyword '" << keyword << "'!\n";
+    std::cout << "Parameters file must contain top-level keyword '" << keyword << "'!\n";
     assert(data.count(keyword) == 1 && "Top-level keyword missing in parameter file; check the line above.");
   }
 }
