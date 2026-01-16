@@ -10,7 +10,7 @@ template <typename Dimensions, typename ParticleType>
 struct Particles;
 
 // ==========================================================================
-// Templated trickery to check if somthing is of a particles templated class
+// Templated trickery to check if an object is of a particles templated class
 template <typename T>
 struct is_particles : std::false_type {};
 
@@ -36,6 +36,7 @@ struct Particles<Dimensions, FullF> {
       : N_markers {particle_parameters.N_markers},
         seed {particle_parameters.seed},
         name {name_i} {
+    weights.resize(N_markers);
     for (int i = 0; i < Dimensions::space_dimensions; ++i)
       positions[i].resize(N_markers);
     for (int i = 0; i < Dimensions::velocity_dimensions; ++i)

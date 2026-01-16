@@ -66,3 +66,7 @@ inline Cosine<Dimensions> get_cosine(const json& data) {
 }
 
 CosineVariant get_cosine(int space_dimensions, const json& data);
+
+double call_function(const Cosine<D1>& cosine_1D, double x);
+double call_function(const Cosine<D2>& cosine_2D, double x, double y);
+double call_function(const Cosine<D3>& cosine_3D, double x, double y, double z);

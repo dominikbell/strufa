@@ -1,6 +1,6 @@
 #pragma once
 
-#include <iostream>
+#include <cstddef>
 #include <string>
 #include <variant>
 
@@ -67,3 +67,7 @@ inline Sine<Dimensions> get_sine(const json& data) {
 }
 
 SineVariant get_sine(int space_dimensions, const json& data);
+
+double call_function(const Sine<D1>& sine_1D, double x);
+double call_function(const Sine<D2>& sine_2D, double x, double y);
+double call_function(const Sine<D3>& sine_3D, double x, double y, double z);

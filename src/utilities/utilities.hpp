@@ -19,15 +19,29 @@ std::string make_initialization_key(std::string name);
 // =====================================================================================
 // Templating trickery to get the inner type of a templated class
 template <typename T>
+struct GetFirstInnerType;
+
+template <
+    template <typename, typename...> class Inner,
+    typename Dim,
+    typename... Others>
+struct GetFirstInnerType<Inner<Dim, Others...>> {
+  using type = Dim;
+};
+
+template <typename T>
+using GetFirstInnerType_t = typename GetFirstInnerType<typename std::remove_cv_t<typename std::remove_reference_t<T>>>::type;
+
+// Templating trickery to get the inner type of a templated class
+template <typename T>
 struct GetInnerType;
 
 template <
     template <typename> class Outer,
     template <typename> class Inner,
-    typename Dim
->
+    typename Dim>
 struct GetInnerType<Outer<Inner<Dim>>> {
-    using type = Dim;
+  using type = Dim;
 };
 
 template <typename T>
@@ -41,17 +55,16 @@ struct GetFirstAndSecondType;
 template <
     template <typename, typename> class Outer,
     typename First,
-    typename Second
->
+    typename Second>
 struct GetFirstAndSecondType<Outer<First, Second>> {
   using first = First;
   using second = Second;
 };
 
 template <typename T>
-using GetFirstType_t = typename GetFirstAndSecondType<T>::first;
+using GetFirstType_t = typename GetFirstAndSecondType<typename std::remove_cv<typename std::remove_reference<T>::type>::type>::first;
 
 template <typename T>
-using GetSecondType_t = typename GetFirstAndSecondType<T>::second;
+using GetSecondType_t = typename GetFirstAndSecondType<typename std::remove_cv<typename std::remove_reference<T>::type>::type>::second;
 
 // =====================================================================================
