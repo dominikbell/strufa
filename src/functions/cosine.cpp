@@ -1,23 +1,49 @@
 #include "cosine.hpp"
 
-CosineVariant get_cosine(int space_dimensions, const json& data) {
-  SpaceDimensionsVariant space_dims {get_space_dimensions(space_dimensions)};
+#include <cmath>
+#include <numbers>
 
+CosineVariant get_cosine(const json& data, const DomainParametersVariant& domain_parameters) {
   return std::visit(
-      [&](auto& dim) -> CosineVariant {
-        using Dim = std::decay_t<decltype(dim)>;
-        return get_cosine<Dim>(data);
+      [&](auto& domain_params) -> CosineVariant {
+        using Dim = GetFirstInnerType_t<decltype(domain_params)>;
+        return get_cosine<Dim>(data, domain_params);
       },
-      space_dims);
+      domain_parameters);
 }
 
-double call_function(const Cosine<D1>& cosine_1D, double x) {
-  return cosine_1D.amplitude * cos(cosine_1D.wavenumber * x);
+double call_function(const Cosine<D1>& cosine, double x) {
+  double arg {cosine.wavenumber * x / cosine.domain_length};
+  return cosine.amplitude * std::cos(2.0 * std::numbers::pi * arg);
 }
 
-double call_function(const Cosine<D2>& cosine_2D, double x, double y) {
-  return cosine_2D.amplitude * cos(cosine_2D.wavenumber_x * x + cosine_2D.wavenumber_y * y);
+double call_function(const Cosine<D2>& cosine, double x, double y) {
+  double arg {cosine.wavenumber_x * x / cosine.domain_length_x +
+              cosine.wavenumber_y * y / cosine.domain_length_y};
+  return cosine.amplitude * std::cos(2.0 * std::numbers::pi * arg);
 }
-double call_function(const Cosine<D3>& cosine_3D, double x, double y, double z) {
-  return cosine_3D.amplitude * cos(cosine_3D.wavenumber_x * x + cosine_3D.wavenumber_y * y + cosine_3D.wavenumber_z * z);
+double call_function(const Cosine<D3>& cosine, double x, double y, double z) {
+  double arg {cosine.wavenumber_x * x / cosine.domain_length_x +
+              cosine.wavenumber_y * y / cosine.domain_length_y +
+              cosine.wavenumber_z * z / cosine.domain_length_z};
+  return cosine.amplitude * std::cos(2.0 * std::numbers::pi * arg);
+}
+
+double initialize_with_function(const Cosine<D1>& cosine, double x) {
+  double arg {cosine.wavenumber * x / cosine.domain_length};
+  return cosine.domain_length * cosine.amplitude * std::cos(2.0 * std::numbers::pi * arg);
+}
+
+double initialize_with_function(const Cosine<D2>& cosine, double x, double y) {
+  double arg {cosine.wavenumber_x * x / cosine.domain_length_x +
+              cosine.wavenumber_y * y / cosine.domain_length_y};
+  return cosine.domain_length_x * cosine.domain_length_y *
+         cosine.amplitude * std::cos(2.0 * std::numbers::pi * arg);
+}
+double initialize_with_function(const Cosine<D3>& cosine, double x, double y, double z) {
+  double arg {cosine.wavenumber_x * x / cosine.domain_length_x +
+              cosine.wavenumber_y * y / cosine.domain_length_y +
+              cosine.wavenumber_z * z / cosine.domain_length_z};
+  return cosine.domain_length_x * cosine.domain_length_y * cosine.domain_length_z *
+         cosine.amplitude * std::cos(2.0 * std::numbers::pi * arg);
 }

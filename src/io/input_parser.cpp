@@ -47,8 +47,24 @@ void assert_top_level_keyword(const json& data, const std::string& keyword) {
 void assert_second_level_keyword(const json& data, const std::string& parent_keyword, const std::string& keyword) {
   bool contains_keyword {data[parent_keyword].count(keyword) == 1};
   if (!contains_keyword) {
-    std::cout << "DomainParameters file must contain keyword '" << keyword << "' under top-level keyword '" << parent_keyword << "'!\n";
+    std::cout << "Parameters file must contain keyword '" << keyword << "' under top-level keyword '" << parent_keyword << "'!\n";
     assert(data[parent_keyword].count(keyword) == 1 && "Second-level keyword missing in parameter file; check the line above.");
+  }
+}
+
+void assert_keyword_not_zero(const json& data, const std::string& keyword) {
+  bool is_zero {data[keyword] == 0.0};
+  if (is_zero) {
+    std::cout << keyword << " was detected to be zero in dictionary but must be non-zero!\n";
+    assert((data[keyword] == 0.0) && "Zero-value detected; check the line above." );
+  }
+}
+
+void assert_not_zero(double value, const std::string& name) {
+  bool is_zero {value == 0.0};
+  if (is_zero) {
+    std::cout << name << " was detected to be zero but must be non-zero!\n";
+    assert((value == 0.0) && "Zero-value detected; check the line above." );
   }
 }
 

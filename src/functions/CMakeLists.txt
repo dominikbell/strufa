@@ -2,6 +2,7 @@
 add_library(
     functions
     STATIC
+    math.cpp
     maxwellian.cpp
     sine.cpp
     cosine.cpp

@@ -41,4 +41,4 @@ using SpaceInitialVariant = std::variant<
     SineVariant,
     CosineVariant >;
 
-SpaceInitialVariant get_space_initial_condition(int space_dimensions, const json& data);
+SpaceInitialVariant get_space_initial_condition(const json& data, const DomainParametersVariant& domain_parameters);

@@ -2,6 +2,10 @@
 
 StruPHy but fast. A collection of FE solvers for equations and GEMPIC solvers for kinetic models.
 
+## Dependencies
+
+The (json library by nlohmann)[https://github.com/nlohmann/json], 
+
 ## Build & Run
 
 ```

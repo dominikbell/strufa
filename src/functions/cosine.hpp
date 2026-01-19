@@ -4,6 +4,7 @@
 #include <variant>
 
 #include "io/input_parser.hpp"
+#include "parameters/domain_parameters.hpp"
 #include "utilities/dimensions.hpp"
 
 template <typename Dimensions>
@@ -13,6 +14,7 @@ template <>
 struct Cosine<D1> {
   int wavenumber {0};
   double amplitude {0.0};
+  double domain_length {0.0};
 };
 
 template <>
@@ -20,6 +22,8 @@ struct Cosine<D2> {
   int wavenumber_x {0};
   int wavenumber_y {0};
   double amplitude {0.0};
+  double domain_length_x {0.0};
+  double domain_length_y {0.0};
 };
 
 template <>
@@ -28,6 +32,9 @@ struct Cosine<D3> {
   int wavenumber_y {0};
   int wavenumber_z {0};
   double amplitude {0.0};
+  double domain_length_x {0.0};
+  double domain_length_y {0.0};
+  double domain_length_z {0.0};
 };
 
 using CosineVariant = std::variant<
@@ -36,37 +43,45 @@ using CosineVariant = std::variant<
     Cosine<D3> >;
 
 template <typename Dimensions>
-inline Cosine<Dimensions> get_cosine(const json& data) {
+inline Cosine<Dimensions> get_cosine(const json& function_data, const DomainParameters<Dimensions>& domain_parameters) {
   if constexpr (std::is_same_v<Dimensions, D1>) {
-    assert_top_level_keyword(data, "wavenumber");
-    assert_top_level_keyword(data, "amplitude");
+    assert_top_level_keyword(function_data, "wavenumber");
+    assert_top_level_keyword(function_data, "amplitude");
 
-    return {data["wavenumber"], data["amplitude"]};
+    return {function_data["wavenumber"], function_data["amplitude"], domain_parameters.domain_length};
   } else if constexpr (std::is_same_v<Dimensions, D2>) {
-    assert_top_level_keyword(data, "wavenumber_x");
-    assert_top_level_keyword(data, "wavenumber_y");
-    assert_top_level_keyword(data, "amplitude");
+    assert_top_level_keyword(function_data, "wavenumber_x");
+    assert_top_level_keyword(function_data, "wavenumber_y");
+    assert_top_level_keyword(function_data, "amplitude");
 
     return {
-        data["wavenumber_x"],
-        data["wavenumber_y"],
-        data["amplitude"]};
+        function_data["wavenumber_x"],
+        function_data["wavenumber_y"],
+        function_data["amplitude"],
+        domain_parameters.domain_size_x,
+        domain_parameters.domain_size_y};
   } else if constexpr (std::is_same_v<Dimensions, D3>) {
-    assert_top_level_keyword(data, "wavenumber_x");
-    assert_top_level_keyword(data, "wavenumber_y");
-    assert_top_level_keyword(data, "wavenumber_z");
-    assert_top_level_keyword(data, "amplitude");
+    assert_top_level_keyword(function_data, "wavenumber_x");
+    assert_top_level_keyword(function_data, "wavenumber_y");
+    assert_top_level_keyword(function_data, "wavenumber_z");
+    assert_top_level_keyword(function_data, "amplitude");
 
     return {
-        data["wavenumber_x"],
-        data["wavenumber_y"],
-        data["wavenumber_z"],
-        data["amplitude"]};
+        function_data["wavenumber_x"],
+        function_data["wavenumber_y"],
+        function_data["wavenumber_z"],
+        function_data["amplitude"],
+        domain_parameters.domain_size_x,
+        domain_parameters.domain_size_y,
+        domain_parameters.domain_size_z};
   }
 }
 
-CosineVariant get_cosine(int space_dimensions, const json& data);
+CosineVariant get_cosine(const json& data, const DomainParametersVariant& domain_parameters);
 
-double call_function(const Cosine<D1>& cosine_1D, double x);
-double call_function(const Cosine<D2>& cosine_2D, double x, double y);
-double call_function(const Cosine<D3>& cosine_3D, double x, double y, double z);
+double call_function(const Cosine<D1>& cosine, double x);
+double call_function(const Cosine<D2>& cosine, double x, double y);
+double call_function(const Cosine<D3>& cosine, double x, double y, double z);
+double initialize_with_function(const Cosine<D1>& cosine, double x);
+double initialize_with_function(const Cosine<D2>& cosine, double x, double y);
+double initialize_with_function(const Cosine<D3>& cosine, double x, double y, double z);

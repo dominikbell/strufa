@@ -23,8 +23,8 @@
     "velocity": {
       "type": "maxwellian",
       "shift": 0.0,
-      "temperature": 0.0,
-      "amplitude": 0.0
+      "temperature": 1.0,
+      "amplitude": 1.0
     }
   }
 }

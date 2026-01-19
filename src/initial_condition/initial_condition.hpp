@@ -12,4 +12,7 @@ struct PhaseSpaceInitialCondition {
   VelocityInitialVariant velocity_initial_condition;
 };
 
-PhaseSpaceInitialCondition get_phase_space_initial_condition(std::pair<int, int> pair_dimensions, const json& data);
+PhaseSpaceInitialCondition get_phase_space_initial_condition(
+    std::pair<int, int> pair_dimensions,
+    const json& init_data,
+    const DomainParametersVariant& domain_parameters);

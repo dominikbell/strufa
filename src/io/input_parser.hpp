@@ -18,6 +18,8 @@ void assert_only_one_input(char* argv[]);
 void assert_valid_file(std::string& filename, const int filename_length);
 void assert_top_level_keyword(const json& data, const std::string& keyword);
 void assert_second_level_keyword(const json& data, const std::string& parent_keyword, const std::string& keyword);
+void assert_not_zero(double value, std::string& name);
+void assert_keyword_not_zero(const json& data, const std::string& keyword);
 json open_file(const std::string& filename);
 Input parse_input(char* argv[]);
 int get_space_dimensions(const Input& input);
