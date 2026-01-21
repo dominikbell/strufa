@@ -4,11 +4,13 @@
 #include <string>
 
 #include "models/base/models.hpp"
+#include "utilities/dimensions.hpp"
 
 using json = nlohmann::json;
 
 struct Input {
-  const ModelEnum model;
+  const ModelVariant model_variant;
+  const DimensionsVariant dimensions_variant;
   const std::string file_name = "";
   const int file_name_length = 0;
   const json file;
@@ -24,4 +26,4 @@ json open_file(const std::string& filename);
 Input parse_input(char* argv[]);
 int get_space_dimensions(const Input& input);
 int get_velocity_dimensions(const Input& input);
-std::pair<int, int> get_space_and_velocity_dimensions(const Input& input);
+std::pair<int, int> get_space_and_velocity_dimensions(const json& data);

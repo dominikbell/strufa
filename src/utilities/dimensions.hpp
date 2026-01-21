@@ -7,11 +7,14 @@ template <int SpaceDimensions, int VelocityDimensions = 0>
 struct Dimensions {
   static constexpr int space_dimensions = SpaceDimensions;
   static constexpr int velocity_dimensions = VelocityDimensions;
+
+  using SpaceOnly = Dimensions<space_dimensions, 0>;
+  using VelocityOnly = Dimensions<0, velocity_dimensions>;
 };
 
-using D1 = Dimensions<1>;
-using D2 = Dimensions<2>;
-using D3 = Dimensions<3>;
+using D1 = Dimensions<1, 0>;
+using D2 = Dimensions<2, 0>;
+using D3 = Dimensions<3, 0>;
 using V1 = Dimensions<0, 1>;
 using V2 = Dimensions<0, 2>;
 using V3 = Dimensions<0, 3>;
@@ -22,12 +25,15 @@ using D2V2 = Dimensions<2, 2>;
 using D2V3 = Dimensions<2, 3>;
 using D3V3 = Dimensions<3, 3>;
 
+using DimensionsVariant = std::variant<
+    D1, D2, D3,
+    V1, V2, V3,
+    D1V1, D1V2, D1V3, D2V2, D2V3, D3V3>;
 using SpaceDimensionsVariant = std::variant<D1, D2, D3>;
 using VelocityDimensionsVariant = std::variant<V1, V2, V3>;
 using PhaseSpaceDimensionsVariant = std::variant<D1V1, D1V2, D1V3, D2V2, D2V3, D3V3>;
 
-SpaceDimensionsVariant get_space_dimensions(int space_dimensions);
-
-VelocityDimensionsVariant get_velocity_dimensions(int velocity_dimensions);
-
-PhaseSpaceDimensionsVariant get_phase_space_dimensions(std::pair<int, int> pair_dimensions);
+SpaceDimensionsVariant get_space_dimensions(const int space_dimensions);
+VelocityDimensionsVariant get_velocity_dimensions(const int velocity_dimensions);
+PhaseSpaceDimensionsVariant get_phase_space_dimensions(const std::pair<int, int>& pair_dimensions);
+DimensionsVariant get_dimensions(const std::pair<int, int>& pair_dimensions);

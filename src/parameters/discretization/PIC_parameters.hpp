@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "io/input_parser.hpp"
 #include "particles/particle_types.hpp"
 

@@ -6,6 +6,8 @@
 #include <iostream>
 #include <utility>
 
+#include "models/base/models.hpp"
+#include "utilities/dimensions.hpp"
 #include "utilities/utilities.hpp"
 
 namespace fs = std::filesystem;
@@ -98,9 +100,13 @@ Input parse_input(char* argv[]) {
 
   json data {open_file(filename)};
   std::string model_name {data["model"]};
-  const ModelEnum model {string_to_model_enum(model_name)};
-  Input input {model, filename, filename_length, data};
-  return input;
+  const ModelVariant model {string_to_model(model_name)};
+
+  // Make
+  const std::pair<int, int> pair_dimensions {get_space_and_velocity_dimensions(data)};
+  const DimensionsVariant dimensions {get_dimensions(pair_dimensions)};
+
+  return {model, dimensions, filename, filename_length, data};
 }
 
 int get_space_dimensions(const Input& input) {
@@ -121,8 +127,7 @@ int get_velocity_dimensions(const Input& input) {
   return data[key_velocity];
 }
 
-std::pair<int, int> get_space_and_velocity_dimensions(const Input& input) {
-  json data {open_file(input.file_name)};
+std::pair<int, int> get_space_and_velocity_dimensions(const json& data) {
   std::string key_space = "space_dimensions";
   std::string key_velocity = "velocity_dimensions";
   assert(

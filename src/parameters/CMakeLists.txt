@@ -28,8 +28,8 @@ target_include_directories(
 add_library(
     model_parameters
     STATIC
-    advection/parameters_advection.cpp
-    poisson/parameters_poisson.cpp
+    advection/get_parameters_advection.cpp
+    poisson/get_parameters_poisson.cpp
 )
 
 # Include directory for this library
