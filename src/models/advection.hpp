@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "models.hpp"
+#include "parameters/parameters.hpp"
 #include "vvariables/vvariables.hpp"
 
 template <typename TDimensions>

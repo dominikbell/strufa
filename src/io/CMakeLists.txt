@@ -1,4 +1,4 @@
-# Create a library from the parser sources
+# Create a library from the io sources
 add_library(
     parser
     STATIC

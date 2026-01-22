@@ -40,4 +40,12 @@ For kinetic models using delta-f, direct delta-f, or control variate, the input 
 
 ## Templating
 
-Names of template typenames shall always start with a capital "T". Templated structs are in the order `template <typename TModel, typename TDimensions, typename TType>` where `TType` can be, e.g., the type of particles.
+Names of template typenames shall always start with a capital "T". Templated structs are in the order
+```template <typename TModel, typename TDimensions, typename TType>```
+where `TType` can be, e.g., the type of particles.
+
+## Running with OpenMP and OpenMPI
+
+Run the code with MPI by using `mpirun -np 2 ./src/strufa` and set the number of OpenMP threads via `OMP_NUM_THREADS=4 ./src/strufa` for a single run or `export OMP_NUM_THREADS=4` for a change in
+
+On Mac, if cmake fails due to missing Open_MP_C_FLAGS, try `export OpenMP_ROOT=$(brew --prefix libomp)` in your terminal and then cmake again.

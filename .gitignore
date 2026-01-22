@@ -1,6 +1,7 @@
-# Build folder
+# Other folders
 /build
 /include
+/out
 
 # VS Code
 .vscode/
