@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iostream>
 #include <string>
+#include <type_traits>
 
 [[noreturn]]
 void exit_with_failure(const std::string& message);
@@ -17,54 +18,22 @@ inline void exit_with_failure(const std::string& what, const T& wrong_input) {
 std::string make_initialization_key(std::string name);
 
 // =====================================================================================
-// Templating trickery to get the inner type of a templated class
-template <typename T>
-struct GetFirstInnerType;
-
-template <
-    template <typename, typename...> class Inner,
-    typename Dim,
-    typename... Others>
-struct GetFirstInnerType<Inner<Dim, Others...>> {
-  using type = Dim;
-};
-
-template <typename T>
-using GetFirstInnerType_t = typename GetFirstInnerType<typename std::remove_cv_t<typename std::remove_reference_t<T>>>::type;
-
-// Templating trickery to get the inner type of a templated class
-template <typename T>
-struct GetInnerType;
-
-template <
-    template <typename> class Outer,
-    template <typename> class Inner,
-    typename Dim>
-struct GetInnerType<Outer<Inner<Dim>>> {
-  using type = Dim;
-};
-
-template <typename T>
-using GetInnerType_t = typename GetInnerType<T>::type;
-
-// =====================================================================================
 // Templating trickery to get the first and second type of a templated class
 template <typename T>
 struct GetFirstAndSecondType;
 
 template <
-    template <typename, typename> class Outer,
-    typename First,
-    typename Second>
-struct GetFirstAndSecondType<Outer<First, Second>> {
-  using first = First;
-  using second = Second;
+    template <typename...> class Outer,
+    typename TFirst,
+    typename TSecond>
+struct GetFirstAndSecondType<Outer<TFirst, TSecond>> {
+  using First = TFirst;
+  using Second = TSecond;
 };
 
 template <typename T>
-using GetFirstType_t = typename GetFirstAndSecondType<typename std::remove_cv<typename std::remove_reference<T>::type>::type>::first;
+using GetFirstType_t = typename GetFirstAndSecondType<typename std::remove_cvref_t<T>>::First;
 
 template <typename T>
-using GetSecondType_t = typename GetFirstAndSecondType<typename std::remove_cv<typename std::remove_reference<T>::type>::type>::second;
-
+using GetSecondType_t = typename GetFirstAndSecondType<typename std::remove_cvref_t<T>>::Second;
 // =====================================================================================

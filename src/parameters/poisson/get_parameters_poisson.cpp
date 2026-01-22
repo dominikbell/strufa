@@ -16,7 +16,7 @@ template <>
 ParametersVariant get_parameters<Poisson>(
     const DimensionsVariant& dimensions_variant,
     const json& data) {
-  std::visit([&](const auto& dimensions) -> PoissonParametersVariant {
+  return std::visit([&](const auto& dimensions) -> PoissonParametersVariant {
     using Dimensions = std::decay_t<decltype(dimensions)>;
     using SpaceDimensions = std::decay_t<decltype(dimensions)>::SpaceOnly;
 
@@ -26,9 +26,8 @@ ParametersVariant get_parameters<Poisson>(
       const Parameters<Poisson, Dimensions> poisson_parameters {domain_parameters, fe_parameters};
       return poisson_parameters;
     } else {
-      __builtin_unreachable();
+      exit_with_failure("Space dimensions for poisson must be non-zero and velocity dimensions must be zero!");
     }
   },
-             dimensions_variant);
-  exit_with_failure("Velocity and space dimensions for advection must be non-zero!");
+                    dimensions_variant);
 }

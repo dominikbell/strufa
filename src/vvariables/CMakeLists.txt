@@ -6,8 +6,6 @@ add_library(
     vvariables
     STATIC
     vvariables.cpp
-    advection/variables_advection.cpp
-    poisson/variables_poisson.cpp
 )
 
 # Include directory for this library

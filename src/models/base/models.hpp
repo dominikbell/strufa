@@ -11,14 +11,13 @@ struct Poisson {};
 
 using ModelVariant = std::variant<
     Advection,
-    Poisson
-    >;
+    Poisson>;
 
 inline std::optional<ModelVariant> string_to_model_optional(const std::string& str) {
   if (str == "Advection" || str == "advection") {
     return Advection {};
-  // } else if (str == "Poisson" || str == "poisson") {
-  //   return Poisson {};
+    } else if (str == "Poisson" || str == "poisson") {
+      return Poisson {};
   } else {
     return std::nullopt;
   }

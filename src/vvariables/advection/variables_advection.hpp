@@ -1,9 +1,8 @@
 #pragma once
 
-#include <utility>
 #include <variant>
 
-#include "parameters/advection/parameters_advection.hpp"
+#include "models/base/models.hpp"
 #include "particles/particles.hpp"
 #include "utilities/dimensions.hpp"
 #include "vvariables/model_variables.hpp"
@@ -24,13 +23,3 @@ using AdvectionVariablesVariant = std::variant<
     Variables<Advection, D2V2>,
     Variables<Advection, D2V3>,
     Variables<Advection, D3V3> >;
-
-template <typename Dimensions>
-inline Variables<Advection, Dimensions>
-get_variables_advection(const AdvectionParametersVariant& parameters) {
-  Particles<Dimensions, FullF> particles {parameters.particle_parameters, "particles"};
-
-  return {particles};
-}
-
-AdvectionVariablesVariant get_variables_advection(std::pair<int, int> pair_dimensions, const AdvectionParametersVariant& parameters);

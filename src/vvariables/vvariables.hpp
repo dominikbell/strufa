@@ -10,4 +10,4 @@ using VariablesVariant = std::variant<
     AdvectionVariablesVariant,
     PoissonVariablesVariant>;
 
-VariablesVariant get_variables(std::pair<int, int> pair_dimensions, const ParametersVariant& parameters);
+VariablesVariant get_variables(const ParametersVariant& parameters);

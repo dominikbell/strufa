@@ -3,7 +3,7 @@
 #include "io/input_parser.hpp"
 // #include "initialization/initialize_variables.hpp"
 #include "parameters/parameters.hpp"
-// #include "vvariables/vvariables.hpp"
+#include "vvariables/vvariables.hpp"
 
 int main(int argc, char* argv[]) {
   if (argc > 1) {
@@ -14,8 +14,8 @@ int main(int argc, char* argv[]) {
     // Discretization details
     ParametersVariant parameters {get_parameters(input.model_variant, input.dimensions_variant, input.file)};
 
-    // // Allocate the variables
-    // VariablesVariant variables {get_variables(pair_dimensions, parameters)};
+    // Allocate the variables
+    VariablesVariant variables {get_variables(parameters)};
 
     // // Set initial conditions
     // initialize_variables(pair_dimensions, variables, input.file, domain_parameters);

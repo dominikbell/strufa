@@ -17,7 +17,7 @@ template <>
 ParametersVariant get_parameters<Advection>(
     const DimensionsVariant& dimensions_variant,
     const json& data) {
-  std::visit([&](const auto& dimensions) -> AdvectionParametersVariant {
+  return std::visit([&](const auto& dimensions) -> AdvectionParametersVariant {
     using Dimensions = std::decay_t<decltype(dimensions)>;
     using SpaceDimensions = std::decay_t<decltype(dimensions)>::SpaceOnly;
 
@@ -28,9 +28,8 @@ ParametersVariant get_parameters<Advection>(
       const Parameters<Advection, Dimensions> advection_parameters {domain_parameters, time_parameters, particle_parameters};
       return advection_parameters;
     } else {
-      __builtin_unreachable();
+      exit_with_failure("Velocity and space dimensions for advection must be non-zero!");
     }
   },
-             dimensions_variant);
-  exit_with_failure("Velocity and space dimensions for advection must be non-zero!");
+                    dimensions_variant);
 }

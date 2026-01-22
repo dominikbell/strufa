@@ -4,7 +4,7 @@ StruPHy but fast. A collection of FE solvers for equations and GEMPIC solvers fo
 
 ## Dependencies
 
-The (json library by nlohmann)[https://github.com/nlohmann/json], 
+The [json library by nlohmann](https://github.com/nlohmann/json) is a dependency and must be located in `include/`.
 
 ## Build & Run
 
