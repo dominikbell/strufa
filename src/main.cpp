@@ -2,6 +2,7 @@
 
 #include "io/input_parser.hpp"
 #include "initialization/initialize_variables.hpp"
+#include "models/run.hpp"
 #include "parameters/parameters.hpp"
 #include "vvariables/vvariables.hpp"
 
@@ -21,7 +22,8 @@ int main(int argc, char* argv[]) {
     initialize_variables(variables, parameters, input.file);
 
     // Run the model
-    // run(variables, parameters); (might be time loop or just solving, e.g., Poisson)
+    // (might be time loop or just solving, e.g., Poisson)
+    run(variables, parameters);
   }
 
   return 0;

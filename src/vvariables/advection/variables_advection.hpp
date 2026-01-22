@@ -2,7 +2,7 @@
 
 #include <variant>
 
-#include "models/base/models.hpp"
+#include "models/models.hpp"
 #include "particles/particles.hpp"
 #include "utilities/dimensions.hpp"
 #include "vvariables/model_variables.hpp"

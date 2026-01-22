@@ -1,7 +1,7 @@
 #pragma once
 
 #include "io/input_parser.hpp"
-#include "models/base/models.hpp"
+#include "models/models.hpp"
 #include "parameters/parameters.hpp"
 
 template <>

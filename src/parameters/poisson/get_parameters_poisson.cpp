@@ -3,7 +3,7 @@
 #include <type_traits>
 #include <variant>
 
-#include "models/base/models.hpp"
+#include "models/models.hpp"
 #include "parameters/discretization/FE_parameters.hpp"
 #include "parameters/domain_parameters.hpp"
 #include "parameters/model_parameters.hpp"

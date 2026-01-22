@@ -3,7 +3,7 @@
 #include <nlohmann/json.hpp>
 #include <string>
 
-#include "models/base/models.hpp"
+#include "models/models.hpp"
 #include "utilities/dimensions.hpp"
 
 using json = nlohmann::json;

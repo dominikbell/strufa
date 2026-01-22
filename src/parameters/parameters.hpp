@@ -4,7 +4,7 @@
 
 #include "advection/parameters_advection.hpp"
 #include "io/input_parser.hpp"
-#include "models/base/models.hpp"
+#include "models/models.hpp"
 #include "poisson/parameters_poisson.hpp"
 #include "utilities/dimensions.hpp"
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "models/base/models.hpp"
+#include "models/models.hpp"
 #include "vvariables/model_variables.hpp"
 #include "parameters/model_parameters.hpp"
 #include "particles/particles.hpp"

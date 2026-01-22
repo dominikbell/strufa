@@ -6,7 +6,7 @@
 #include <iostream>
 #include <utility>
 
-#include "models/base/models.hpp"
+#include "models/models.hpp"
 #include "utilities/dimensions.hpp"
 #include "utilities/utilities.hpp"
 

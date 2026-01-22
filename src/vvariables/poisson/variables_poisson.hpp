@@ -2,12 +2,12 @@
 
 #include <variant>
 
-#include "models/base/models.hpp"
+#include "models/models.hpp"
 #include "utilities/dimensions.hpp"
 #include "vvariables/model_variables.hpp"
 
-template <typename Dimensions>
-struct Variables<Poisson, Dimensions> {
+template <typename TDimensions>
+struct Variables<Poisson, TDimensions> {
 
   auto as_tuple() {
     return std::tie();

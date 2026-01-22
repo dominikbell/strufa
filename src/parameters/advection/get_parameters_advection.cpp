@@ -4,7 +4,7 @@
 #include <variant>
 
 #include "discretization/PIC_parameters.hpp"
-#include "models/base/models.hpp"
+#include "models/models.hpp"
 #include "parameters/domain_parameters.hpp"
 #include "parameters/model_parameters.hpp"
 #include "parameters/parameters.hpp"
