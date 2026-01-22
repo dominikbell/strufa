@@ -3,15 +3,6 @@
 #include <cmath>
 #include <numbers>
 
-CosineVariant get_cosine(const json& data, const DomainParametersVariant& domain_parameters) {
-  return std::visit(
-      [&](auto& domain_params) -> CosineVariant {
-        using Dim = GetFirstInnerType_t<decltype(domain_params)>;
-        return get_cosine<Dim>(data, domain_params);
-      },
-      domain_parameters);
-}
-
 double call_function(const Cosine<D1>& cosine, double x) {
   double arg {cosine.wavenumber * x / cosine.domain_length};
   return cosine.amplitude * std::cos(2.0 * std::numbers::pi * arg);

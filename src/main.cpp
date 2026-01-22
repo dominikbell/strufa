@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "io/input_parser.hpp"
-// #include "initialization/initialize_variables.hpp"
+#include "initialization/initialize_variables.hpp"
 #include "parameters/parameters.hpp"
 #include "vvariables/vvariables.hpp"
 
@@ -18,10 +18,10 @@ int main(int argc, char* argv[]) {
     VariablesVariant variables {get_variables(parameters)};
 
     // // Set initial conditions
-    // initialize_variables(pair_dimensions, variables, input.file, domain_parameters);
+    initialize_variables(variables, parameters, input.file);
 
     // Run the model
-    // run(variables, domain_parameters); (might be time loop or just solving, e.g., Poisson)
+    // run(variables, parameters); (might be time loop or just solving, e.g., Poisson)
   }
 
   return 0;

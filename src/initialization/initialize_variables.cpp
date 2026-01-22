@@ -10,39 +10,46 @@
 #include "utilities/utilities.hpp"
 
 void initialize_variables(
-    std::pair<int, int> pair_dimensions,
-    VariablesVariant& variables,
-    const json& data,
-    const DomainParametersVariant& domain_parameters) {
+    VariablesVariant& variables_variant,
+    const ParametersVariant& parameters_variant,
+    const json& data) {
   // Visit all the models
-  std::visit([&](auto& model_vars_variant) {
+  std::visit([&](auto& model_vars_variant, const auto& model_params_variant) {
     // Visit all the dimensions of one model
-    std::visit([&](auto& vars_variant) {
-      // Get the tuple of variables
-      std::apply([&](auto&&... variables_tuple) {
-        // Have to expand the pack tuple, some magic, can be simplified in C++20 with std::tuple_for_each
-        ([&](auto& single_variable) {
-          using var_type = std::decay_t<decltype(single_variable)>;
-          std::string key_name {make_initialization_key(single_variable.name)};
+    std::visit([&](auto& variables, const auto& parameters) {
+      using VariableType = std::decay_t<decltype(variables)>;
+      using ParameterType = std::decay_t<decltype(parameters)>;
+      using Dimensions = GetSecondType_t<VariableType>;
 
-          if constexpr (is_particles_v<var_type>) {
-            PhaseSpaceInitialCondition initial_condition {
-                get_phase_space_initial_condition(
-                    pair_dimensions,
-                    data[key_name],
-                    domain_parameters)};
-            initialize_particles(single_variable, initial_condition);
-          }
-          // else if constexpr (is_field_v<var_type>) {
-          //   SpaceInitialVariant initial_condition {get_space_initial_condition(pair_dimensions.first, data[key_name])};
-          //   initialize_field(single_variable, initial_condition);
-          // }
-        }(variables_tuple),
-         ...);
-      },
-                 vars_variant.as_tuple());
+      // Make sure the compiler knows that parameters and variables are of the same dimensions type
+      if constexpr (MatchingDimensions<VariableType, ParameterType>) {
+        // Get the tuple of variables
+        std::apply([&](auto&&... variables_tuple) {
+          // Have to expand the pack tuple, some magic
+          ([&](auto& single_variable) {
+            using SingleVariableType = std::decay_t<decltype(single_variable)>;
+            std::string key_name {make_initialization_key(single_variable.name)};
+
+            if constexpr (is_particles_v<SingleVariableType>) {
+              PhaseSpaceInitialCondition initial_condition {
+                  get_phase_space_initial_condition<Dimensions>(
+                      data[key_name],
+                      parameters.domain_parameters)};
+              initialize_particles(single_variable, initial_condition);
+            }
+            // else if constexpr (is_field_v<var_type>) {
+            //   SpaceInitialVariant initial_condition {get_space_initial_condition(pair_dimensions.first, data[key_name])};
+            //   initialize_field(single_variable, initial_condition);
+            // }
+          }(variables_tuple),
+          ...);
+        },
+                  variables.as_tuple());
+      } else {
+        exit_with_failure("Something went severly wrong in intializing variables.");
+      }
     },
-               model_vars_variant);
+               model_vars_variant, model_params_variant);
   },
-             variables);
+             variables_variant, parameters_variant);
 }

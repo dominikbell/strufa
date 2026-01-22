@@ -37,3 +37,7 @@ All models are (will be) implemented in all possible dimensions, i.e. in 1D, 2D,
 ## Input Files
 
 For kinetic models using delta-f, direct delta-f, or control variate, the input file must contain either the top-level keyword "background" or "scenario".
+
+## Templating
+
+Names of template typenames shall always start with a capital "T". Templated structs are in the order `template <typename TModel, typename TDimensions, typename TType>` where `TType` can be, e.g., the type of particles.

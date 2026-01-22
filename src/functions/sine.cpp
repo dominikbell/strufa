@@ -3,15 +3,6 @@
 #include <cmath>
 #include <numbers>
 
-SineVariant get_sine(const json& data, const DomainParametersVariant& domain_parameters) {
-  return std::visit(
-      [&](auto& domain_params) -> SineVariant {
-        using Dim = GetFirstInnerType_t<decltype(domain_params)>;
-        return get_sine<Dim>(data, domain_params);
-      },
-      domain_parameters);
-}
-
 double call_function(const Sine<D1>& sine, double x) {
   double arg {sine.wavenumber * x / sine.domain_length};
   return sine.amplitude * std::sin(2.0 * std::numbers::pi * arg);

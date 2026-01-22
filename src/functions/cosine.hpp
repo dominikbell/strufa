@@ -7,7 +7,7 @@
 #include "parameters/domain_parameters.hpp"
 #include "utilities/dimensions.hpp"
 
-template <typename Dimensions>
+template <typename TDimensions>
 struct Cosine;
 
 template <>
@@ -42,14 +42,14 @@ using CosineVariant = std::variant<
     Cosine<D2>,
     Cosine<D3> >;
 
-template <typename Dimensions>
-inline Cosine<Dimensions> get_cosine(const json& function_data, const DomainParameters<Dimensions>& domain_parameters) {
-  if constexpr (std::is_same_v<Dimensions, D1>) {
+template <typename TDimensions>
+inline Cosine<TDimensions> get_cosine(const json& function_data, const DomainParameters<TDimensions>& domain_parameters) {
+  if constexpr (std::is_same_v<TDimensions, D1>) {
     assert_top_level_keyword(function_data, "wavenumber");
     assert_top_level_keyword(function_data, "amplitude");
 
     return {function_data["wavenumber"], function_data["amplitude"], domain_parameters.domain_length};
-  } else if constexpr (std::is_same_v<Dimensions, D2>) {
+  } else if constexpr (std::is_same_v<TDimensions, D2>) {
     assert_top_level_keyword(function_data, "wavenumber_x");
     assert_top_level_keyword(function_data, "wavenumber_y");
     assert_top_level_keyword(function_data, "amplitude");
@@ -60,7 +60,7 @@ inline Cosine<Dimensions> get_cosine(const json& function_data, const DomainPara
         function_data["amplitude"],
         domain_parameters.domain_size_x,
         domain_parameters.domain_size_y};
-  } else if constexpr (std::is_same_v<Dimensions, D3>) {
+  } else if constexpr (std::is_same_v<TDimensions, D3>) {
     assert_top_level_keyword(function_data, "wavenumber_x");
     assert_top_level_keyword(function_data, "wavenumber_y");
     assert_top_level_keyword(function_data, "wavenumber_z");
@@ -76,8 +76,6 @@ inline Cosine<Dimensions> get_cosine(const json& function_data, const DomainPara
         domain_parameters.domain_size_z};
   }
 }
-
-CosineVariant get_cosine(const json& data, const DomainParametersVariant& domain_parameters);
 
 double call_function(const Cosine<D1>& cosine, double x);
 double call_function(const Cosine<D2>& cosine, double x, double y);

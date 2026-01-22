@@ -1,6 +1,7 @@
 #pragma once
 
 #include <random>
+#include <type_traits>
 
 #include "functions/maxwellian.hpp"
 #include "functions/sine.hpp"
@@ -9,11 +10,8 @@
 #include "initial_condition/velocity_initial_condition.hpp"
 #include "utilities/utilities.hpp"
 
-template <typename T>
-struct TypeDisplayer;
-
-template <typename Particles>
-void draw_markers(Particles& particles) {
+template <typename TParticles>
+void draw_markers(TParticles& particles) {
   std::mt19937 gen(particles.seed);
   std::uniform_real_distribution<> real_distrib(0.0, 1.0);
 
@@ -26,8 +24,8 @@ void draw_markers(Particles& particles) {
   }
 }
 
-template <typename Particles>
-void draw_velocities(Particles& particles) {
+template <typename TParticles>
+void draw_velocities(TParticles& particles) {
   std::mt19937 gen(particles.seed);
   std::uniform_real_distribution<> real_distrib(0.0, 1.0);
 
@@ -40,8 +38,8 @@ void draw_velocities(Particles& particles) {
   }
 }
 
-template <typename Particles>
-void initialize_velocities(Particles& particles, const VelocityInitialVariant& velocity_initial_condition) {
+template <typename TParticles>
+void initialize_velocities(TParticles& particles, const VelocityInitialVariant& velocity_initial_condition) {
   // Visit the variants of functions
   std::visit([&](const auto& function_variant) {
     // Visit the variants of dimensions of each function
@@ -59,16 +57,16 @@ void initialize_velocities(Particles& particles, const VelocityInitialVariant& v
              velocity_initial_condition);
 }
 
-template <typename Particles>
-void initialize_weights(Particles& particles, const SpaceInitialVariant& space_initial_condition) {
+template <typename TParticles>
+void initialize_weights(TParticles& particles, const SpaceInitialVariant& space_initial_condition) {
   // Visit the variants of functions
   std::visit([&](const auto& function_variant) {
     // Visit the variants of dimensions of each function
     std::visit([&](const auto& dimensional_function) {
       // Get dimensions of initial condition and particles to make sure that they are the same
-      using InitialDimensions = GetFirstInnerType_t<decltype(dimensional_function)>;
+      using InitialDimensions = GetInnerType_t<std::decay_t<decltype(dimensional_function)>>;
       constexpr int initial_dimensions {InitialDimensions::space_dimensions};
-      using ParticleDimensions = GetFirstInnerType_t<decltype(particles)>;
+      using ParticleDimensions = GetFirstType_t<decltype(particles)>;
       constexpr int particle_dimensions {ParticleDimensions::space_dimensions};
 
       if constexpr (initial_dimensions == 1 && particle_dimensions == 1) {
@@ -97,8 +95,8 @@ void initialize_weights(Particles& particles, const SpaceInitialVariant& space_i
              space_initial_condition);
 }
 
-template <typename Particles>
-void initialize_particles(Particles& particles, const PhaseSpaceInitialCondition& initial_condition) {
+template <typename TParticles>
+void initialize_particles(TParticles& particles, const PhaseSpaceInitialCondition& initial_condition) {
   draw_markers(particles);
   initialize_weights(particles, initial_condition.space_initial_condition);
   draw_velocities(particles);

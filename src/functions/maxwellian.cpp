@@ -3,17 +3,6 @@
 #include <cmath>
 #include <numbers>
 
-MaxwellianVariant get_maxwellian(int velocity_dimensions, const json& data) {
-  VelocityDimensionsVariant velocity_dims {get_velocity_dimensions(velocity_dimensions)};
-
-  return std::visit(
-      [&](auto& dim) -> MaxwellianVariant {
-        using Dim = std::decay_t<decltype(dim)>;
-        return get_maxwellian<Dim>(data);
-      },
-      velocity_dims);
-}
-
 double call_function(const Maxwellian<V1>& maxwellian, double v1) {
   double arg {std::pow(v1 - maxwellian.shift[0], 2) / (2.0 * std::pow(maxwellian.temperature[0], 2))};
   double factor {1.0 / std::sqrt(2.0 * std::numbers::pi * std::pow(maxwellian.temperature[0], 2))};

@@ -2,9 +2,10 @@
 
 #include <variant>
 
-#include "functions/sine.hpp"
 #include "functions/cosine.hpp"
+#include "functions/sine.hpp"
 #include "io/input_parser.hpp"
+#include "utilities/utilities.hpp"
 
 enum class SpaceInitialEnum {
   constant,
@@ -39,6 +40,25 @@ inline SpaceInitialEnum string_to_space_initial_enum(const std::string& str) {
 
 using SpaceInitialVariant = std::variant<
     SineVariant,
-    CosineVariant >;
+    CosineVariant>;
 
-SpaceInitialVariant get_space_initial_condition(const json& data, const DomainParametersVariant& domain_parameters);
+template <typename TDimensions>
+SpaceInitialVariant get_space_initial_condition(
+    const json& initial_data,
+    const DomainParameters<TDimensions>& domain_parameters) {
+  if (initial_data.count("type") == 1) {
+    SpaceInitialEnum space_initial {string_to_space_initial_enum(initial_data["type"])};
+
+    switch (space_initial) {
+      case (SpaceInitialEnum::sine):
+        return get_sine(initial_data, domain_parameters);
+      case (SpaceInitialEnum::cosine):
+        return get_cosine(initial_data, domain_parameters);
+      default:
+        exit_with_failure("Space initial condition not implemented.");
+    }
+
+  } else {
+    exit_with_failure("Initialization in space must include keyword 'type'!\n");
+  }
+}

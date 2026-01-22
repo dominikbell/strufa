@@ -1,9 +1,7 @@
 #include "scenario.hpp"
 
-#include <iostream>
-#include <nlohmann/json.hpp>
-
-using json = nlohmann::json;
+#include "io/input_parser.hpp"
+#include "utilities/utilities.hpp"
 
 Scenario get_scenario(const json& data) {
   bool contains_scenario {data.count("scenario") == 1};
@@ -15,8 +13,7 @@ Scenario get_scenario(const json& data) {
     if (scenario) {
       return *scenario;
     } else {
-      std::cerr << "Scenario name '" << scenario_name << "' is not a valid choice!\n";
-      assert(scenario && "Invalid scenario entered, see line above.\n");
+      exit_with_failure("scenario name", scenario_name);
     }
   } else {
     return Scenario::none;

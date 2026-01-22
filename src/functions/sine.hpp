@@ -8,7 +8,7 @@
 #include "parameters/domain_parameters.hpp"
 #include "utilities/dimensions.hpp"
 
-template <typename Dimensions>
+template <typename TDimensions>
 struct Sine;
 
 template <>
@@ -43,14 +43,14 @@ using SineVariant = std::variant<
     Sine<D2>,
     Sine<D3> >;
 
-template <typename Dimensions>
-inline Sine<Dimensions> get_sine(const json& function_data, const DomainParameters<Dimensions>& domain_parameters) {
-  if constexpr (std::is_same_v<Dimensions, D1>) {
+template <typename TDimensions>
+inline Sine<TDimensions> get_sine(const json& function_data, const DomainParameters<TDimensions>& domain_parameters) {
+  if constexpr (std::is_same_v<TDimensions, D1>) {
     assert_top_level_keyword(function_data, "wavenumber");
     assert_top_level_keyword(function_data, "amplitude");
 
     return {function_data["wavenumber"], function_data["amplitude"], domain_parameters.domain_length};
-  } else if constexpr (std::is_same_v<Dimensions, D2>) {
+  } else if constexpr (std::is_same_v<TDimensions, D2>) {
     assert_top_level_keyword(function_data, "wavenumber_x");
     assert_top_level_keyword(function_data, "wavenumber_y");
     assert_top_level_keyword(function_data, "amplitude");
@@ -61,7 +61,7 @@ inline Sine<Dimensions> get_sine(const json& function_data, const DomainParamete
         function_data["amplitude"],
         domain_parameters.domain_size_x,
         domain_parameters.domain_size_y};
-  } else if constexpr (std::is_same_v<Dimensions, D3>) {
+  } else if constexpr (std::is_same_v<TDimensions, D3>) {
     assert_top_level_keyword(function_data, "wavenumber_x");
     assert_top_level_keyword(function_data, "wavenumber_y");
     assert_top_level_keyword(function_data, "wavenumber_z");
@@ -77,8 +77,6 @@ inline Sine<Dimensions> get_sine(const json& function_data, const DomainParamete
         domain_parameters.domain_size_z};
   }
 }
-
-SineVariant get_sine(const json& data, const DomainParametersVariant& domain_parameters);
 
 double call_function(const Sine<D1>& sine, double x);
 double call_function(const Sine<D2>& sine, double x, double y);
