@@ -3,7 +3,7 @@
   "space_dimensions": 1,
   "velocity_dimensions": 1,
   "domain": {
-    "length": 1.0
+    "size": 1.0
   },
   "time": {
     "dt": 0.1,
@@ -11,7 +11,7 @@
   },
   "PIC": {
     "type": "full_f",
-    "N_markers": 3200,
+    "N_markers": 20000000,
     "seed": 1234
   },
   "particles_initialization": {

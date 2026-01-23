@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
 #include <string>
 #include <variant>
@@ -9,33 +10,18 @@
 #include "utilities/dimensions.hpp"
 
 template <typename TDimensions>
-struct Sine;
+struct Sine {
+  const std::array<int, TDimensions::space_dimensions> wavenumbers;
+  const double amplitude;
+  const std::array<double, TDimensions::space_dimensions> domain_sizes;
 
-template <>
-struct Sine<D1> {
-  int wavenumber {0};
-  double amplitude {0.0};
-  double domain_length {0.0};
-};
-
-template <>
-struct Sine<D2> {
-  int wavenumber_x {0};
-  int wavenumber_y {0};
-  double amplitude {0.0};
-  double domain_length_x {0.0};
-  double domain_length_y {0.0};
-};
-
-template <>
-struct Sine<D3> {
-  int wavenumber_x {0};
-  int wavenumber_y {0};
-  int wavenumber_z {0};
-  double amplitude {0.0};
-  double domain_length_x {0.0};
-  double domain_length_y {0.0};
-  double domain_length_z {0.0};
+  Sine(
+      std::array<int, TDimensions::space_dimensions> wavenumbers_i,
+      double amplitude_i,
+      std::array<double, TDimensions::space_dimensions> domain_sizes_i)
+      : wavenumbers(wavenumbers_i),
+        amplitude(amplitude_i),
+        domain_sizes(domain_sizes_i) {}
 };
 
 using SineVariant = std::variant<
@@ -49,18 +35,17 @@ inline Sine<TDimensions> get_sine(const json& function_data, const DomainParamet
     assert_top_level_keyword(function_data, "wavenumber");
     assert_top_level_keyword(function_data, "amplitude");
 
-    return {function_data["wavenumber"], function_data["amplitude"], domain_parameters.domain_length};
+    return {{function_data["wavenumber"]}, function_data["amplitude"], domain_parameters.domain_sizes};
   } else if constexpr (std::is_same_v<TDimensions, D2>) {
     assert_top_level_keyword(function_data, "wavenumber_x");
     assert_top_level_keyword(function_data, "wavenumber_y");
     assert_top_level_keyword(function_data, "amplitude");
 
     return {
-        function_data["wavenumber_x"],
-        function_data["wavenumber_y"],
+        {function_data["wavenumber_x"],
+         function_data["wavenumber_y"]},
         function_data["amplitude"],
-        domain_parameters.domain_size_x,
-        domain_parameters.domain_size_y};
+        domain_parameters.domain_sizes};
   } else if constexpr (std::is_same_v<TDimensions, D3>) {
     assert_top_level_keyword(function_data, "wavenumber_x");
     assert_top_level_keyword(function_data, "wavenumber_y");
@@ -68,13 +53,11 @@ inline Sine<TDimensions> get_sine(const json& function_data, const DomainParamet
     assert_top_level_keyword(function_data, "amplitude");
 
     return {
-        function_data["wavenumber_x"],
-        function_data["wavenumber_y"],
-        function_data["wavenumber_z"],
+        {function_data["wavenumber_x"],
+         function_data["wavenumber_y"],
+         function_data["wavenumber_z"]},
         function_data["amplitude"],
-        domain_parameters.domain_size_x,
-        domain_parameters.domain_size_y,
-        domain_parameters.domain_size_z};
+        domain_parameters.domain_sizes};
   }
 }
 
