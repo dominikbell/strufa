@@ -23,6 +23,9 @@ target_link_libraries(strufa PRIVATE run)
 target_link_libraries(strufa PRIVATE utilities)
 target_link_libraries(strufa PRIVATE vvariables)
 
+# Link the interface
+target_link_libraries(strufa PRIVATE models)
+
 # Make the folders' headers available
 # target_include_directories(strufa PRIVATE functions)
 

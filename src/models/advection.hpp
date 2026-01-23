@@ -1,6 +1,8 @@
 #pragma once
 
-#include <iostream>
+#include <array>
+#include <cmath>
+#include <omp.h>
 
 #include "models.hpp"
 #include "parameters/parameters.hpp"
@@ -13,13 +15,20 @@ void run(
   constexpr int dimensions {TDimensions::space_dimensions};
 
   const double dt {parameters.time_parameters.dt};
+  const long N_markers {variables.particles.N_markers};
   const int N_timesteps {parameters.time_parameters.N_timesteps};
+  const std::array<double, TDimensions::space_dimensions> domain_sizes {parameters.domain_parameters.domain_sizes};
 
-  for (int timestep = 0; timestep < N_timesteps; ++timestep) {
-    std::cout << "Timestep number: " << timestep << '\n';
-    for (int dim = 0; dim < dimensions; ++dim) {
-      for (int i = 0; i < variables.particles.N_markers; ++i) {
-        variables.particles.positions[dim][i] += dt * variables.particles.velocities[dim][i];
+#pragma omp parallel
+  {
+    for (int timestep = 0; timestep < N_timesteps; ++timestep) {
+#pragma omp for
+      for (int i = 0; i < N_markers; ++i) {
+        for (int dim = 0; dim < dimensions; ++dim) {
+          variables.particles.positions[dim][i] += dt * variables.particles.velocities[dim][i];
+          variables.particles.positions[dim][i] = std::fmod(
+              variables.particles.positions[dim][i], domain_sizes[dim]);
+        }
       }
     }
   }
