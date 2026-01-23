@@ -11,8 +11,6 @@ add_library(
     STATIC
     parameters.cpp
     time_parameters.cpp
-    domain_parameters.cpp
-    discretization/FE_parameters.cpp
     discretization/PIC_parameters.cpp
 )
 

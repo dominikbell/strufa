@@ -1,7 +1,6 @@
 #pragma once
 
 #include <array>
-#include <variant>
 
 #include "io/input_parser.hpp"
 #include "utilities/dimensions.hpp"
@@ -14,11 +13,6 @@ struct DomainParameters {
       std::array<double, TDimensions::space_dimensions> domain_sizes_i)
       : domain_sizes(domain_sizes_i) {}
 };
-
-using DomainParametersVariant = std::variant<
-    DomainParameters<D1>,
-    DomainParameters<D2>,
-    DomainParameters<D3> >;
 
 template <typename TDimensions>
 inline DomainParameters<TDimensions> get_domain_parameters(const json& data) {
@@ -50,5 +44,3 @@ inline DomainParameters<TDimensions> get_domain_parameters(const json& data) {
     return {{domain_size_x, domain_size_y, domain_size_z}};
   }
 }
-
-DomainParametersVariant get_domain_parameters(int space_dimensions, const json& data);
