@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <string>
 #include <vector>
 
@@ -27,8 +28,8 @@ struct Particles<Dimensions, FullF> {
   const int seed {0};
   const std::string name {""};
   std::vector<double> weights;
-  std::vector<double> positions[Dimensions::space_dimensions];
-  std::vector<double> velocities[Dimensions::velocity_dimensions];
+  std::array<std::vector<double>, Dimensions::space_dimensions> positions;
+  std::array<std::vector<double>, Dimensions::velocity_dimensions> velocities;
 
   Particles(
       const ParticleParameters& particle_parameters,
@@ -37,9 +38,9 @@ struct Particles<Dimensions, FullF> {
         seed {particle_parameters.seed},
         name {name_i} {
     weights.resize(N_markers);
-    for (int i = 0; i < Dimensions::space_dimensions; ++i)
-      positions[i].resize(N_markers);
-    for (int i = 0; i < Dimensions::velocity_dimensions; ++i)
-      velocities[i].resize(N_markers);
+    for (auto& position_vector : positions)
+      position_vector.resize(N_markers);
+    for (auto& velocity_vector : velocities)
+      velocity_vector.resize(N_markers);
   }
 };

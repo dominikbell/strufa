@@ -1,8 +1,9 @@
 #pragma once
 
+#include <omp.h>
+
 #include <array>
 #include <cmath>
-#include <omp.h>
 
 #include "models.hpp"
 #include "parameters/parameters.hpp"
@@ -22,9 +23,9 @@ void run(
 #pragma omp parallel
   {
     for (int timestep = 0; timestep < N_timesteps; ++timestep) {
+      for (int dim = 0; dim < dimensions; ++dim) {
 #pragma omp for
-      for (int i = 0; i < N_markers; ++i) {
-        for (int dim = 0; dim < dimensions; ++dim) {
+        for (int i = 0; i < N_markers; ++i) {
           variables.particles.positions[dim][i] += dt * variables.particles.velocities[dim][i];
           variables.particles.positions[dim][i] = std::fmod(
               variables.particles.positions[dim][i], domain_sizes[dim]);

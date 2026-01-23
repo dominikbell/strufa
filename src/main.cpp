@@ -1,5 +1,6 @@
 #include <mpi.h>
 #include <omp.h>
+
 #include <iostream>
 
 #include "initialization/initialize_variables.hpp"
@@ -34,7 +35,6 @@ int main(int argc, char* argv[]) {
 
     // // Set initial conditions
     initialize_variables(variables, parameters, input.file);
-
 
     // Run the model
     // (might be time loop or just solving, e.g., Poisson)
