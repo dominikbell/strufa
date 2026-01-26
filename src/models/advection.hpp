@@ -2,11 +2,13 @@
 
 #include <omp.h>
 
+#include <cstddef>
 #include <array>
 #include <cmath>
 
 #include "models.hpp"
 #include "parameters/parameters.hpp"
+#include "particles/particles.hpp"
 #include "vvariables/vvariables.hpp"
 
 template <typename TDimensions>
@@ -22,15 +24,21 @@ void run(
 
 #pragma omp parallel
   {
-    for (int timestep = 0; timestep < N_timesteps; ++timestep) {
-      for (int dim = 0; dim < dimensions; ++dim) {
+    for (size_t timestep = 0; timestep < N_timesteps; ++timestep) {
+      for (size_t dim = 0; dim < dimensions; ++dim) {
 #pragma omp for
-        for (int i = 0; i < N_markers; ++i) {
+        for (size_t i = 0; i < N_markers; ++i) {
           variables.particles.positions[dim][i] += dt * variables.particles.velocities[dim][i];
           variables.particles.positions[dim][i] = std::fmod(
               variables.particles.positions[dim][i], domain_sizes[dim]);
         }
       }
+      // Only one thread should write to the io
+#pragma omp master
+      {
+        variables.particles.save_markers(timestep);
+      }
+#pragma omp barrier
     }
   }
 }

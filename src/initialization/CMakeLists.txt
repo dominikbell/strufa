@@ -12,3 +12,6 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/src
 )
+
+# Needed because initialize_variables uses particle_utilities which uses hdf5
+target_link_libraries(initialization PRIVATE particles)

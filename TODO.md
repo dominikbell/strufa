@@ -2,18 +2,21 @@
 
 Collect the goals and TODOs here.
 
-## Long-term Goals
+## Near-term Goals
 
 - [ ] Implement FEEC
-  - [ ] Grid points, knots, grevilles points
+  - [x] Grid points, knots, grevilles points, find span
   - [ ] Projectors: histopolator and collocator
   - [ ] Spline histopolation and collocation matrices
   - [ ] Matrices for gradient, curl, divergence
   - [ ] Mass matrices
   - [ ] Matrix inverse
   - [ ] Evaluate spline functions
+
+## Long-term Goals
+
 - [ ] Parallelize FE with MPI
-- [ ] Parallelize particles with OpenPI
+- [ ] Have higher-degree splines
 
 ## Smaller Things
 

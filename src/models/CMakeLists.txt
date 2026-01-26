@@ -18,3 +18,4 @@ target_include_directories(
 )
 
 target_link_libraries(run PRIVATE models)
+target_link_libraries(run PRIVATE particles)

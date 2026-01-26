@@ -1,7 +1,8 @@
-#include <mpi.h>
 #include <omp.h>
 
+#include <highfive/H5File.hpp>
 #include <iostream>
+#include <vector>
 
 #include "initialization/initialize_variables.hpp"
 #include "io/input_parser.hpp"
@@ -11,16 +12,23 @@
 #include "vvariables/vvariables.hpp"
 
 int main(int argc, char* argv[]) {
-  // Get MPI information
-  MPI_Init(&argc, &argv);
-  int rank;
-  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  int mpi_size;
-  MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
-
+  // TODO: parallelization with MPI
+  int mpi_size = 1;
+  int rank = 0;
   // Get OMP information
   int omp_size {omp_get_max_threads()};
   MetaData meta_data {"meta.txt", mpi_size, omp_size};
+
+  std::vector<double> my_data = {1.0, 2.0, 3.0, 4.0, 5.0};
+
+  // Open file normally (Serial)
+  HighFive::File file("output.h5", HighFive::File::ReadWrite | HighFive::File::Create | HighFive::File::Truncate);
+
+  // Create a dataset
+  HighFive::DataSet dataset = file.createDataSet<double>("/data", HighFive::DataSpace({my_data.size()}));
+
+  // Write data
+  dataset.write(my_data);
 
   if (argc > 1) {
     std::cout << "Program was called with parameter " << argv[1] << '\n';
@@ -47,9 +55,9 @@ int main(int argc, char* argv[]) {
     if (rank == 0) {
       meta_data.write_meta_data();
     }
+  } else {
+    std::cout << "Please provide the path to the input file as an argument.\n";
   }
-
-  MPI_Finalize();
 
   return 0;
 }

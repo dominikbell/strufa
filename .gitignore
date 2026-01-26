@@ -5,9 +5,11 @@
 
 # VS Code
 .vscode/
+.DS_Store
 
 # Zed
 .cache/
+pyrightconfig.json
 
 # Prerequisites
 *.d

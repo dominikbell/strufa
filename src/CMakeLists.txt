@@ -1,3 +1,4 @@
+add_subdirectory(feec)
 add_subdirectory(fields)
 add_subdirectory(functions)
 add_subdirectory(initialization)
@@ -13,6 +14,7 @@ add_subdirectory(vvariables)
 add_executable(strufa main.cpp)
 
 # Link the private libraries
+target_link_libraries(strufa PRIVATE feec)
 target_link_libraries(strufa PRIVATE functions)
 target_link_libraries(strufa PRIVATE initialization)
 target_link_libraries(strufa PRIVATE model_parameters)
@@ -23,11 +25,9 @@ target_link_libraries(strufa PRIVATE run)
 target_link_libraries(strufa PRIVATE utilities)
 target_link_libraries(strufa PRIVATE vvariables)
 
-# Link the interface
+# Link the interfaces
 target_link_libraries(strufa PRIVATE models)
-
-# Make the folders' headers available
-# target_include_directories(strufa PRIVATE functions)
+target_link_libraries(strufa PRIVATE particles)
 
 # Then finally add the directory to the target
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)

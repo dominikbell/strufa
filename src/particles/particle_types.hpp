@@ -2,6 +2,7 @@
 
 #include <optional>
 #include <string>
+#include <variant>
 
 #include "utilities/utilities.hpp"
 
@@ -10,29 +11,28 @@ struct DeltaF {};
 struct DirectDeltaF {};
 struct ControlVariate {};
 
-enum class ParticleTypeEnum {
-  full_f,
-  delta_f,
-  direct_delta_f,
-  control_variate,
-};
+using ParticleTypeVariant = std::variant<
+    FullF,
+    DeltaF,
+    DirectDeltaF,
+    ControlVariate>;
 
-inline std::optional<ParticleTypeEnum> string_to_optional_particle_type_enum(const std::string& str) {
+inline std::optional<ParticleTypeVariant> string_to_optional_particle_type(const std::string& str) {
   if (str == "full_f") {
-    return ParticleTypeEnum::full_f;
+    return FullF {};
   } else if (str == "delta_f") {
-    return ParticleTypeEnum::delta_f;
+    return DeltaF {};
   } else if (str == "direct_delta_f") {
-    return ParticleTypeEnum::direct_delta_f;
+    return DirectDeltaF {};
   } else if (str == "control_variate") {
-    return ParticleTypeEnum::control_variate;
+    return ControlVariate {};
   } else {
     return std::nullopt;
   }
 }
 
-inline ParticleTypeEnum string_to_particle_type_enum(const std::string& str) {
-  std::optional<ParticleTypeEnum> optional_particle_type {string_to_optional_particle_type_enum(str)};
+inline ParticleTypeVariant string_to_particle_type(const std::string& str) {
+  std::optional<ParticleTypeVariant> optional_particle_type {string_to_optional_particle_type(str)};
 
   if (optional_particle_type) {
     return *optional_particle_type;

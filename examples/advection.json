@@ -7,11 +7,11 @@
   },
   "time": {
     "dt": 0.1,
-    "T_end": 20.0
+    "T_end": 1.0
   },
   "PIC": {
     "type": "full_f",
-    "N_markers": 20000000,
+    "N_markers": 200,
     "seed": 1234
   },
   "particles_initialization": {

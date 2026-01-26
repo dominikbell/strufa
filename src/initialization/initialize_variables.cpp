@@ -6,7 +6,7 @@
 #include "initial_condition/initial_condition.hpp"
 // #include "initial_condition/space_initial_condition.hpp"
 #include "initialize_particles.hpp"
-#include "particles/particles.hpp"
+#include "particles/particle_utilities.hpp"
 #include "utilities/utilities.hpp"
 
 void initialize_variables(
