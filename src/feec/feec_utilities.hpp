@@ -22,6 +22,6 @@ std::array<std::vector<double>, TDimensions::space_dimensions> make_grid(
   }
 }
 
-std::vector<double> make_grid(double length, size_t n_points, bool endpoint = true);
-std::vector<double> make_knots(const std::vector<double>& grid_points, int degree = 1);
-std::vector<double> make_grevilles(const std::vector<double>& knots, int degree = 1);
+std::vector<double> make_grid(double length, size_t n_points);
+std::vector<double> make_knots(double domain_length, size_t n_points, int degree);
+std::vector<double> make_grevilles(const std::vector<double>& knots, int degree);

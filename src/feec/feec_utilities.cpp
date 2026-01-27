@@ -1,16 +1,16 @@
 #include "feec_utilities.hpp"
 
+#include <cassert>
+#include <cmath>
 #include <cstddef>
 #include <vector>
-#include <cmath>
-
 #include "utilities/utilities.hpp"
 
-std::vector<double> make_grid(double length, size_t n_points, bool endpoint) {
+std::vector<double> make_grid(double domain_length, size_t n_points) {
   std::vector<double> result;
 
   // If no points are requested, return the empty vector
-  if (n_points) return result;
+  if (n_points == 0) return result;
 
   // Reserve the needed memory
   result.reserve(n_points);
@@ -22,60 +22,58 @@ std::vector<double> make_grid(double length, size_t n_points, bool endpoint) {
   if (n_points == 1) {
     return result;
   } else {
-    if (endpoint) {
-      // Have to compute inner points only if there are any
-      if (n_points > 2) {
-        double step = length / static_cast<double>(n_points - 1);
-        for (size_t i = 1; i < n_points - 1; ++i) {
-          result.push_back(static_cast<double>(i) * step);
-        }
-      }
-      // Add the last point at the end and return result
-      result.push_back(length);
-      return result;
-    } else {
-      // Here the last point is not included so we have inner points already when n_points=2
-      double step = length / static_cast<double>(n_points - 1);
-      for (size_t i = 1; i < n_points - 1; ++i) {
-        result.push_back(static_cast<double>(i) * step);
-      }
-      return result;
+    double dx = domain_length / static_cast<double>(n_points);
+    for (size_t i = 1; i < n_points; ++i) {
+      result.push_back(static_cast<double>(i) * dx);
     }
+    return result;
   }
 }
 
-std::vector<double> make_knots(const std::vector<double>& grid_points, int degree) {
-  // TODO: generalize for other degrees
-  if (degree == 1) {
-    std::vector<double> result;
-    size_t grid_size {grid_points.size()};
-    result.reserve(grid_size + static_cast<size_t>(2));
-    result.push_back(-grid_points[1]);
-    for (double grid_point : grid_points) {
-      result.push_back(grid_point);
-    }
-    result.push_back(grid_points[grid_size - 1] + grid_points[1]);
+std::vector<double> make_knots(double domain_length, size_t n_points, int degree) {
+  std::vector<double> result;
 
-    return result;
-  } else {
-    exit_with_failure("Spline degrees other than one are not implemented yet!");
+  // When the grid is empty, return empty knot vector
+  if (n_points == 0) return result;
+
+  result.reserve(n_points + static_cast<size_t>(degree));
+
+  // dx is always the first entry
+  const double dx {domain_length / static_cast<double>(n_points)};
+
+  // Add elements in the ghost region
+  for (size_t i = degree; i > 0; --i) {
+    result.push_back(- static_cast<double>(i) * dx);
   }
+  // Add left boundary of domain
+  result.push_back(0.0);
+  // Add points inside domain
+  for (size_t i = 1; i < n_points; ++i) {
+    result.push_back(static_cast<double>(i) * dx);
+  }
+
+  return result;
 }
 
 std::vector<double> make_grevilles(const std::vector<double>& knots, int degree) {
-  // TODO: generalize for other degrees
-  if (degree == 1) {
-    std::vector<double> result;
-    size_t grid_size {knots.size() - 1};
-    result.reserve(grid_size);
-    for (size_t ind = 1;  ind < grid_size; ++ind) {
-      result.push_back(knots[ind]);
-    }
+  std::vector<double> result;
+  size_t grid_size {knots.size() + 1 - degree};
+  result.reserve(grid_size);
 
-    return result;
-  } else {
-    exit_with_failure("Spline degrees other than one are not implemented yet!");
+  if (degree == 0) {
+    exit_with_failure("To generate Greville points, the degree cannot be zero!");
   }
+
+  double sum {};
+  for (size_t ind = 1; ind < grid_size; ++ind) {
+    sum = 0.0;
+    for (size_t i = ind; i < ind + degree; ++i) {
+      sum += knots[i];
+    }
+    result.push_back(sum / static_cast<double>(degree));
+  }
+
+  return result;
 }
 
 int find_span(double point, double grid_spacing, int degree) {

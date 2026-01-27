@@ -1,6 +1,7 @@
 #include <omp.h>
 
 #include <iostream>
+#include <vector>
 
 #include "initialization/initialize_variables.hpp"
 #include "io/input_parser.hpp"
@@ -8,6 +9,7 @@
 #include "models/run.hpp"
 #include "parameters/parameters.hpp"
 #include "vvariables/vvariables.hpp"
+#include "feec/feec_utilities.hpp"
 
 int main(int argc, char* argv[]) {
   if (argc > 1) {
@@ -18,22 +20,48 @@ int main(int argc, char* argv[]) {
 
     const Input input {parse_input(argc, argv)};
 
-    // Discretization details
-    ParametersVariant parameters {get_parameters(input.model_variant, input.dimensions_variant, input.file)};
+    double length {1.0};
+    int n_points {1};
+    int degree {1};
 
-    // Allocate the variables
-    VariablesVariant variables {get_variables(parameters, input)};
+    std::vector<double> grid {make_grid(length, n_points)};
+    std::vector<double> knots {make_knots(length, n_points, degree)};
+    std::vector<double> grevilles {make_grevilles(knots, degree)};
 
-    // // Set initial conditions
-    initialize_variables(variables, parameters, input.file);
+    std::cout << "Grid points: [";
+    for (double& point : grid) {
+      std::cout << point << ", ";
+    }
+    std::cout << "]\n\n";
 
-    // Run the model
-    // (might be time loop or just solving, e.g., Poisson)
-    std::cout << "Starting the run.\n";
-    meta_data.set_start_run_time();
-    run(variables, parameters);
-    meta_data.set_end_run_time();
-    std::cout << "Finished the run.\n";
+    std::cout << "Knot points: [";
+    for (double& point : knots) {
+      std::cout << point << ", ";
+    }
+    std::cout << "]\n";
+
+    std::cout << "Greville points: [";
+    for (double& point : grevilles) {
+      std::cout << point << ", ";
+    }
+    std::cout << "]\n";
+
+    // // Discretization details
+    // ParametersVariant parameters {get_parameters(input.model_variant, input.dimensions_variant, input.file)};
+
+    // // Allocate the variables
+    // VariablesVariant variables {get_variables(parameters, input)};
+
+    // // // Set initial conditions
+    // initialize_variables(variables, parameters, input.file);
+
+    // // Run the model
+    // // (might be time loop or just solving, e.g., Poisson)
+    // std::cout << "Starting the run.\n";
+    // meta_data.set_start_run_time();
+    // run(variables, parameters);
+    // meta_data.set_end_run_time();
+    // std::cout << "Finished the run.\n";
 
     if (rank == 0) {
       meta_data.write_meta_data(input.output_path);

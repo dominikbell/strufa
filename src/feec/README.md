@@ -7,7 +7,7 @@ As mentioned in the [main README](../../README.md), a uniform grid with periodic
 Splitting the periodic domain $[0,L[$ into $n$ cells (=`N_elements` in the input file) yields $n$ grid points. For basis functions of degree $p$ there are $n+p$ knot points, extending to the left of the left domain boundary, i.e.
 
 $$
-\\{ x_i \\}_{i=0,\ldots,n-1+p} = \\{ - p \Delta x, - (p-1) \Delta x, \ldots, - \Delta x, 0, \Delta x, 2 \Delta x, \ldots, (n-1) \Delta x = L - \Delta x \\}
+x_0 = - p \, \Delta x \qquad x_p = 0 \qquad x_{n-1+p} = (n-1) \Delta x = L - \Delta x
 $$
 
 
@@ -43,3 +43,26 @@ $$
 $$
 
 At every point $x$ there are $p+1$ non-zero spline functions of degree $p$. The index of the last basis function which is non-zero at that point is called the span index and can be computed by `floor(x / Delta_x) + p`.
+
+There are $n$ Greville points
+
+$$
+\xi_i = \frac{x_i + \ldots + x_{i+p}}{p} \qquad i = 0, \ldots, n-1
+$$
+
+from which the spline collocation matrix
+
+$$
+(\mathcal{I}_0)_{ij} = N_j^p(\xi_i) \qquad i,j = 0, \ldots, n-1
+$$
+
+and the spline histopolation matrix
+
+$$
+(\mathcal{I}_1)_{ij} = \int_{\xi_{i-1}}^{\xi_i} N_j^p(x) \, \text{d} x \qquad i,j = 0, \ldots, n-1
+$$
+
+can be defined.
+
+
+In one dimension, the diagram reads ![FEEC1D](../../res/diagram1D.svg)
