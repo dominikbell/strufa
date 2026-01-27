@@ -11,6 +11,9 @@
 .cache/
 pyrightconfig.json
 
+# Python cache
+tools/__pycache__/
+
 # Prerequisites
 *.d
 
