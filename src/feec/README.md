@@ -7,7 +7,7 @@ As mentioned in the [main README](../../README.md), a uniform grid with periodic
 Splitting the periodic domain $[0,L[$ into $n$ cells (=`N_elements` in the input file) yields $n$ grid points. For basis functions of degree $p$ there are $n+p$ knot points, extending to the left of the left domain boundary, i.e.
 
 $$
-\{ x_i \}_{i=0,\ldots,n-1+p} = \{ - p \Delta x, - (p-1) \Delta x, \ldots, - \Delta x, 0, \Delta x, 2 \Delta x, \ldots, (n-1) \Delta x = L - \Delta x \}
+\\{ x_i \\}_{i=0,\ldots,n-1+p} = \\{ - p \Delta x, - (p-1) \Delta x, \ldots, - \Delta x, 0, \Delta x, 2 \Delta x, \ldots, (n-1) \Delta x = L - \Delta x \\}
 $$
 
 
