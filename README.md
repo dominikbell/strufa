@@ -1,10 +1,10 @@
-# strufa
+# StruFa
 
-StruPHy but fast. A collection of Finite Element (FE) solvers for equations and [GEMPIC](https://doi.org/10.1017/S002237781700040X) solvers for kinetic models.
+StruPHy but fast. A collection of geometric Finite Element (FE) ([1](https://doi.org/10.1017/S0962492906210018), [2](https://doi.org/10.48550/arXiv.0906.4325)) solvers for equations and [GEMPIC](https://doi.org/10.1017/S002237781700040X) solvers for kinetic models.
 
 ## Dependencies
 
-The [json library by nlohmann](https://github.com/nlohmann/json) and the [hdf5 library "highfive"](https://github.com/highfive-devs/highfive?tab=readme-ov-file) are dependencies and must be located in `include/`.
+The [json library by nlohmann](https://github.com/nlohmann/json) and the [hdf5 library "highfive"](https://github.com/highfive-devs/highfive) are dependencies and must be located in `include/`.
 
 
 ## Build & Run
@@ -22,6 +22,9 @@ where the `path/to/input` is a mandatory input and is taken relative to the top-
 
 For kinetic models using delta-f, direct delta-f, or control variate, the input file must contain either the top-level keyword "background" or "scenario".
 
+## Plot Output
+
+Particles can be visualized as a histogram in physical space and velocity space using the python script "tools/plotting_tools.py" from either the top-level path or inside `out/`
 
 ## (Planned) Implementations
 
@@ -53,6 +56,6 @@ where `TType` can be, e.g., the type of particles.
 
 ## Running with OpenMP and OpenMPI
 
-Run the code with MPI by using `mpirun -np 2 ./src/strufa` and set the number of OpenMP threads via `OMP_NUM_THREADS=4 ./src/strufa` for a single run or `export OMP_NUM_THREADS=4` for a change in
+Run the code with MPI by using `mpirun -np 2 ./src/strufa` and set the number of OpenMP threads via `OMP_NUM_THREADS=4 ./src/strufa` for a single run or `export OMP_NUM_THREADS=4` for a global change during that terminal session.
 
 For now, only OpenMP parallelization is implemented. On Mac, if cmake fails due to missing Open_MP_C_FLAGS, try `export OpenMP_ROOT=$(brew --prefix libomp)` in your terminal and then cmake again.

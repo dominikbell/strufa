@@ -130,6 +130,7 @@ Input parse_input(int argc, char* argv[]) {
   const std::pair<int, int> pair_dimensions {get_space_and_velocity_dimensions(data)};
   const DimensionsVariant dimensions {get_dimensions(pair_dimensions)};
 
+  fs::path output_path {};
   // If additional input is given, parse it
   if (argc > 2) {
     std::string output_folder_name {""};
@@ -141,7 +142,6 @@ Input parse_input(int argc, char* argv[]) {
       }
     }
 
-    fs::path output_path {};
     if (output_folder_name.empty()) {
       fs::path output_path {get_valid_output_path()};
     } else {
@@ -154,14 +154,14 @@ Input parse_input(int argc, char* argv[]) {
     }
     std::cout << "Saving into " << static_cast<std::string>(output_path).substr(3) << '\n';
 
-    return {model, dimensions, filename, filename_length, output_path, data};
   } else {
     // Get the output folder
-    fs::path output_path {get_valid_output_path()};
+    output_path = get_valid_output_path();
     std::cout << "Saving into " << output_path << '\n';
-
-    return {model, dimensions, filename, filename_length, output_path, data};
   }
+
+  fs::copy_file(get_file_path(filename), output_path / "input.json");
+  return {model, dimensions, filename, filename_length, output_path, data};
 }
 
 int get_space_dimensions(const Input& input) {

@@ -11,7 +11,7 @@
   },
   "PIC": {
     "type": "full_f",
-    "N_markers": 2000000,
+    "N_markers": 20000000,
     "seed": 1234
   },
   "particles_initialization": {
