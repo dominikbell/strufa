@@ -22,9 +22,13 @@ void run(
   const int N_timesteps {parameters.time_parameters.N_timesteps};
   const std::array<double, TDimensions::space_dimensions> domain_sizes {parameters.domain_parameters.domain_sizes};
 
+  // Save markers before doing anything
+  variables.particles.save_markers(0);
+
 #pragma omp parallel
   {
-    for (size_t timestep = 0; timestep < N_timesteps; ++timestep) {
+  // Saving happens after one step so timestep is shifted by one
+    for (size_t timestep = 1; timestep <= N_timesteps; ++timestep) {
       for (size_t dim = 0; dim < dimensions; ++dim) {
 #pragma omp for
         for (size_t i = 0; i < N_markers; ++i) {

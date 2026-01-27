@@ -11,12 +11,12 @@
   },
   "PIC": {
     "type": "full_f",
-    "N_markers": 200,
+    "N_markers": 2000000,
     "seed": 1234
   },
   "particles_initialization": {
     "space": {
-      "type": "sine",
+      "type": "cosine",
       "wavenumber": 1,
       "amplitude": 1.0
     },

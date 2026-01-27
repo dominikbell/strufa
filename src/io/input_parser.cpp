@@ -4,13 +4,12 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <string>
 #include <utility>
 
 #include "models/models.hpp"
 #include "utilities/dimensions.hpp"
 #include "utilities/utilities.hpp"
-
-namespace fs = std::filesystem;
 
 std::string get_file_path(const std::string& filename) {
   std::string filepath {"../" + filename};
@@ -21,7 +20,7 @@ void assert_only_one_input(char* argv[]) {
   // TODO: make sure that only one string is passed (multiple inputs not supported yet)
 }
 
-void assert_valid_file(std::string& filename, const int filename_length) {
+void assert_valid_file(const std::string& filename, const int filename_length) {
   // Check if passed filename has json format
   bool file_has_json_format {
       filename[filename_length - 5] == '.' &&
@@ -36,6 +35,29 @@ void assert_valid_file(std::string& filename, const int filename_length) {
   std::string filepath {get_file_path(filename)};
   bool file_exists {fs::exists(filepath) && "Given file does not exist!"};
   assert(file_exists);
+}
+
+fs::path make_output_path(const std::string& output_folder) {
+  // TODO: this only works when the script is being run from inside the build directory
+  const fs::path parent_path = fs::path("../out");
+  if (!fs::exists(parent_path)) {
+    fs::create_directory(parent_path);
+  }
+  return parent_path / output_folder;
+}
+
+fs::path get_valid_output_path() {
+  int i {0};
+  while (true) {
+    std::string output_folder = "simulation_" + std::to_string(i);
+    fs::path output_path {make_output_path(output_folder)};
+    if (fs::exists(output_path)) {
+      ++i;
+    } else {
+      fs::create_directory(output_path);
+      return output_path;
+    }
+  }
 }
 
 void assert_top_level_keyword(const json& data, const std::string& keyword) {
@@ -58,7 +80,7 @@ void assert_keyword_not_zero(const json& data, const std::string& keyword) {
   bool is_zero {data[keyword] == 0.0};
   if (is_zero) {
     std::cout << keyword << " was detected to be zero in dictionary but must be non-zero!\n";
-    assert((data[keyword] == 0.0) && "Zero-value detected; check the line above." );
+    assert((data[keyword] == 0.0) && "Zero-value detected; check the line above.");
   }
 }
 
@@ -66,7 +88,7 @@ void assert_not_zero(double value, const std::string& name) {
   bool is_zero {value == 0.0};
   if (is_zero) {
     std::cout << name << " was detected to be zero but must be non-zero!\n";
-    assert((value == 0.0) && "Zero-value detected; check the line above." );
+    assert((value == 0.0) && "Zero-value detected; check the line above.");
   }
 }
 
@@ -90,27 +112,60 @@ json open_file(const std::string& filename) {
   }
 }
 
-Input parse_input(char* argv[]) {
-  // First argument should be filename
-  std::string filename {static_cast<std::string>(argv[1])};
+Input parse_input(int argc, char* argv[]) {
+  // argv[0] is always path of the script, the next argument must be the name of the input file
+  const std::string filename {static_cast<std::string>(argv[1])};
   const int filename_length {static_cast<int>(filename.length())};
 
   // Assert that the file has json format and exists
   assert_valid_file(filename, filename_length);
+  std::cout << "Got parameter file " << filename << '\n';
 
+  // Get the model
   json data {open_file(filename)};
   std::string model_name {data["model"]};
-  const ModelVariant model {string_to_model(model_name)};
+  const ModelVariant model {get_model(model_name)};
 
-  // Make
+  // Get the dimensions
   const std::pair<int, int> pair_dimensions {get_space_and_velocity_dimensions(data)};
   const DimensionsVariant dimensions {get_dimensions(pair_dimensions)};
 
-  return {model, dimensions, filename, filename_length, data};
+  // If additional input is given, parse it
+  if (argc > 2) {
+    std::string output_folder_name {""};
+    for (size_t i = 2; i < static_cast<size_t>(argc); ++i) {
+      std::string argument {static_cast<std::string>(argv[i])};
+
+      if (argument == "-o" && argc > i + 1) {
+        output_folder_name = static_cast<std::string>(argv[i + 1]);
+      }
+    }
+
+    fs::path output_path {};
+    if (output_folder_name.empty()) {
+      fs::path output_path {get_valid_output_path()};
+    } else {
+      output_path = make_output_path(output_folder_name);
+      // Clear the folder if it exists
+      if (fs::exists(output_path)) {
+        fs::remove_all(output_path);
+      }
+      fs::create_directory(output_path);
+    }
+    std::cout << "Saving into " << static_cast<std::string>(output_path).substr(3) << '\n';
+
+    return {model, dimensions, filename, filename_length, output_path, data};
+  } else {
+    // Get the output folder
+    fs::path output_path {get_valid_output_path()};
+    std::cout << "Saving into " << output_path << '\n';
+
+    return {model, dimensions, filename, filename_length, output_path, data};
+  }
 }
 
 int get_space_dimensions(const Input& input) {
-  json data {open_file(input.file_name)};
+  json data {open_file(input.input_file_name)};
   std::string key_space = "space_dimensions";
   assert(
       data.count(key_space) == 1 &&
@@ -119,7 +174,7 @@ int get_space_dimensions(const Input& input) {
 }
 
 int get_velocity_dimensions(const Input& input) {
-  json data {open_file(input.file_name)};
+  json data {open_file(input.input_file_name)};
   std::string key_velocity = "velocity_dimensions";
   assert(
       data.count(key_velocity) == 1 &&

@@ -57,12 +57,16 @@ struct Particles<TDimensions, FullF> {
 
     // Assign members to save particles
     std::string save_name {save_name_i.empty() ? "particles" : save_name_i};
+    // Have to make a pointer because HighFive::File has not constructor
     hdf5_file = std::make_unique<HighFive::File>(
         save_name + ".h5",
         HighFive::File::ReadWrite | HighFive::File::Create | HighFive::File::Truncate);
+    // We know the size of the array being saved for the whole simulation
+    // Need one more than N_timesteps because the initial state is also saved
     HighFive::DataSpace dataspace = HighFive::DataSpace(
-        {static_cast<size_t>(time_parameters.N_timesteps),
+        {static_cast<size_t>(time_parameters.N_timesteps + 1),
          static_cast<size_t>(particle_parameters.N_markers)});
+    // Create datasets for weights, positions, and velocities
     dataset_weights = hdf5_file->createDataSet<double>("/weights", dataspace);
     for (int i = 0; i < TDimensions::space_dimensions; ++i) {
       datasets_positions[i] = hdf5_file->createDataSet<double>("/positions" + std::to_string(i), dataspace);
@@ -73,6 +77,7 @@ struct Particles<TDimensions, FullF> {
   }
 
   void save_markers(const size_t timestep) {
+    // Use write_raw because data is shape [N_markers] but HighFive expects shape [1, N_markers]
     if (hdf5_file) {
       dataset_weights.select(
                          {timestep, 0},

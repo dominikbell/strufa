@@ -1,25 +1,25 @@
 #pragma once
 
-#include <ctime>
+#include <omp.h>
+
 #include <chrono>
-#include <string>
+#include <ctime>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 struct MetaData {
-  const std::string file_name;
   const int n_mpi_ranks;
   const int n_omp_threads;
   std::time_t initial_time;
+  const std::string file_name {"meta.txt"};
   std::time_t start_time {0};
   std::time_t end_time {0};
 
   MetaData(
-      const std::string& file_name_i,
-      const int n_mpi_ranks_i,
-      const int n_omp_threads_i) : file_name(file_name_i),
-                                   n_mpi_ranks(n_mpi_ranks_i),
-                                   n_omp_threads(n_omp_threads_i) {
+      const int n_mpi_ranks_i) : n_mpi_ranks(n_mpi_ranks_i),
+                                 n_omp_threads(omp_get_max_threads()) {
     // Get current time and convert it to ctime
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
     this->initial_time = std::chrono::system_clock::to_time_t(now);
@@ -35,11 +35,12 @@ struct MetaData {
     this->end_time = std::chrono::system_clock::to_time_t(now);
   }
 
-  void write_meta_data() const {
+  void write_meta_data(const std::filesystem::path& output_path) const {
     std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
     std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
 
-    std::ofstream MetaFile(this->file_name, std::ios::app);
+    std::string file_path {output_path / this->file_name};
+    std::ofstream MetaFile(file_path, std::ios::app);
 
     if (MetaFile.is_open()) {
       std::time_t total_time {currentTime - this->initial_time};

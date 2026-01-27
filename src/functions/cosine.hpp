@@ -40,8 +40,7 @@ inline Cosine<TDimensions> get_cosine(const json& function_data, const DomainPar
     assert_top_level_keyword(function_data, "amplitude");
 
     return {
-        {function_data["wavenumber_x"],
-         function_data["wavenumber_y"]},
+        {function_data["wavenumber_x"], function_data["wavenumber_y"]},
         function_data["amplitude"],
         domain_parameters.domain_sizes};
   } else if constexpr (std::is_same_v<TDimensions, D3>) {
@@ -51,9 +50,7 @@ inline Cosine<TDimensions> get_cosine(const json& function_data, const DomainPar
     assert_top_level_keyword(function_data, "amplitude");
 
     return {
-        {function_data["wavenumber_x"],
-         function_data["wavenumber_y"],
-         function_data["wavenumber_z"]},
+        {function_data["wavenumber_x"], function_data["wavenumber_y"], function_data["wavenumber_z"]},
         function_data["amplitude"],
         domain_parameters.domain_sizes};
   }

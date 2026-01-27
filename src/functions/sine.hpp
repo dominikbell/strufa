@@ -42,8 +42,7 @@ inline Sine<TDimensions> get_sine(const json& function_data, const DomainParamet
     assert_top_level_keyword(function_data, "amplitude");
 
     return {
-        {function_data["wavenumber_x"],
-         function_data["wavenumber_y"]},
+        {function_data["wavenumber_x"], function_data["wavenumber_y"]},
         function_data["amplitude"],
         domain_parameters.domain_sizes};
   } else if constexpr (std::is_same_v<TDimensions, D3>) {
@@ -53,9 +52,7 @@ inline Sine<TDimensions> get_sine(const json& function_data, const DomainParamet
     assert_top_level_keyword(function_data, "amplitude");
 
     return {
-        {function_data["wavenumber_x"],
-         function_data["wavenumber_y"],
-         function_data["wavenumber_z"]},
+        {function_data["wavenumber_x"], function_data["wavenumber_y"], function_data["wavenumber_z"]},
         function_data["amplitude"],
         domain_parameters.domain_sizes};
   }

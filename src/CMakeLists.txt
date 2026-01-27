@@ -28,6 +28,7 @@ target_link_libraries(strufa PRIVATE vvariables)
 # Link the interfaces
 target_link_libraries(strufa PRIVATE models)
 target_link_libraries(strufa PRIVATE particles)
+target_link_libraries(strufa PRIVATE output)
 
 # Then finally add the directory to the target
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)

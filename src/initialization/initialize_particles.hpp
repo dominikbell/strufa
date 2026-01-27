@@ -17,7 +17,7 @@ void draw_markers(TParticles& particles) {
 
   constexpr int dimensions {GetFirstType_t<decltype(particles)>::space_dimensions};
 
-  for (int i = 0; i < dimensions; ++i) {
+  for (size_t i = 0; i < dimensions; ++i) {
     for (double& pos : particles.positions[i]) {
       pos = real_distrib(gen);
     }
@@ -31,7 +31,7 @@ void draw_velocities(TParticles& particles) {
 
   constexpr int dimensions {GetFirstType_t<decltype(particles)>::space_dimensions};
 
-  for (int i = 0; i < dimensions; ++i) {
+  for (size_t i = 0; i < dimensions; ++i) {
     for (double& vel : particles.velocities[i]) {
       vel = real_distrib(gen);
     }
@@ -46,7 +46,7 @@ void initialize_velocities(TParticles& particles, const VelocityInitialVariant& 
     std::visit([&](const auto& dimension_variant) {
       constexpr int dimensions {GetFirstType_t<decltype(particles)>::velocity_dimensions};
 
-      for (int i = 0; i < dimensions; ++i) {
+      for (size_t i = 0; i < dimensions; ++i) {
         for (double& vel : particles.velocities[i]) {
           vel = initialize_with_function(dimension_variant, i, vel);
         }
@@ -70,18 +70,18 @@ void initialize_weights(TParticles& particles, const SpaceInitialVariant& space_
       constexpr int particle_dimensions {ParticleDimensions::space_dimensions};
 
       if constexpr (initial_dimensions == 1 && particle_dimensions == 1) {
-        for (long i = 0; i < particles.N_markers; ++i) {
+        for (size_t i = 0; i < static_cast<size_t>(particles.N_markers); ++i) {
           particles.weights[i] = initialize_with_function(dimensional_function, particles.positions[0][i]);
         }
       } else if constexpr (initial_dimensions == 2 && particle_dimensions == 2) {
-        for (long i = 0; i < particles.N_markers; ++i) {
+        for (size_t i = 0; i < static_cast<size_t>(particles.N_markers); ++i) {
           particles.weights[i] = initialize_with_function(
               dimensional_function,
               particles.positions[0][i],
               particles.positions[1][i]);
         }
       } else if constexpr (initial_dimensions == 3 && particle_dimensions == 3) {
-        for (long i = 0; i < particles.N_markers; ++i) {
+        for (size_t i = 0; i < static_cast<size_t>(particles.N_markers); ++i) {
           particles.weights[i] = initialize_with_function(
               dimensional_function,
               particles.positions[0][i],

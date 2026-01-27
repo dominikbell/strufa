@@ -1,10 +1,11 @@
 # strufa
 
-StruPHy but fast. A collection of Finiete Element (FE) solvers for equations and [GEMPIC](https://doi.org/10.1017/S002237781700040X) solvers for kinetic models.
+StruPHy but fast. A collection of Finite Element (FE) solvers for equations and [GEMPIC](https://doi.org/10.1017/S002237781700040X) solvers for kinetic models.
 
 ## Dependencies
 
-The [json library by nlohmann](https://github.com/nlohmann/json) and [hdf5 library "highfive"](https://github.com/highfive-devs/highfive?tab=readme-ov-file) are dependencies and must be located in `include/`.
+The [json library by nlohmann](https://github.com/nlohmann/json) and the [hdf5 library "highfive"](https://github.com/highfive-devs/highfive?tab=readme-ov-file) are dependencies and must be located in `include/`.
+
 
 ## Build & Run
 
@@ -15,6 +16,12 @@ cmake ..
 make
 ./strufa path/to/input
 ```
+where the `path/to/input` is a mandatory input and is taken relative to the top-level path of the project. An output folder name can be provided by `-o output_folder_name` which will be created in the `out/` folder at the top-level path of the project.
+
+## Input Files
+
+For kinetic models using delta-f, direct delta-f, or control variate, the input file must contain either the top-level keyword "background" or "scenario".
+
 
 ## (Planned) Implementations
 
@@ -36,15 +43,13 @@ All models are (will be) implemented in all possible dimensions, i.e. in 1D, 2D,
 
 FE discretization is on a single, uniform grid.
 
-## Input Files
-
-For kinetic models using delta-f, direct delta-f, or control variate, the input file must contain either the top-level keyword "background" or "scenario".
 
 ## Templating
 
 Names of template typenames shall always start with a capital "T". Templated structs are in the order
 ```template <typename TModel, typename TDimensions, typename TType>```
 where `TType` can be, e.g., the type of particles.
+
 
 ## Running with OpenMP and OpenMPI
 

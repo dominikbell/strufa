@@ -43,10 +43,8 @@ inline Maxwellian<TDimensions> get_maxwellian(const json& data) {
 
     return {
         data["amplitude"],
-        {data["shift_1"],
-         data["shift_2"]},
-        {data["temperature_1"],
-         data["temperature_2"]}};
+        {data["shift_1"], data["shift_2"]},
+        {data["temperature_1"], data["temperature_2"]}};
 
   } else if constexpr (std::is_same_v<TDimensions, V3>) {
     assert_top_level_keyword(data, "shift_1");
@@ -63,12 +61,8 @@ inline Maxwellian<TDimensions> get_maxwellian(const json& data) {
 
     return {
         data["amplitude"],
-        {data["shift_1"],
-         data["shift_2"],
-         data["shift_3"]},
-        {data["temperature_1"],
-         data["temperature_2"],
-         data["temperature_3"]}};
+        {data["shift_1"], data["shift_2"], data["shift_3"]},
+        {data["temperature_1"], data["temperature_2"], data["temperature_3"]}};
   }
 }
 
