@@ -80,5 +80,5 @@ In two dimensions we take a vector gradient and a scalar curl such that we can p
 And the diagram for three dimensions is a tensor product of three times one dimension
 
 <div align="center">
-    <img src="../../res/diagram3Dnew.svg" width="800" height="600"/>
+    <img src="../../res/diagram3Dnew.svg" width="800" height="1600"/>
 </div>
