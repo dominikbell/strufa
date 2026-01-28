@@ -74,11 +74,11 @@ In one dimension, the diagram reads
 In two dimensions we take a vector curl such that we can preserve divergence-freeness strongly
 
 <div align="center">
-  <img src="../../res/diagram2Dnew.svg" width="400" />
+  <img src="../../res/diagram2Dnew.svg" width="800" />
 </div>
 
 And the diagram for three dimensions is a tensor product of three times one dimension
 
 <div align="center">
-  <img src="../../res/diagram3Dnew.svg" width="400" />
+  <img src="../../res/diagram3Dnew.svg" width="800" />
 </div>
