@@ -67,4 +67,6 @@ can be defined.
 
 In one dimension, the diagram reads
 
-![FEEC1D](../../res/diagram1D_fred.svg)
+<div align="center">
+  <img src="../../res/diagram1D_fred.svg" width="400" />
+</div>
