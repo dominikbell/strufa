@@ -26,7 +26,8 @@ void draw_markers(TParticles& particles) {
 
 template <typename TParticles>
 void draw_velocities(TParticles& particles) {
-  std::mt19937 gen(particles.seed);
+  // Modify the seed so the drawn velocities are independent of the drawn positions
+  std::mt19937 gen(particles.seed + 1);
   std::uniform_real_distribution<> real_distrib(0.0, 1.0);
 
   constexpr int dimensions {GetFirstType_t<decltype(particles)>::space_dimensions};

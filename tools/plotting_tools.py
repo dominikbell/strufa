@@ -11,7 +11,7 @@ def main():
 
   # Parser for plotting particles
   particles_parser = subparsers.add_parser("particles", help="Plot the distribution function or create a video.")
-  particles_parser.add_argument("--plot", type=str, default="positions")
+  particles_parser.add_argument("--plot", type=str, default="positions", help="Choose from 'positions', velocities', or 'phase_space'.")
   particles_parser.set_defaults(func=plot_distribution_function)
 
   args = parser.parse_args()

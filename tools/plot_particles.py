@@ -30,7 +30,6 @@ def plot_distribution_function(
 
     # Create histogram from sampled markers
     if do_plot == "phase_space":
-      # TODO: does not work
       hist, _, _ = np.histogram2d(
         x=positions[ind_t, :],
         y=velocities[ind_t, :],
