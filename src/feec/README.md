@@ -65,4 +65,4 @@ $$
 can be defined.
 
 
-In one dimension, the diagram reads ![FEEC1D](../../res/diagram1D.svg)
+In one dimension, the diagram reads ![FEEC1D](../../res/diagram1D_fred.svg)
