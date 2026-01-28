@@ -95,7 +95,7 @@
 </g>
 </defs>
 
-<g id = "letter" fill="blue">
+<g id = "letter" fill="black">
 <g  fill-opacity="1">
 <use xlink:href="#glyph-0-0" x="30.612" y="15.246"/>
 </g>
