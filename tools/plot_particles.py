@@ -49,10 +49,10 @@ def plot_distribution_function(
       vscale = np.max(np.abs([vmin, vmax]))
       fig, ax = plt.subplots(figsize=(12, 8))
       im = ax.pcolormesh(x_grid_mesh, v_grid_mesh, hist, cmap=cmap, vmin=-vscale, vmax=vscale)
+      ax.set_xlabel('x')
+      ax.set_ylabel('v')
 
       fig.colorbar(im, ax=ax)
-      plt.show()
-      exit()
     elif do_plot == "positions":
       hist, _ = np.histogram(
         positions[ind_t, :],
@@ -71,22 +71,7 @@ def plot_distribution_function(
     hist /= n_markers
 
     # Plot the results
-    if do_plot == "both":
-      hist /= dx * dv
-      fig = plt.figure(figsize=(15, 8))
-      subplot_positions = fig.add_subplot(121)
-      subplot_positions.plot(
-        x_grid[:-1] + dx/2,
-        hist[:, n_v//2]
-      )
-      subplot_positions.set_xlabel("x")
-      subplot_velocities = fig.add_subplot(122)
-      subplot_velocities.plot(
-        v_grid[:-1] + dv/2,
-        hist[0, :]
-      )
-      subplot_velocities.set_xlabel("v")
-    elif do_plot == "positions":
+    if do_plot == "positions":
       hist /= dx
       plt.plot(
         x_grid[:-1] + dx/2,
