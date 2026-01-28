@@ -68,17 +68,17 @@ can be defined.
 In one dimension, the diagram reads
 
 <div align="center">
-  <img src="../../res/diagram1Dnew.svg" width="400" height="400"/>
+  <img src="../../res/diagram1Dnew.svg" width="400"/>
 </div>
 
 In two dimensions we take a vector gradient and a scalar curl such that we can preserve divergence-freeness strongly
 
 <div align="center">
-  <img src="../../res/diagram2Dnew.svg" width="800" height="400"/>
+  <img src="../../res/diagram2Dnew.svg" width="600"/>
 </div>
 
 And the diagram for three dimensions is a tensor product of three times one dimension
 
 <div align="center">
-    <img src="../../res/diagram3Dnew.svg" width="800" height="1600"/>
+    <img src="../../res/diagram3Dnew.svg" width="1000"/>
 </div>
