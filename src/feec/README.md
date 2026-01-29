@@ -65,4 +65,20 @@ $$
 can be defined.
 
 
-In one dimension, the diagram reads ![FEEC1D](../../res/diagram1D.svg)
+In one dimension, the diagram reads
+
+<div align="center">
+  <img src="../../res/diagram1D.svg" width="400"/>
+</div>
+
+In two dimensions we take a vector gradient and a scalar curl such that we can preserve divergence-freeness strongly
+
+<div align="center">
+  <img src="../../res/diagram2D.svg" width="650"/>
+</div>
+
+And the diagram for three dimensions is a tensor product of three times one dimension
+
+<div align="center">
+    <img src="../../res/diagram3D.svg" width="1000"/>
+</div>
