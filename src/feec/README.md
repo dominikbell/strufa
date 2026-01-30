@@ -129,6 +129,7 @@ $$
 $$
 
 Finally, the operators $S_0$ and $S_1$ map the coefficients to a continuous function in the subspaces $V_0$ and $V_1$:
+
 $$
 \begin{aligned}
 	S_0 : \;& \mathcal{D}_0 \to V_0 & S_1 : \;& \mathcal{D}_1 \to V_1 \\
