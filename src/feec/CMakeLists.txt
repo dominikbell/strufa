@@ -3,6 +3,8 @@ add_library(
     feec
     STATIC
     feec_utilities.cpp
+    matrices.cpp
+    splines.cpp
 )
 
 # Include directory for this library

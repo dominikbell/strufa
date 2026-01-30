@@ -4,17 +4,25 @@
 As mentioned in the [main README](../../README.md), a uniform grid with periodic boundary conditions and B-splines as FE basis functions are used.
 
 
+## Basis Functions
+
 Splitting the periodic domain $[0,L[$ into $n$ cells (=`N_elements` in the input file) yields $n$ grid points. For basis functions of degree $p$ there are $n+p$ knot points, extending to the left of the left domain boundary, i.e.
 
 $$
-x_0 = - p \, \Delta x \qquad x_p = 0 \qquad x_{n-1+p} = (n-1) \Delta x = L - \Delta x
+x_j = (j - p) \\, \Delta x
+$$
+
+with the special points
+
+$$
+x_0 = - p \\, \Delta x \qquad x_p = 0 \qquad x_{n-1+p} = (n-1) \Delta x = L - \Delta x
 $$
 
 
 The basis functions (B-splines) of degree $p=0$ are defined as
 
 $$
-N^0_i(x) = \begin{cases} 1 & \text{if } x \in [x_i, x_{i+1}[ \\ 0 & \text{else} \end{cases} \qquad i = 0, \ldots, n-1
+N^0_i(x) = \begin{cases} 1 & \text{if } x \in [x_i, x_{i+1}[ \\\ 0 & \text{else} \end{cases} \qquad i = 0, \ldots, n-1
 $$
 
 where $\Delta x$ is the grid spacing. Higher degree basis functions are defined recurrently 
@@ -33,7 +41,7 @@ $$
 Introduce the notation of D-splines
 
 $$
-D_i^p(x) = \frac{1}{\Delta x} \, N^{p-1}_i(x)
+D_i^p(x) = \frac{1}{\Delta x} \\, N^{p-1}_i(x)
 $$
 
 (so the superindex does not correspond to the degree of the polynomial anymore), such that the derivative of an N-spline becomes
@@ -59,11 +67,13 @@ $$
 and the spline histopolation matrix
 
 $$
-(\mathcal{I}_1)_{ij} = \int_{\xi_{i-1}}^{\xi_i} N_j^p(x) \, \text{d} x \qquad i,j = 0, \ldots, n-1
+(\mathcal{I}_1)_{ij} = \int_{\xi_{i-1}}^{\xi_i} N_j^p(x) \\, \text{d} x \qquad i,j = 0, \ldots, n-1
 $$
 
-can be defined.
+can be defined. Since the grid is uniform and periodic, these matrices are circulant.
 
+
+## de Rham Diagrams
 
 In one dimension, the diagram reads
 
@@ -82,3 +92,8 @@ And the diagram for three dimensions is a tensor product of three times one dime
 <div align="center">
     <img src="../../res/diagram3D.svg" width="1000"/>
 </div>
+
+
+## Implementation
+
+Matrices are implemented in a matrix-free fashion, i.e. only their product with a vector is implemented.

@@ -36,9 +36,10 @@ std::vector<double> make_knots(double domain_length, size_t n_points, int degree
   // When the grid is empty, return empty knot vector
   if (n_points == 0) return result;
 
+  // Reserve the needed memory
   result.reserve(n_points + static_cast<size_t>(degree));
 
-  // dx is always the first entry
+  // Calculate grid spacing
   const double dx {domain_length / static_cast<double>(n_points)};
 
   // Add elements in the ghost region
@@ -74,8 +75,4 @@ std::vector<double> make_grevilles(const std::vector<double>& knots, int degree)
   }
 
   return result;
-}
-
-int find_span(double point, double grid_spacing, int degree) {
-  return floor(point / grid_spacing) + degree;
 }
