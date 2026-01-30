@@ -90,7 +90,8 @@ connecting the Sobolev spaces
 
 $$
 \begin{aligned}
-	L^2(\Omega) & = \left\\{ f : \Omega \to \mathbb{R} \\; \\; \bigg\rvert \; \int_\Omega |f|^2 \\, \text{d} x < \infty \right\\} & H^1(\Omega) & = \left\\{ f \in L^2(\Omega) \\; \\; \bigg\rvert \\; \frac{\partial f}{\partial x} \in L^2(\Omega) \right\\}
+	L^2(\Omega) & = \left\\{ f : \Omega \to \mathbb{R} \\; \\; \bigg\rvert \; \int_\Omega |f|^2 \\, \text{d} x < \infty \right\\} \\
+	H^1(\Omega) & = \left\\{ f \in L^2(\Omega) \\; \\; \bigg\rvert \\; \frac{\partial f}{\partial x} \in L^2(\Omega) \right\\}
 \end{aligned}
 $$
 
@@ -98,7 +99,8 @@ and finite-dimensional subspaces of them
 
 $$
 \begin{aligned}
-	V_0 & = \text{span}\left\{ \left(N_j^p(x)\right)_{0\le j \le n-1} \right\} & V_1 & = \text{span}\left\{ \left(D_j^p(x)\right)_{0\le j \le n-1} \right\}
+	V_0 & = \text{span}\left\\{ \left(N_j^p(x)\right)_{0\le j \le n-1} \right\\} \subset H^1(\Omega) \\
+	V_1 & = \text{span}\left\\{ \left(D_j^p(x)\right)_{0\le j \le n-1} \right\\} \subset L^2(\Omega)
 \end{aligned}
 $$
 
