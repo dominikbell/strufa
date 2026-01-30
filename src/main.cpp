@@ -2,10 +2,7 @@
 
 #include <cstddef>
 #include <iostream>
-#include <vector>
-#include <iomanip>
 
-#include "feec_utilities.hpp"
 #include "initialization/initialize_variables.hpp"
 #include "io/input_parser.hpp"
 #include "io/output_handler.hpp"

@@ -1,10 +1,12 @@
 # FEEC (Finite Element Exterior Calculus)
 
 
-As mentioned in the [main README](../../README.md), a uniform grid with periodic boundary conditions and B-splines as FE basis functions are used.
+As mentioned in the [main README](../../README.md), a uniform grid with periodic boundary conditions and B-splines as FE basis functions are used. Because higher dimensions $d>1$ are constructed by taking the tensor product of $d$ one-dimensional FE spaces, we present the 1D case and then generalize.
 
 
-## Basis Functions
+## In 1 Dimension
+
+### Basis Functions
 
 Splitting the periodic domain $[0,L[$ into $n$ cells (=`N_elements` in the input file) yields $n$ grid points. For basis functions of degree $p$ there are $n+p$ knot points, extending to the left of the left domain boundary, i.e.
 
@@ -52,6 +54,9 @@ $$
 
 At every point $x$ there are $p+1$ non-zero spline functions of degree $p$. The index of the last basis function which is non-zero at that point is called the span index and can be computed by `floor(x / Delta_x) + p`.
 
+
+### Spline Collocation and Histopolation Matrix
+
 There are $n$ Greville points
 
 $$
@@ -73,13 +78,65 @@ $$
 can be defined. Since the grid is uniform and periodic, these matrices are circulant.
 
 
-## de Rham Diagrams
+### de Rham diagram
 
 In one dimension, the diagram reads
 
 <div align="center">
   <img src="../../res/diagram1D.svg" width="400"/>
 </div>
+
+connecting the Sobolev spaces
+
+$$
+\begin{aligned}
+	L^2(\Omega) & = \left\{ f : \Omega \to \mathbb{R} \\; \\; \bigg\rvert \; \int_\Omega |f|^2 \\, \text{d} x < \infty \right\} & H^1(\Omega) & = \left\{ f \in L^2(\Omega) \\; \\; \bigg\rvert \\; \frac{\partial f}{\partial x} \in L^2(\Omega) \right\}
+\end{aligned}
+$$
+
+and finite-dimensional subspaces of them
+
+$$
+\begin{aligned}
+	V_0 & = \text{span}\left\{ \left(N_j^p(x)\right)_{0\le j \le n-1} \right\} & V_1 & = \text{span}\left\{ \left(D_j^p(x)\right)_{0\le j \le n-1} \right\}
+\end{aligned}
+$$
+
+
+The operators $\sigma^k, k=0,1$ are the evaluation at the Greville points
+
+$$
+\sigma_i^0 (f) = f (\xi_i)
+$$
+
+and the histopolation between two Greville points
+
+$$
+\sigma_i^1(f) = \int_{\xi_{i-1}}^{\xi_i} f(x) \\, \text{d} x
+$$
+
+The gradient matrix $\mathbb{G}$ connects the spaces of coefficients
+
+$$
+\mathbb{G} = \begin{pmatrix}
+	-1 & 1 & 0 & \ldots & & 0 \\
+	0 & -1 & 1 & & & \vdots \\
+	\vdots \\
+	1 & \ldots & & & 0 & -1
+\end{pmatrix} \quad \in \mathbb{R}^{n, n}
+$$
+
+Finally, the operators $S_0$ and $S_1$ map the coefficients to a continuous function in the subspaces $V_0$ and $V_1$:
+$$
+\begin{aligned}
+	S_0 : \;& \mathcal{D}_0 \to V_0 & S_1 : \;& \mathcal{D}_1 \to V_1 \\
+	& \, f_i \; \mapsto \sum_{i=0}^{n-1} f_i N_i^k(x) & & \, g_i \; \mapsto \sum_{i=0}^{n-1} g_i D_i^k(x) 
+\end{aligned}
+$$
+
+
+
+## de Rham Diagrams
 
 In two dimensions we take a vector gradient and a scalar curl such that we can preserve divergence-freeness strongly
 
@@ -94,13 +151,13 @@ And the diagram for three dimensions is a tensor product of three times one dime
 </div>
 
 
-## Implementation
+# Implementation
 
-### Matrices
+## Matrices
 
 Matrices are implemented in a matrix-free fashion, i.e. only their product with a vector is implemented.
 
-### Spline Functions
+## Spline Functions
 
 The nonzero B-spline basis functions for a point in the first cell of the domain $[x_p, x_{p+1})$ are summarized by a $(p+2) \times (p+1)$ matrix
 

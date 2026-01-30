@@ -14,6 +14,7 @@ Collect the goals and TODOs here.
   - [ ] Matrix-free matrix inverse
   - [ ] Evaluate FE functions at a point / on a grid
 - [ ] Implement scenarios
+- [ ] Add tests
 
 ## Long-term Goals
 
