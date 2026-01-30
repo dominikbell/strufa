@@ -20,7 +20,7 @@ where the `path/to/input` is a mandatory input and is taken relative to the top-
 
 ## Input Files
 
-For kinetic models using delta-f, direct delta-f, or control variate, the input file must contain either the top-level keyword "background" or "scenario".
+For kinetic models using delta-f, direct delta-f, or control variate, the input file must contain either the top-level keyword "background" or "scenario". For models containing FE, the degree in the input must not exceed the `MAX_DEGREE` constexpr located in `src/main.hpp` which is a compile time constant. For running with higher degrees, change the value of `MAX_DEGREE` and recompile.
 
 ## Plot Output
 

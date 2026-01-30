@@ -4,24 +4,22 @@ Collect the goals and TODOs here.
 
 ## Near-term Goals
 
-- [ ] Implement FEEC for degree=1
+- [ ] Implement FEEC
   - [x] Grid points, knots, grevilles points, find span
+  - [x] Evaluate spline at points
   - [ ] Projectors: histopolator and collocator
   - [ ] Spline histopolation and collocation matrices
   - [ ] Matrix-free gradient, curl, divergence
   - [ ] Matrix-free mass operators
   - [ ] Matrix-free matrix inverse
-  - [ ] Evaluate spline functions
+  - [ ] Evaluate FE functions at a point / on a grid
+- [ ] Implement scenarios
 
 ## Long-term Goals
 
 - [ ] Parallelize FE with MPI
-- [ ] Have higher-degree splines
+- [ ] Write a parameter file generator
 
 ## Smaller Things
 
 - [ ] replace `call_function` in sine and cosine with variads.
-
-## Annoying Things
-
-- [ ] Fix the path finding for outputting to the correct folder provided by the user
