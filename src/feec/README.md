@@ -96,4 +96,32 @@ And the diagram for three dimensions is a tensor product of three times one dime
 
 ## Implementation
 
+### Matrices
+
 Matrices are implemented in a matrix-free fashion, i.e. only their product with a vector is implemented.
+
+### Spline Functions
+
+The nonzero B-spline basis functions for a point in the first cell of the domain $[x_p, x_{p+1})$ are summarized by a $(p+2) \times (p+1)$ matrix
+
+| $\mathbf{k / j}$ | $\mathbf{0}$ | $\mathbf{1}$ | $\mathbf{\ldots}$ | $\mathbf{p-2}$ | $\mathbf{p-1}$ | $\mathbf{p}$ | ghost |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---:| :---: |
+| $\mathbf{0}$ | $0$ | $0$ | | $0$ | $0$ | $N_p^0$ | $0$ |
+| $\mathbf{1}$ | $0$ | $0$ | | $0$ | $N_{p-1}^1$ | $N_p^1$ | $0$ |
+| $\mathbf{2}$ | $0$ | $0$ | | $N_{p-2}^2$ | $N_{p-1}^2$ | $N_p^2$ | $0$ |
+| $\mathbf{\vdots}$ | |
+| $\mathbf{p-1}$ | $0$ | $N_1^{p-1}$ | | $N_{p-2}^{p-1}$ | $N_{p-1}^{p-1}$ | $N_p^{p-1}$ | $0$ |
+| $\mathbf{p}$ | $N_0^p$ | $N_1^p$ | | $N_{p-2}^p$ | $N_{p-1}^p$ | $N_p^p$ | $0$ |
+
+Every row is computed from the preceding row by using the recurrence relation for B-splines, where
+
+$$
+\begin{aligned}
+w_j^k & = \frac{x - x_j}{x_{k+j} - x_j} = \frac{x - (j - p) \Delta x }{k \Delta x} = \frac{\frac{x}{\Delta x} + p - j}{k} \\
+1 - w_{j+1}^k & = 1 - \frac{\frac{x}{\Delta x} + p - j -1 }{k} = \frac{j + 1 + k - p - \frac{x}{\Delta x}}{k}
+\end{aligned}
+$$
+
+where $k = 0, \ldots, p$ and $j = p - k, \ldots, p$ and we have used that $x_j = (j-p) \Delta x$.
+
+For our implementation we use the global variable `MAX_DEGREE` (located in `src/main.hpp`) to denote the maximal degree for which the program is compiled such that we can allocate memory on the stack. In the above table $p$ is replaced by `MAX_DEGREE` and we compute only up to the $k$ that is the degree of the current run.
