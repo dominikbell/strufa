@@ -120,10 +120,10 @@ $$
 The gradient matrix $\mathbb{G}$ connects the spaces of coefficients
 
 $$
-\\mathbb{G} = \begin{pmatrix}
+\mathbb{G} = \begin{pmatrix}
 	-1 & 1 & 0 & \ldots & & 0 \\
 	0 & -1 & 1 & & & \vdots \\
-	\vdots \\
+	\vdots & & & & & \\
 	1 & \ldots & & & 0 & -1
 \end{pmatrix} \quad \in \mathbb{R}^{n, n}
 $$
