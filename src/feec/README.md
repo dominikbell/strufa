@@ -90,7 +90,7 @@ connecting the Sobolev spaces
 
 $$
 \begin{aligned}
-	L^2(\Omega) & = \left\\{ f : \Omega \to \mathbb{R} \\; \\; \bigg\rvert \; \int_\Omega |f|^2 \\, \text{d} x < \infty \right\} & H^1(\Omega) & = \left\{ f \in L^2(\Omega) \\; \\; \bigg\rvert \\; \frac{\partial f}{\partial x} \in L^2(\Omega) \right\\}
+	L^2(\Omega) & = \left\\{ f : \Omega \to \mathbb{R} \\; \\; \bigg\rvert \; \int_\Omega |f|^2 \\, \text{d} x < \infty \right\\} & H^1(\Omega) & = \left\\{ f \in L^2(\Omega) \\; \\; \bigg\rvert \\; \frac{\partial f}{\partial x} \in L^2(\Omega) \right\\}
 \end{aligned}
 $$
 
