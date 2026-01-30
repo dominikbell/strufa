@@ -119,6 +119,8 @@ $$
 
 The gradient matrix $\mathbb{G}$ connects the spaces of coefficients
 
+<div align="center">
+
 $$
 \mathbb{G} = \begin{pmatrix}
 	-1 & 1 & 0 & \ldots & & 0 \\
@@ -127,6 +129,8 @@ $$
 	1 & \ldots & & & 0 & -1
 \end{pmatrix} \quad \in \mathbb{R}^{n, n}
 $$
+
+</div>
 
 Finally, the operators $S_0$ and $S_1$ map the coefficients to a continuous function in the subspaces $V_0$ and $V_1$:
 
