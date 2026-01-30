@@ -132,8 +132,8 @@ Finally, the operators $S_0$ and $S_1$ map the coefficients to a continuous func
 
 $$
 \begin{aligned}
-	S_0 : \;& \mathcal{D}_0 \to V_0 & \\, f_i \\; \mapsto \sum_{i=0}^{n-1} f_i N_i^k(x) \quad \in V_0 \\
-	S_1 : \;& \mathcal{D}_1 \to V_1 & \\, g_i \\; \mapsto \sum_{i=0}^{n-1} g_i D_i^k(x) \quad \in V_1
+	S_0 : \\; & \mathcal{D}_0 \to V_0 \\, , & f_i \\; \mapsto \sum_{i=0}^{n-1} f_i N_i^k(x) \quad \in V_0 \\
+	S_1 : \\; & \mathcal{D}_1 \to V_1 \\, , & g_i \\; \mapsto \sum_{i=0}^{n-1} g_i D_i^k(x) \quad \in V_1
 \end{aligned}
 $$
 
