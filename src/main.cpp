@@ -24,62 +24,6 @@ int main(int argc, char* argv[]) {
 
     const Input input {parse_input(argc, argv)};
 
-    int degree {2};
-    double domain_length {17.34};
-    size_t n_points {408};
-    std::vector<double> knots {make_knots(domain_length, n_points, degree)};
-    double grid_spacing {knots[degree + 1]};
-    double point {4.175};
-    int span {find_span(point, grid_spacing, degree)};
-
-    std::vector<double> out_b(degree + 1, 0.0);
-    std::vector<double> out_d(degree, 0.0);
-    std::vector<double> out2_b(degree + 1, 0.0);
-    std::vector<double> out2_d(degree, 0.0);
-
-    eval_b_d_splines(point, degree, span, grid_spacing, out_b, out_d);
-    eval_b_d_splines_struphy(knots, degree, point, span, out2_b, out2_d);
-
-    std::cout << "Result for B-splines:\n[";
-    for (auto& point : out_b) {
-      std::cout << std::setprecision(15) << point << ", ";
-    }
-    std::cout << "]\n\n";
-
-    std::cout << "Struphy Result for B-splines:\n[";
-    for (auto& point : out2_b) {
-      std::cout << std::setprecision(15) << point << ", ";
-    }
-    std::cout << "]\n\n";
-
-    std::cout << "Difference:\n[";
-    double diff {};
-    for (size_t ind = 0; ind < degree + 1; ++ind) {
-      diff = out_b[ind] - out2_b[ind];
-      std::cout << std::setprecision(15) << diff << ", ";
-    }
-    std::cout << "]\n\n";
-
-    std::cout << "Result for D-splines:\n[";
-    for (auto& point : out_d) {
-      std::cout << std::setprecision(15) << point << ", ";
-    }
-    std::cout << "]\n\n";
-
-    std::cout << "Struphy Result for D-splines:\n[";
-    for (auto& point : out2_d) {
-      std::cout << std::setprecision(15) << point << ", ";
-    }
-    std::cout << "]\n\n";
-
-    std::cout << "Difference:\n[";
-    double diff_d {};
-    for (size_t ind = 0; ind < degree; ++ind) {
-      diff_d = out_d[ind] - out2_d[ind];
-      std::cout << std::setprecision(15) << diff_d << ", ";
-    }
-    std::cout << "]\n\n";
-
     // // Discretization details
     // ParametersVariant parameters {get_parameters(input.model_variant, input.dimensions_variant, input.file)};
 
