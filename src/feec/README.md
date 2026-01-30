@@ -90,7 +90,8 @@ connecting the Sobolev spaces
 
 $$
 \begin{aligned}
-	L^2(\Omega) & = \left\{ f : \Omega \to \mathbb{R} \\; \\; \bigg\rvert \; \int_\Omega |f|^2 \\, \text{d} x < \infty \right\} & H^1(\Omega) & = \left\{ f \in L^2(\Omega) \\; \\; \bigg\rvert \\; \frac{\partial f}{\partial x} \in L^2(\Omega) \right\}
+	L^2(\Omega) & = \left\\{ f : \Omega \to \mathbb{R} \\; \\; \bigg\rvert \; \int_\Omega |f|^2 \\, \text{d} x < \infty \right\\} \\
+	H^1(\Omega) & = \left\\{ f \in L^2(\Omega) \\; \\; \bigg\rvert \\; \frac{\partial f}{\partial x} \in L^2(\Omega) \right\\}
 \end{aligned}
 $$
 
@@ -98,7 +99,8 @@ and finite-dimensional subspaces of them
 
 $$
 \begin{aligned}
-	V_0 & = \text{span}\left\{ \left(N_j^p(x)\right)_{0\le j \le n-1} \right\} & V_1 & = \text{span}\left\{ \left(D_j^p(x)\right)_{0\le j \le n-1} \right\}
+	V_0 & = \text{span}\left\\{ \left(N_j^p(x)\right)_{0\le j \le n-1} \right\\} \subset H^1(\Omega) \\
+	V_1 & = \text{span}\left\\{ \left(D_j^p(x)\right)_{0\le j \le n-1} \right\\} \subset L^2(\Omega)
 \end{aligned}
 $$
 
@@ -121,16 +123,17 @@ $$
 \mathbb{G} = \begin{pmatrix}
 	-1 & 1 & 0 & \ldots & & 0 \\
 	0 & -1 & 1 & & & \vdots \\
-	\vdots \\
+	\vdots & & & & & \\
 	1 & \ldots & & & 0 & -1
 \end{pmatrix} \quad \in \mathbb{R}^{n, n}
 $$
 
 Finally, the operators $S_0$ and $S_1$ map the coefficients to a continuous function in the subspaces $V_0$ and $V_1$:
+
 $$
 \begin{aligned}
-	S_0 : \;& \mathcal{D}_0 \to V_0 & S_1 : \;& \mathcal{D}_1 \to V_1 \\
-	& \, f_i \; \mapsto \sum_{i=0}^{n-1} f_i N_i^k(x) & & \, g_i \; \mapsto \sum_{i=0}^{n-1} g_i D_i^k(x) 
+	S_0 : \\; & \mathcal{D}_0 \to V_0 \\, , & f_i \\; \mapsto \sum_{i=0}^{n-1} f_i N_i^k(x) \quad \in V_0 \\
+	S_1 : \\; & \mathcal{D}_1 \to V_1 \\, , & g_i \\; \mapsto \sum_{i=0}^{n-1} g_i D_i^k(x) \quad \in V_1
 \end{aligned}
 $$
 
