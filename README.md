@@ -1,6 +1,6 @@
 # StruFa
 
-StruPHy but fast. A collection of geometric Finite Element (FE) ([1](https://doi.org/10.1017/S0962492906210018), [2](https://doi.org/10.48550/arXiv.0906.4325)) solvers for equations and [GEMPIC](https://doi.org/10.1017/S002237781700040X) solvers for kinetic models.
+StruPHy but fast. A collection of geometric Finite Element (FE) ([1](https://doi.org/10.1017/S0962492906210018), [2](https://doi.org/10.48550/arXiv.0906.4325)) solvers for equations and [GEMPIC](https://doi.org/10.1017/S002237781700040X) solvers for kinetic models. See the [FEEC README](src/feec/README.md) for more details on geometric FE.
 
 ## Dependencies
 

@@ -2,15 +2,16 @@
 
 #include <cstddef>
 #include <iostream>
+#include <vector>
 
-#include "initialization/initialize_variables.hpp"
+#include "feec/matrices.hpp"
+#include "feec_utilities.hpp"
+// #include "initialization/initialize_variables.hpp"
 #include "io/input_parser.hpp"
 #include "io/output_handler.hpp"
-#include "models/run.hpp"
-#include "parameters/parameters.hpp"
-#include "feec/splines.hpp"
-#include "vvariables/vvariables.hpp"
-#include "feec/feec_utilities.hpp"
+// #include "models/run.hpp"
+// #include "parameters/parameters.hpp"
+// #include "vvariables/vvariables.hpp"
 
 int main(int argc, char* argv[]) {
   if (argc > 1) {
@@ -21,13 +22,43 @@ int main(int argc, char* argv[]) {
 
     const Input input {parse_input(argc, argv)};
 
+    double domain_length {2.734};
+    size_t n_points {33};
+
+    double grid_spacing {get_grid_spacing(domain_length, n_points)};
+
+    Circulant spline_coll {get_spline_collocation(n_points, grid_spacing)};
+    Circulant spline_hist {get_spline_histopolation(n_points, grid_spacing)};
+
+    std::cout << "Spline collocation matrix entries: \n[";
+    for (double col: spline_coll.entries) {
+      std::cout << col << ", ";
+    }
+    std::cout << "]\n\n";
+    std::cout << "Spline collocation matrix columns: \n[";
+    for (size_t col_ind: spline_coll.cols ) {
+      std::cout << col_ind << ", ";
+    }
+    std::cout << "]\n\n\n";
+
+    std::cout << "Spline histopolation matrix entries: \n[";
+    for (size_t col: spline_hist.entries) {
+      std::cout << col << ", ";
+    }
+    std::cout << "]\n\n";
+    std::cout << "Spline histopolation matrix columns: \n[";
+    for (size_t col_ind: spline_hist.cols) {
+      std::cout << col_ind << ", ";
+    }
+    std::cout << "]\n";
+
     // // Discretization details
     // ParametersVariant parameters {get_parameters(input.model_variant, input.dimensions_variant, input.file)};
 
     // // Allocate the variables
     // VariablesVariant variables {get_variables(parameters, input)};
 
-    // // // Set initial conditions
+    // // Set initial conditions
     // initialize_variables(variables, parameters, input.file);
 
     // // Run the model

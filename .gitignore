@@ -3,6 +3,9 @@
 /include
 /out
 
+# Zed
+.zed/
+
 # VS Code
 .vscode/
 .DS_Store

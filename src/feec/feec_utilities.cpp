@@ -1,10 +1,6 @@
 #include "feec_utilities.hpp"
 
 #include <cassert>
-#include <cmath>
-#include <cstddef>
-#include <vector>
-#include "utilities/utilities.hpp"
 
 std::vector<double> make_grid(double domain_length, size_t n_points) {
   std::vector<double> result;
@@ -22,15 +18,15 @@ std::vector<double> make_grid(double domain_length, size_t n_points) {
   if (n_points == 1) {
     return result;
   } else {
-    double dx = domain_length / static_cast<double>(n_points);
+    double grid_spacing = domain_length / static_cast<double>(n_points);
     for (size_t i = 1; i < n_points; ++i) {
-      result.push_back(static_cast<double>(i) * dx);
+      result.push_back(static_cast<double>(i) * grid_spacing);
     }
     return result;
   }
 }
 
-std::vector<double> make_knots(double domain_length, size_t n_points, int degree) {
+std::vector<double> make_knots(double grid_spacing, size_t n_points, int degree) {
   std::vector<double> result;
 
   // When the grid is empty, return empty knot vector
@@ -39,39 +35,31 @@ std::vector<double> make_knots(double domain_length, size_t n_points, int degree
   // Reserve the needed memory
   result.reserve(n_points + static_cast<size_t>(degree));
 
-  // Calculate grid spacing
-  const double dx {domain_length / static_cast<double>(n_points)};
-
   // Add elements in the ghost region
   for (size_t i = degree; i > 0; --i) {
-    result.push_back(- static_cast<double>(i) * dx);
+    result.push_back(- static_cast<double>(i) * grid_spacing);
   }
-  // Add left boundary of domain
+  // Add left boundary of domain manually to avoid numerical artifacts
   result.push_back(0.0);
   // Add points inside domain
   for (size_t i = 1; i < n_points; ++i) {
-    result.push_back(static_cast<double>(i) * dx);
+    result.push_back(static_cast<double>(i) * grid_spacing);
   }
 
   return result;
 }
 
-std::vector<double> make_grevilles(const std::vector<double>& knots, int degree) {
+std::vector<double> make_grevilles(double grid_spacing, size_t n_points, int degree) {
   std::vector<double> result;
-  size_t grid_size {knots.size() + 1 - degree};
-  result.reserve(grid_size);
 
-  if (degree == 0) {
-    exit_with_failure("To generate Greville points, the degree cannot be zero!");
-  }
+  // When the grid is empty, return empty vector
+  if (n_points == 0) return result;
 
-  double sum {};
-  for (size_t ind = 1; ind < grid_size; ++ind) {
-    sum = 0.0;
-    for (size_t i = ind; i < ind + degree; ++i) {
-      sum += knots[i];
-    }
-    result.push_back(sum / static_cast<double>(degree));
+  result.reserve(n_points);
+
+  double offset {grid_spacing * (1.0 - static_cast<double>(degree)) / 2.0 };
+  for (size_t ind = 0; ind < n_points; ++ind) {
+    result.push_back(static_cast<double>(ind) * grid_spacing + offset);
   }
 
   return result;

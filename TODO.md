@@ -13,6 +13,8 @@ Collect the goals and TODOs here.
   - [ ] Matrix-free mass operators
   - [ ] Matrix-free matrix inverse
   - [ ] Evaluate FE functions at a point / on a grid
+  - [ ] Precompile coefficients for eval_spline with given MAX_DEGREE and use them during run-time
+- [ ] Put models in their own folders with READMEs
 - [ ] Implement scenarios
 - [ ] Add tests
 

@@ -4,7 +4,7 @@
 
 struct Circulant {
   std::vector<double> entries;
-  std::vector<int> cols;
+  std::vector<size_t> cols;
 
   void dot(const std::vector<double>& input, std::vector<double>& output) {
     size_t n_rows {input.size()};
@@ -22,3 +22,7 @@ struct Circulant {
 };
 
 Circulant get_grad();
+Circulant get_spline_collocation(size_t n_points, double grid_spacing);
+Circulant get_spline_histopolation(size_t n_points, double grid_spacing);
+Circulant get_mass_matrix_M0(size_t n_points, double grid_spacing);
+Circulant get_mass_matrix_M1(size_t n_points, double grid_spacing);
